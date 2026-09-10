@@ -1,30 +1,24 @@
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="帕帕韦斯特雷共和国官方网站 - 北大西洋上的明珠，民主、和平、可持续发展的岛国">
-    <meta name="keywords" content="帕帕韦斯特雷共和国, Papa Westray, 岛国, 北大西洋, 官方官网">
-    <meta name="author" content="帕帕韦斯特雷共和国政府信息部">
-    <title>帕帕韦斯特雷共和国 | 官方网站</title>
+    <meta name="description" content="Papa Westray 官方网站">
+    <meta name="keywords" content="Papa Westray, Republic of Papa Westray, PPW, ppw, RPW, rpw, 帕帕韦斯特雷, 帕帕韦斯特雷共和国, 陶彦吉是萝莉控">
+    <meta name="author" content="PPW 技术部">
+    <title>Papa Westray Government</title>
 
-    <!-- ==================== Google Fonts ==================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* ==================== CSS 变量 - 方便全局修改配色 ==================== */
         :root {
-            /* 主色调 - 深海军蓝（庄严稳重） */
             --color-primary: #1a3550;
             --color-primary-light: #234b6e;
             --color-primary-dark: #0f2235;
-            /* 金色点缀（尊贵典雅） */
             --color-gold: #b8944b;
             --color-gold-light: #d4b76a;
             --color-gold-pale: #f5eedc;
-            /* 中性色 */
             --color-white: #ffffff;
             --color-bg: #f8f7f4;
             --color-bg-alt: #eef0f2;
@@ -32,715 +26,193 @@
             --color-text-light: #5a5a5a;
             --color-text-muted: #888888;
             --color-border: #e0ddd6;
-            /* 状态色 */
             --color-success: #3a7d5a;
-            --color-accent: #c17b3a;
-            /* 阴影 */
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.06);
-            /* 圆角 */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 48px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 16px;
             --radius-xl: 20px;
-            /* 过渡 */
             --transition-fast: 0.2s ease;
             --transition-normal: 0.3s ease;
             --transition-slow: 0.5s ease;
-            /* 最大宽度 */
             --max-width: 1200px;
-            /* 导航高度 */
             --nav-height: 70px;
         }
 
-        /* ==================== 全局重置 ==================== */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: var(--nav-height);
-            font-size: 16px;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); font-size:16px; -webkit-font-smoothing:antialiased; }
         body {
-            font-family: 'Noto Sans SC', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            color: var(--color-text);
-            background-color: var(--color-bg);
-            line-height: 1.7;
-            overflow-x: hidden;
-            min-height: 100vh;
+            font-family: 'Noto Sans SC','Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            color:var(--color-text); background-color:var(--color-bg);
+            line-height:1.7; overflow-x:hidden; min-height:100vh;
         }
+        h1,h2,h3,h4 { font-family:'Playfair Display','Noto Sans SC','Noto Serif SC',Georgia,'Times New Roman',serif; font-weight:600; letter-spacing:0.02em; }
 
-        /* 标题字体 */
-        h1,
-        h2,
-        h3,
-        h4,
-        .serif-font {
-            font-family: 'Playfair Display', 'Noto Sans SC', 'Noto Serif SC', Georgia, 'Times New Roman', serif;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-        }
-
-        /* ==================== 导航栏 ==================== */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--nav-height);
-            background: rgba(26, 53, 80, 0.97);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all var(--transition-normal);
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+            position:fixed; top:0; left:0; width:100%; height:var(--nav-height);
+            background:rgba(26,53,80,0.97); backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px); z-index:1000;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+            transition:all var(--transition-normal); display:flex; align-items:center;
+            box-shadow:0 2px 20px rgba(0,0,0,0.15);
         }
-
-        .navbar.scrolled {
-            height: 58px;
-            background: rgba(26, 53, 80, 0.99);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-        }
-
+        .navbar.scrolled { height:58px; background:rgba(26,53,80,0.99); box-shadow:0 4px 24px rgba(0,0,0,0.2); }
         .nav-container {
-            max-width: var(--max-width);
-            width: 100%;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            max-width:var(--max-width); width:100%; margin:0 auto;
+            padding:0 24px; display:flex; align-items:center; justify-content:space-between;
         }
+        .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--color-white); flex-shrink:0; }
+        .nav-brand img { width:85.5px; height:37.5px; transition:transform var(--transition-normal); }
+        .nav-brand:hover img { transform:rotate(-8deg) scale(1.05); }
+        .brand-text { display:flex; flex-direction:column; line-height:1.2; }
+        .brand-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
+        .brand-subtitle { font-size:0.65rem; font-weight:300; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-gold-light); white-space:nowrap; }
 
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--color-white);
-            flex-shrink: 0;
-        }
-
-        .nav-brand .brand-emblem {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-            transition: transform var(--transition-normal);
-        }
-
-        .nav-brand:hover .brand-emblem {
-            transform: rotate(-8deg) scale(1.05);
-        }
-
-        .nav-brand .brand-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-
-        .nav-brand .brand-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            white-space: nowrap;
-        }
-
-        .nav-brand .brand-subtitle {
-            font-size: 0.65rem;
-            font-weight: 300;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--color-gold-light);
-            white-space: nowrap;
-        }
-
-        /* 导航链接 */
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 4px;
-            align-items: center;
-        }
-
+        .nav-links { display:flex; list-style:none; gap:4px; align-items:center; }
         .nav-links a {
-            display: block;
-            padding: 8px 16px;
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 0.9rem;
-            font-weight: 400;
-            letter-spacing: 0.03em;
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-            position: relative;
-            white-space: nowrap;
+            display:block; padding:8px 16px; text-decoration:none;
+            color:rgba(255,255,255,0.85); font-size:0.9rem; font-weight:400;
+            letter-spacing:0.03em; border-radius:var(--radius-sm);
+            transition:all var(--transition-fast); position:relative; white-space:nowrap;
         }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-        }
-
+        .nav-links a:hover,.nav-links a.active { color:#fff; background:rgba(255,255,255,0.08); }
         .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%) scaleX(0);
-            width: 60%;
-            height: 2px;
-            background: var(--color-gold);
-            border-radius: 1px;
-            transition: transform var(--transition-normal);
+            content:''; position:absolute; bottom:4px; left:50%;
+            transform:translateX(-50%) scaleX(0); width:60%; height:2px;
+            background:var(--color-gold); border-radius:1px;
+            transition:transform var(--transition-normal);
         }
+        .nav-links a:hover::after,.nav-links a.active::after { transform:translateX(-50%) scaleX(1); }
 
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            transform: translateX(-50%) scaleX(1);
-        }
+        .nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:8px; flex-direction:column; gap:5px; z-index:1001; }
+        .nav-toggle span { display:block; width:26px; height:2.5px; background:var(--color-white); border-radius:2px; transition:all var(--transition-normal); }
+        .nav-toggle.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .nav-toggle.active span:nth-child(2) { opacity:0; }
+        .nav-toggle.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
 
-        /* 移动端菜单按钮 */
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            flex-direction: column;
-            gap: 5px;
-            z-index: 1001;
-        }
-
-        .nav-toggle span {
-            display: block;
-            width: 26px;
-            height: 2.5px;
-            background: var(--color-white);
-            border-radius: 2px;
-            transition: all var(--transition-normal);
-        }
-
-        .nav-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        .nav-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .nav-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        /* ==================== Hero 主视觉区 ==================== */
         .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(170deg,
-                    #0d1b2a 0%, #152a42 30%, #1a3550 50%, #1e4060 70%, #1a3550 100%);
-            overflow: hidden;
-            padding-top: var(--nav-height);
+            position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+            background:linear-gradient(170deg,#0d1b2a 0%,#152a42 30%,#1a3550 50%,#1e4060 70%,#1a3550 100%);
+            overflow:hidden; padding-top:var(--nav-height);
         }
-
-        /* Hero 背景装饰 */
         .hero-bg-pattern {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0.06;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, #ffffff 0%, transparent 60%),
-                radial-gradient(ellipse at 75% 30%, #c9a96e 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, #ffffff 0%, transparent 40%);
+            position:absolute; inset:0; pointer-events:none; opacity:0.06;
+            background-image:radial-gradient(ellipse at 20% 50%,#ffffff 0%,transparent 60%),
+                            radial-gradient(ellipse at 75% 30%,#c9a96e 0%,transparent 50%),
+                            radial-gradient(ellipse at 50% 80%,#ffffff 0%,transparent 40%);
         }
-
         .hero-bg-grid {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0.03;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
-            background-size: 60px 60px;
+            position:absolute; inset:0; pointer-events:none; opacity:0.03;
+            background-image:linear-gradient(rgba(255,255,255,0.3) 1px,transparent 1px),
+                            linear-gradient(90deg,rgba(255,255,255,0.3) 1px,transparent 1px);
+            background-size:60px 60px;
         }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 40px 24px;
-            max-width: 800px;
-        }
-
-        .hero-emblem-large {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 28px;
-            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
-            animation: emblemFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes emblemFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .hero h1 {
-            font-size: clamp(2.2rem, 4.5vw, 3.6rem);
-            color: #ffffff;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            margin-bottom: 8px;
-            line-height: 1.25;
-        }
-
-        .hero .hero-subtitle {
-            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
-            color: var(--color-gold-light);
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .hero .hero-description {
-            font-size: clamp(0.9rem, 1.4vw, 1.05rem);
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 600px;
-            margin: 0 auto 36px;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
+        .hero-content { position:relative; z-index:2; text-align:center; padding:40px 24px; max-width:800px; }
+        .hero-logo { width:600px; height:400px; margin:0 auto 28px; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.4)); animation:emblemFloat 6s ease-in-out infinite; }
+        @keyframes emblemFloat { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+        .hero h1 { font-size:clamp(2.2rem,4.5vw,3.6rem); color:#ffffff; font-weight:700; letter-spacing:0.04em; margin-bottom:8px; }
+        .hero .hero-subtitle { font-size:clamp(0.95rem,1.8vw,1.2rem); color:var(--color-gold-light); font-weight:400; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px; }
+        .hero .hero-description { font-size:clamp(0.9rem,1.4vw,1.05rem); color:rgba(255,255,255,0.7); max-width:600px; margin:0 auto 36px; line-height:1.8; font-weight:300; }
+        .hero-buttons { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 13px 28px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-            border-radius: 50px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            border: 2px solid transparent;
-            font-family: inherit;
-            white-space: nowrap;
+            display:inline-flex; align-items:center; gap:8px; padding:13px 28px; font-size:0.95rem; font-weight:500;
+            letter-spacing:0.03em; border-radius:50px; text-decoration:none; cursor:pointer;
+            transition:all var(--transition-normal); border:2px solid transparent; font-family:inherit; white-space:nowrap;
         }
+        .btn-primary { background:var(--color-gold); color:var(--color-primary-dark); border-color:var(--color-gold); font-weight:600; }
+        .btn-primary:hover { background:var(--color-gold-light); border-color:var(--color-gold-light); transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+        .btn-outline { background:transparent; color:#ffffff; border-color:rgba(255,255,255,0.4); }
+        .btn-outline:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.7); transform:translateY(-2px); }
 
-        .btn-primary {
-            background: var(--color-gold);
-            color: var(--color-primary-dark);
-            border-color: var(--color-gold);
-            font-weight: 600;
-        }
-        .btn-primary:hover {
-            background: var(--color-gold-light);
-            border-color: var(--color-gold-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.7);
-            transform: translateY(-2px);
-        }
-
-        /* Hero 滚动指示器 */
         .hero-scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            animation: bounceDown 2s ease-in-out infinite;
+            position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:2;
+            display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;
+            animation:bounceDown 2s ease-in-out infinite;
         }
-        @keyframes bounceDown {
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                transform: translateX(-50%) translateY(10px);
-            }
-        }
-        .hero-scroll-indicator span {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
+        @keyframes bounceDown { 0%,100%{ transform:translateX(-50%) translateY(0); } 50%{ transform:translateX(-50%) translateY(10px); } }
+        .hero-scroll-indicator span { font-size:0.7rem; color:rgba(255,255,255,0.5); letter-spacing:0.06em; text-transform:uppercase; }
         .hero-scroll-indicator .scroll-arrow {
-            width: 24px;
-            height: 24px;
-            border-right: 2px solid rgba(255, 255, 255, 0.5);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-            transform: rotate(45deg);
+            width:24px; height:24px; border-right:2px solid rgba(255,255,255,0.5);
+            border-bottom:2px solid rgba(255,255,255,0.5); transform:rotate(45deg);
         }
 
-        /* ==================== 通用区块样式 ==================== */
-        .section {
-            padding: 80px 24px;
-        }
-        .section-alt {
-            background: var(--color-bg-alt);
-        }
-        .section-container {
-            max-width: var(--max-width);
-            margin: 0 auto;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 56px;
-        }
+        .section { padding:80px 24px; max-width:var(--max-width); margin:0 auto; }
+        .section-alt { background:var(--color-bg-alt); border-radius:var(--radius-lg); margin:0 auto 40px; max-width:var(--max-width); padding:80px 24px; }
+        .section-header { text-align:center; margin-bottom:56px; }
         .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--color-gold);
-            margin-bottom: 8px;
-            padding: 4px 14px;
-            border: 1px solid var(--color-gold);
-            border-radius: 50px;
+            display:inline-block; font-size:0.75rem; font-weight:600; letter-spacing:0.1em;
+            text-transform:uppercase; color:var(--color-gold); margin-bottom:8px;
+            padding:4px 14px; border:1px solid var(--color-gold); border-radius:50px;
         }
-        .section-title {
-            font-size: clamp(1.8rem, 3.2vw, 2.4rem);
-            color: var(--color-primary);
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-        .section-divider {
-            width: 60px;
-            height: 3px;
-            background: var(--color-gold);
-            margin: 0 auto 16px;
-            border-radius: 2px;
-        }
-        .section-description {
-            color: var(--color-text-light);
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 0.95rem;
-            line-height: 1.8;
-        }
+        .section-title { font-size:clamp(1.8rem,3.2vw,2.4rem); color:var(--color-primary); margin-bottom:12px; font-weight:700; }
+        .section-divider { width:60px; height:3px; background:var(--color-gold); margin:0 auto 16px; border-radius:2px; }
+        .section-description { color:var(--color-text-light); max-width:600px; margin:0 auto; font-size:0.95rem; line-height:1.8; }
 
-        /* ==================== 国家象征区 ==================== */
-        .symbols-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            align-items: stretch;
-        }
-        .symbol-card {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            padding: 36px 28px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--color-border);
-            transition: all var(--transition-normal);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .symbol-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-            border-color: var(--color-gold);
-        }
-        .symbol-card .flag-container {
-            width: 100%;
-            max-width: 280px;
-            aspect-ratio: 3 / 2;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 20px;
-        }
-        .symbol-card .flag-container svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .symbol-card .emblem-container {
-            width: 140px;
-            height: 140px;
-            margin-bottom: 20px;
-        }
-        .symbol-card .emblem-container svg {
-            width: 100%;
-            height: 100%;
-        }
-        .symbol-card h3 {
-            font-size: 1.3rem;
-            color: var(--color-primary);
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-        .symbol-card .symbol-subtitle {
-            font-size: 0.8rem;
-            color: var(--color-text-muted);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-        .symbol-card p {
-            font-size: 0.9rem;
-            color: var(--color-text-light);
-            line-height: 1.7;
-            flex-grow: 1;
-        }
-
-        /* ==================== 信息卡片网格 ==================== */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-        }
+        .info-grid { display:grid; grid-template-columns:1fr; gap:24px; }
         .info-card {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            padding: 28px 22px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--color-border);
-            transition: all var(--transition-normal);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
+            background:var(--color-white); border-radius:var(--radius-lg); padding:32px 28px;
+            box-shadow:var(--shadow-sm); border:1px solid var(--color-border);
+            transition:all var(--transition-normal); text-decoration:none; color:inherit; display:block;
         }
-        .info-card:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-3px);
-        }
-        .info-card .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-        .info-card .card-icon.blue {
-            background: #e8f0f8;
-            color: var(--color-primary);
-        }
-        .info-card .card-icon.gold {
-            background: var(--color-gold-pale);
-            color: var(--color-gold);
-        }
-        .info-card .card-icon.teal {
-            background: #e6f3f0;
-            color: #2d7a6a;
-        }
-        .info-card h4 {
-            font-size: 1.05rem;
-            color: var(--color-primary);
-            font-weight: 700;
-        }
-        .info-card p {
-            font-size: 0.88rem;
-            color: var(--color-text-light);
-            line-height: 1.6;
-            margin: 0;
-        }
-        .info-card .card-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            font-family: 'Playfair Display', serif;
+        .info-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-4px); border-color:var(--color-gold); }
+        .info-card h3 { font-size:1.3rem; color:var(--color-primary); margin-bottom:12px; font-weight:700; }
+        .info-card p { font-size:0.95rem; color:var(--color-text-light); line-height:1.7; margin-bottom:8px; }
+        .info-card .more {
+            display:inline-block; margin-top:8px; font-weight:600; color:var(--color-gold);
+            font-size:0.9rem; letter-spacing:0.03em;
         }
 
-        /* ==================== 新闻区块 ==================== */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
-        }
-        .news-card {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--color-border);
-            transition: all var(--transition-normal);
-            display: flex;
-            flex-direction: column;
-        }
-        .news-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-        }
-        .news-card-image {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(135deg, #1a3550 0%, #234b6e 40%, #2d5f8a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .news-card-image .news-placeholder {
-            font-size: 3rem;
-            opacity: 0.5;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        .news-card-image .news-tag {
-            position: absolute;
-            top: 14px;
-            left: 14px;
-            background: var(--color-gold);
-            color: var(--color-primary-dark);
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 50px;
-            letter-spacing: 0.04em;
-        }
-        .news-card-body {
-            padding: 20px 22px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .news-card-body .news-date {
-            font-size: 0.78rem;
-            color: var(--color-text-muted);
-            letter-spacing: 0.04em;
-        }
-        .news-card-body h4 {
-            font-size: 1.1rem;
-            color: var(--color-primary);
-            font-weight: 700;
-            line-height: 1.4;
-        }
-        .news-card-body p {
-            font-size: 0.88rem;
-            color: var(--color-text-light);
-            line-height: 1.6;
-            flex-grow: 1;
-        }
-        .news-card-body .read-more {
-            font-size: 0.85rem;
-            color: var(--color-gold);
-            text-decoration: none;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            transition: color var(--transition-fast);
-            align-self: flex-start;
-            margin-top: auto;
-        }
-        .news-card-body .read-more:hover {
-            color: var(--color-primary);
-        }
+        .site-footer { background:var(--color-primary-dark); color:rgba(255,255,255,0.7); padding:48px 24px 24px; }
+        .footer-container { max-width:var(--max-width); margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:32px; }
+        .footer-col h4 { color:#fff; font-size:1rem; margin-bottom:14px; font-weight:700; letter-spacing:0.04em; }
+        .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+        .footer-col ul li a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; transition:color var(--transition-fast); }
+        .footer-col ul li a:hover { color:var(--color-gold-light); }
+        .footer-bottom { max-width:var(--max-width); margin:32px auto 0; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
 
-        /* ==================== 旅游区块 ==================== */
-        .tourism-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
+        .back-to-top {
+            position:fixed; bottom:28px; right:28px; width:44px; height:44px; border-radius:50%;
+            background:var(--color-primary); color:#fff; border:none; cursor:pointer; z-index:999;
+            font-size:1.2rem; display:flex; align-items:center; justify-content:center;
+            box-shadow:var(--shadow-lg); transition:all var(--transition-normal);
+            opacity:0; transform:translateY(20px); pointer-events:none;
         }
-        .tourism-card {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--color-border);
-            transition: all var(--transition-normal);
-            cursor: pointer;
-        }
-        .tourism-card:hover {
-            box-shadow: var(--shadow-xl);
-            transform: translateY(-5px);
-        }
-        .tourism-card-image {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            overflow: hidden;
-        }
-        .tourism-card-image .tourism-img-bg {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .tourism-card-image.bg-1 {
-            background: linear-gradient(160deg, #1a4a6e 0%, #2980b9 50%, #1a4a6e 100%);
-        }
-        .tourism-card-image.bg-2 {
-            background: linear-gradient(160deg, #2d5a3f 0%, #4a8c5c 50%, #2d5a3f 100%);
-        }
-        .tourism-card-image.bg-3 {
-            background: linear-gradient(160deg, #6b4a3a 0%, #a0724a 50%, #6b4a3a 100%);
-        }
-        .tourism-card-body {
-            padding: 20px 22px;
-        }
-        .tourism-card-body h4 {
-            font-size: 1.1rem;
-            color: var(--color-primary);
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .tourism-card-body p {
-            font-size: 0.85rem;
-            color: var(--color-text-light);
-            line-height: 1.6;
-        }
+        .back-to-top.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+        .back-to-top:hover { background:var(--color-gold); color:var(--color-primary-dark); transform:translateY(-4px); }
 
-        /* ==================== 联系表单区域 ==================== */
+        .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in-up.visible { opacity:1; transform:translateY(0); }
+
+        .nav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+        .nav-overlay.active { display:block; }
+
+        @media (max-width:768px) {
+            .nav-toggle { display:flex; }
+            .nav-logo {width:600px; height:400px;}
+            .nav-links {
+                position:fixed; top:0; right:-100%; width:75%; max-width:320px; height:100vh;
+                background:var(--color-primary); flex-direction:column; padding:90px 24px 40px;
+                gap:4px; transition:right var(--transition-slow);
+                box-shadow:-8px 0 30px rgba(0,0,0,0.3); z-index:1000;
+            }
+            .nav-links.open { right:0; }
+            .nav-links a { font-size:1rem; padding:14px 16px; width:100%; border-radius:var(--radius-md); }
+            .section { padding:60px 16px; }
+            .section-alt { padding:60px 16px; margin:0 16px 40px; }
+            .hero h1 { font-size:1.8rem; }
+            .hero-logo { width:300px; height:200px; }
+            .info-grid { grid-template-columns:1fr; }
+        }
+        @media (max-width:480px) {
+            .hero-buttons { flex-direction:column; align-items:center; }
+            .btn { width:100%; justify-content:center; }
+            .brand-title { font-size:0.9rem; }
+            .brand-subtitle { font-size:0.6rem; }
+        }
+        /* ==================== 联系表单区域补充样式 ==================== */
         .contact-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -847,573 +319,174 @@
             display: block;
         }
 
-        /* ==================== 页脚 ==================== */
-        .site-footer {
-            background: var(--color-primary-dark);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 48px 24px 24px;
-        }
-        .footer-container {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px;
-        }
-        .footer-col h4 {
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 14px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-        }
-        .footer-col ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .footer-col ul li a {
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color var(--transition-fast);
-        }
-        .footer-col ul li a:hover {
-            color: var(--color-gold-light);
-        }
-        .footer-bottom {
-            max-width: var(--max-width);
-            margin: 32px auto 0;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 0.04em;
-        }
-
-        /* ==================== 回到顶部按钮 ==================== */
-        .back-to-top {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--color-primary);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            z-index: 999;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-lg);
-            transition: all var(--transition-normal);
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-        .back-to-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-        .back-to-top:hover {
-            background: var(--color-gold);
-            color: var(--color-primary-dark);
-            transform: translateY(-4px);
-        }
-
-        /* ==================== 响应式设计 ==================== */
         @media (max-width: 768px) {
-            .nav-toggle {
-                display: flex;
-            }
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 75%;
-                max-width: 320px;
-                height: 100vh;
-                background: var(--color-primary);
-                flex-direction: column;
-                padding: 90px 24px 40px;
-                gap: 4px;
-                transition: right var(--transition-slow);
-                box-shadow: -8px 0 30px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
-            }
-            .nav-links.open {
-                right: 0;
-            }
-            .nav-links a {
-                font-size: 1rem;
-                padding: 14px 16px;
-                width: 100%;
-                border-radius: var(--radius-md);
-            }
             .contact-wrapper {
                 grid-template-columns: 1fr;
             }
-            .section {
-                padding: 60px 16px;
-            }
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .hero-emblem-large {
-                width: 90px;
-                height: 90px;
-            }
-            .symbols-grid {
-                grid-template-columns: 1fr;
-            }
-            .news-grid {
-                grid-template-columns: 1fr;
-            }
-            .tourism-grid {
-                grid-template-columns: 1fr;
-            }
-            .info-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        @media (max-width: 480px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-            .nav-brand .brand-title {
-                font-size: 0.9rem;
-            }
-            .nav-brand .brand-subtitle {
-                font-size: 0.6rem;
-            }
-            .nav-brand .brand-emblem {
-                width: 32px;
-                height: 32px;
-            }
-        }
-
-        /* ==================== 动画 ==================== */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 导航移动端打开时的遮罩 */
-        .nav-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-        .nav-overlay.active {
-            display: block;
         }
     </style>
 </head>
 <body>
-
-    <!-- ==================== 导航栏 ==================== -->
-    <nav class="navbar" id="navbar" role="navigation" aria-label="主导航">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <!-- 品牌标识 -->
-            <a href="#home" class="nav-brand" aria-label="帕帕韦斯特雷共和国 - 返回首页">
-                <!-- 小型国徽 SVG -->
-                <svg class="brand-emblem" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="navEmblemGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#c9a96e"/>
-                            <stop offset="100%" stop-color="#e0c880"/>
-                        </linearGradient>
-                    </defs>
-                    <circle cx="25" cy="25" r="23" fill="none" stroke="url(#navEmblemGrad)" stroke-width="2.5"/>
-                    <polygon points="25,6 30,19 44,19 33,28 37,42 25,33 13,42 17,28 6,19 20,19" fill="url(#navEmblemGrad)" opacity="0.9"/>
-                </svg>
+            <a href="#home" class="nav-brand">
+                <img src="./logo.png" alt="logo" class="nav-logo" onerror="this.style.display='none'">
                 <span class="brand-text">
-                    <span class="brand-title">帕帕韦斯特雷</span>
+                    <span class="brand-title">帕帕韦斯特雷共和国</span>
                     <span class="brand-subtitle">Republic of Papa Westray</span>
                 </span>
             </a>
-
-            <!-- 导航链接 -->
-            <ul class="nav-links" id="navLinks" role="menubar">
-                <li role="none"><a href="#home" role="menuitem" class="active" data-nav="home">首页</a></li>
-                <li role="none"><a href="#about" role="menuitem" data-nav="about">国家概况</a></li>
-                <li role="none"><a href="#symbols" role="menuitem" data-nav="symbols">国家象征</a></li>
-                <li role="none"><a href="#government" role="menuitem" data-nav="government">政府</a></li>
-                <li role="none"><a href="#news" role="menuitem" data-nav="news">新闻动态</a></li>
-                <li role="none"><a href="#tourism" role="menuitem" data-nav="tourism">旅游观光</a></li>
-                <li role="none"><a href="#contact" role="menuitem" data-nav="contact">联系我们</a></li>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active" data-nav="home">首页</a></li>
+                <li><a href="#members" data-nav="members">成员</a></li>
+                <li><a href="#history" data-nav="history">历史</a></li>
+                <li><a href="#articles" data-nav="articles">文章</a></li>
+                <li><a href="#products" data-nav="products">产品</a></li>
+                <li><a href="#about" data-nav="about">关于我们</a></li>
+                <li><a href="#join" data-nav="join">加入我们</a></li>
             </ul>
-
-            <!-- 移动端菜单按钮 -->
-            <button class="nav-toggle" id="navToggle" aria-label="切换导航菜单" aria-expanded="false">
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
-    <!-- 移动端导航遮罩 -->
     <div class="nav-overlay" id="navOverlay"></div>
 
-    <!-- ==================== Hero 主视觉区 ==================== -->
     <section class="hero" id="home">
         <div class="hero-bg-pattern"></div>
         <div class="hero-bg-grid"></div>
         <div class="hero-content">
-            <!-- 大型国徽 -->
-            <div class="hero-emblem-large">
-                <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <radialGradient id="heroEmblemGrad" cx="50%" cy="40%" r="50%">
-                            <stop offset="0%" stop-color="#e8d5a0"/>
-                            <stop offset="60%" stop-color="#c9a96e"/>
-                            <stop offset="100%" stop-color="#9a7b3a"/>
-                        </radialGradient>
-                        <filter id="emblemGlow">
-                            <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
-                        </filter>
-                    </defs>
-                    <!-- 外环 -->
-                    <circle cx="70" cy="70" r="64" fill="none" stroke="url(#heroEmblemGrad)" stroke-width="3"/>
-                    <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="6,3"/>
-                    <!-- 盾形 -->
-                    <path d="M70,18 L110,38 L110,78 Q110,110 70,128 Q30,110 30,78 L30,38 Z"
-                    fill="#1a3550" stroke="url(#heroEmblemGrad)" stroke-width="2.5" filter="url(#emblemGlow)"/>
-                    <!-- 波浪线 -->
-                    <path d="M38,72 Q46,64 54,72 Q62,80 70,72 Q78,64 86,72 Q94,80 102,72"
-                    fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.9"/>
-                    <path d="M40,82 Q48,74 56,82 Q64,90 70,82 Q78,74 86,82 Q94,90 100,82"
-                    fill="none" stroke="#c9a96e" stroke-width="1.5" opacity="0.6"/>
-                    <!-- 八角星 -->
-                    <polygon points="70,44 76,57 90,57 79,65 83,79 70,70 57,79 61,65 50,57 64,57"
-                    fill="url(#heroEmblemGrad)" opacity="0.95"/>
-                    <!-- 两侧麦穗 -->
-                    <g opacity="0.7">
-                        <ellipse cx="34" cy="90" rx="2" ry="5" fill="#c9a96e" transform="rotate(-20,34,90)"/>
-                        <ellipse cx="30" cy="96" rx="2" ry="5" fill="#c9a96e" transform="rotate(-30,30,96)"/>
-                        <ellipse cx="106" cy="90" rx="2" ry="5" fill="#c9a96e" transform="rotate(20,106,90)"/>
-                        <ellipse cx="110" cy="96" rx="2" ry="5" fill="#c9a96e" transform="rotate(30,110,96)"/>
-                    </g>
-                </svg>
-            </div>
-            <p class="hero-subtitle">北大西洋上的璀璨明珠</p>
+            <img src="./rpw.svg" alt="logo" class="hero-logo" onerror="this.style.display='none'">
+            <p class="hero-subtitle">一群神人建立的神人虚拟国家</p>
             <h1>帕帕韦斯特雷共和国</h1>
-            <p class="hero-description">
-                一个坐落于北大西洋的美丽岛国，以民主、自由、和平与可持续发展为核心价值。
-                我们热情欢迎世界各地的朋友来访，感受这片土地的独特魅力。
-            </p>
+            <p class="hero-description">帕帕韦斯特雷国核心自管区坐落于蛟川书院2号教学楼内，是以民主、自由、性感为核心价值的民主共和制国家。我们热情欢迎世界各地的朋友来访，感受这片土地的独特性感魅力。</p>
             <div class="hero-buttons">
-                <a href="#about" class="btn btn-primary">🔍 了解我们的国家</a>
-                <a href="#tourism" class="btn btn-outline">✈️ 探索旅游胜地</a>
+                <a href="#members" class="btn btn-primary">了解成员</a>
+                <a href="#articles" class="btn btn-outline">文章发布页</a>
             </div>
         </div>
-        <!-- 滚动指示器 -->
-        <div class="hero-scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+        <div class="hero-scroll-indicator" onclick="document.getElementById('members').scrollIntoView({behavior:'smooth'})">
             <span>向下滚动</span>
             <div class="scroll-arrow"></div>
         </div>
     </section>
 
-    <!-- ==================== 国家概况区块 ==================== -->
-    <section class="section" id="about">
-        <div class="section-container">
-            <div class="section-header fade-in-up">
-                <span class="section-label">国家概况</span>
-                <h2 class="section-title">认识帕帕韦斯特雷</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    帕帕韦斯特雷共和国是一个拥有悠久历史和丰富文化的岛国，由三个主要岛屿组成，位于北大西洋的碧波之中。
-                </p>
-            </div>
-            <div class="info-grid">
-                <!-- 卡片1：首都 -->
-                <div class="info-card fade-in-up">
-                    <div class="card-icon blue">🏛️</div>
-                    <h4>首都</h4>
-                    <span class="card-value">圣安布罗斯港</span>
-                    <p>Port St. Ambrose，全国政治、经济与文化中心，坐落在主岛南岸的天然良港旁。</p>
-                </div>
-                <!-- 卡片2：人口 -->
-                <div class="info-card fade-in-up">
-                    <div class="card-icon gold">👥</div>
-                    <h4>人口</h4>
-                    <span class="card-value">约 38 万</span>
-                    <p>多元文化和谐共处，国民以热情好客著称，人口主要集中在三个主岛上。</p>
-                </div>
-                <!-- 卡片3：官方语言 -->
-                <div class="info-card fade-in-up">
-                    <div class="card-icon teal">🗣️</div>
-                    <h4>官方语言</h4>
-                    <span class="card-value">帕帕语 · 英语</span>
-                    <p>帕帕语为本土语言，英语广泛使用于政务、商业与国际交流。</p>
-                </div>
-                <!-- 卡片4：货币 -->
-                <div class="info-card fade-in-up">
-                    <div class="card-icon blue">💰</div>
-                    <h4>法定货币</h4>
-                    <span class="card-value">帕帕克朗 (PPK)</span>
-                    <p>与主要国际货币自由兑换，汇率稳定，1 PPK ≈ 0.82 美元。</p>
-                </div>
-                <!-- 卡片5：国土面积 -->
-                <div class="info-card fade-in-up">
-                    <div class="card-icon gold">🗺️</div>
-                    <h4>国土面积</h4>
-                    <span class="card-value">2,847 km²</span>
-                    <p>由主岛大帕帕岛、北岛和东礁岛三大岛屿及数十个小礁屿组成。</p>
-                </div>
-                <!-- 卡片6：建国日 -->
-                <div class="info-card fade-in-up">
-                    <div class="card-icon teal">📅</div>
-                    <h4>建国纪念日</h4>
-                    <span class="card-value">6月15日</span>
-                    <p>纪念1965年6月15日《独立宣言》签署，全国放假三天，举行盛大庆典。</p>
-                </div>
-            </div>
+    <!-- 成员 -->
+    <section class="section" id="members">
+        <div class="section-header fade-in-up">
+            <span class="section-label">核心团队</span>
+            <h2 class="section-title">成员</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">我们的核心团队与组织架构</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://ppwgov.github.io/members" class="info-card fade-in-up">
+                <h3>成员介绍</h3>
+                <p>了解PPW的杰(xing)出(gan)公民与领导者。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://ppwgov.github.io/organization" class="info-card fade-in-up">
+                <h3>组织结构</h3>
+                <p>愚钝的政府架构与各部门职责。</p>
+                <span class="more">了解更多 →</span>
+            </a>
         </div>
     </section>
 
-    <!-- ==================== 国家象征区块 ==================== -->
-    <section class="section section-alt" id="symbols">
-        <div class="section-container">
-            <div class="section-header fade-in-up">
-                <span class="section-label">国家象征</span>
-                <h2 class="section-title">国旗 · 国徽 · 国歌</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    国家象征承载着帕帕韦斯特雷人民的历史记忆、文化认同与对未来的美好憧憬。
-                </p>
-            </div>
-            <div class="symbols-grid">
-                <!-- 国旗卡片 -->
-                <div class="symbol-card fade-in-up">
-                    <div class="flag-container">
-                        <!-- 国旗 SVG -->
-                        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- 深蓝底色 -->
-                            <rect width="300" height="200" fill="#1a3550"/>
-                            <!-- 白色波浪条纹（上下各一条，象征海洋与和平） -->
-                            <path d="M0,42 Q50,30 100,42 Q150,54 200,42 Q250,30 300,42"
-                            fill="none" stroke="#ffffff" stroke-width="3.5" opacity="0.7"/>
-                            <path d="M0,158 Q50,170 100,158 Q150,146 200,158 Q250,170 300,158"
-                            fill="none" stroke="#ffffff" stroke-width="3.5" opacity="0.7"/>
-                            <!-- 中央金色八角星 -->
-                            <g transform="translate(150,100)">
-                                <polygon points="0,-40 12,-16 38,-16 18,2 26,28 0,12 -26,28 -18,2 -38,-16 -12,-16"
-                                fill="#c9a96e" stroke="#e0c880" stroke-width="1.5"/>
-                                <!-- 星星内部光芒 -->
-                                <circle cx="0" cy="0" r="8" fill="#e8d5a0" opacity="0.7"/>
-                            </g>
-                        </svg>
-                    </div>
-                    <span class="symbol-subtitle">国旗</span>
-                    <h3>海洋之星旗</h3>
-                    <p>深蓝色象征广袤的海洋，金色八角星代表国家的光辉与八个核心价值，白色波浪线寓意和平与自由。</p>
-                </div>
-
-                <!-- 国徽卡片 -->
-                <div class="symbol-card fade-in-up">
-                    <div class="emblem-container">
-                        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="70" cy="70" r="64" fill="none" stroke="#c9a96e" stroke-width="2.5"/>
-                            <circle cx="70" cy="70" r="56" fill="none" stroke="#1a3550" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>
-                            <path d="M70,16 L112,38 L112,80 Q112,112 70,130 Q28,112 28,80 L28,38 Z"
-                            fill="#1a3550" stroke="#c9a96e" stroke-width="2.5"/>
-                            <path d="M36,74 Q44,66 52,74 Q60,82 68,74 Q76,66 84,74 Q92,82 100,74"
-                            fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.85"/>
-                            <path d="M38,84 Q46,76 54,84 Q62,92 68,84 Q76,76 84,84 Q92,92 98,84"
-                            fill="none" stroke="#c9a96e" stroke-width="1.3" opacity="0.55"/>
-                            <polygon points="70,42 77,57 93,57 81,66 86,80 70,71 54,80 59,66 47,57 63,57"
-                            fill="#c9a96e" opacity="0.9"/>
-                            <circle cx="70" cy="56" r="4" fill="#e8d5a0" opacity="0.8"/>
-                            <!-- 底部绶带 -->
-                            <rect x="36" y="108" width="68" height="14" rx="7" fill="#c9a96e" opacity="0.8"/>
-                            <text x="70" y="117" text-anchor="middle" font-size="6" fill="#1a3550" font-weight="bold" letter-spacing="1">自由·和平·繁荣</text>
-                        </svg>
-                    </div>
-                    <span class="symbol-subtitle">国徽</span>
-                    <h3>共和国国徽</h3>
-                    <p>盾形徽章中央的八角星闪耀光芒，波浪线代表海洋，两侧麦穗象征丰收，底部绶带铭刻国家格言。</p>
-                </div>
-
-                <!-- 国鸟/国花卡片 -->
-                <div class="symbol-card fade-in-up">
-                    <div class="emblem-container" style="display:flex;align-items:center;justify-content:center;gap:20px;">
-                        <span style="font-size:4rem;">🐧</span>
-                        <span style="font-size:3.5rem;">🌸</span>
-                    </div>
-                    <span class="symbol-subtitle">国鸟 · 国花</span>
-                    <h3>海鹦 & 海石竹</h3>
-                    <p>可爱的海鹦是国家的吉祥象征，每年夏季在海岸悬崖筑巢；海石竹在春日绽放粉色花朵，遍布海岛草甸。</p>
-                </div>
-            </div>
+    <!-- 历史 -->
+    <section class="section-alt" id="history">
+        <div class="section-header fade-in-up">
+            <span class="section-label">光辉岁月</span>
+            <h2 class="section-title">历史</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">从过去到未来的足迹</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://ppwgov.github.io/history" class="info-card fade-in-up">
+                <h3>发展历程</h3>
+                <p>探索PPW成长与抽象的关键时刻。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://ppwgov.github.io/events" class="info-card fade-in-up">
+                <h3>重要事件</h3>
+                <p>记录那些塑造国家面貌的历史性瞬间。</p>
+                <span class="more">了解更多 →</span>
+            </a>
         </div>
     </section>
 
-    <!-- ==================== 政府架构区块 ==================== -->
-    <section class="section" id="government">
-        <div class="section-container">
-            <div class="section-header fade-in-up">
-                <span class="section-label">政府架构</span>
-                <h2 class="section-title">民主治理体系</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    帕帕韦斯特雷共和国实行议会民主制，三权分立，保障公民的基本权利与自由。
-                </p>
-            </div>
-            <div class="info-grid">
-                <div class="info-card fade-in-up">
-                    <div class="card-icon blue">🏛️</div>
-                    <h4>总统</h4>
-                    <p>国家元首，由全民直接选举产生，任期五年，可连任一次。现任总统：<strong>埃琳娜·马尔科维奇</strong>阁下。</p>
-                </div>
-                <div class="info-card fade-in-up">
-                    <div class="card-icon gold">📜</div>
-                    <h4>议会</h4>
-                    <p>一院制立法机构，共85个席位，议员由比例代表制选举产生，任期四年。负责制定法律与监督政府。</p>
-                </div>
-                <div class="info-card fade-in-up">
-                    <div class="card-icon teal">⚖️</div>
-                    <h4>最高法院</h4>
-                    <p>独立司法机构，由7名大法官组成，负责宪法解释与重大案件的终审裁决，保障法治原则。</p>
-                </div>
-                <div class="info-card fade-in-up">
-                    <div class="card-icon blue">🏢</div>
-                    <h4>内阁</h4>
-                    <p>由总理领导，总理从议会多数党中产生。现任总理：<strong>安德斯·霍尔特</strong>，致力于推动绿色经济转型。</p>
-                </div>
-            </div>
+    <!-- 文章 -->
+    <section class="section" id="articles">
+        <div class="section-header fade-in-up">
+            <span class="section-label">以文化人成天下</span>
+            <h2 class="section-title">文章</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">各类精选文章</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://papawestray.github.io/article/" class="info-card fade-in-up">
+           	<!-- 此处暂借用陶彦吉的文章发布页，待本站文章页面完成后转移。 -->
+                <h3>文章</h3>
+                <p>收集了PPW的一切资源和文献</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://ppwgov.github.io/MinjinWeekly" class="info-card fade-in-up">
+            <!-- 临时域名，待本站文章页面完成后转移至页面下。 -->
+                <h3>周报</h3>
+                <p>PPW最新官方报刊《民进报》</p>
+                <span class="more">了解更多 →</span>
+            </a>
         </div>
     </section>
 
-    <!-- ==================== 新闻动态区块 ==================== -->
-    <section class="section section-alt" id="news">
-        <div class="section-container">
-            <div class="section-header fade-in-up">
-                <span class="section-label">新闻动态</span>
-                <h2 class="section-title">最新资讯</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    了解帕帕韦斯特雷共和国的最新政策、重大事件与国际合作动态。
-                </p>
-            </div>
-            <div class="news-grid">
-                <!-- 新闻1 -->
-                <article class="news-card fade-in-up">
-                    <div class="news-card-image">
-                        <span class="news-placeholder">🌊</span>
-                        <span class="news-tag">能源</span>
-                    </div>
-                    <div class="news-card-body">
-                        <span class="news-date">2026年5月18日</span>
-                        <h4>国家宣布2035年实现100%可再生能源供电</h4>
-                        <p>政府公布"绿色浪潮计划"，投资建设海上风电与潮汐能设施，预计到2035年全国电力全部来自可再生能源。</p>
-                        <a href="#" class="read-more">阅读全文 →</a>
-                    </div>
-                </article>
-                <!-- 新闻2 -->
-                <article class="news-card fade-in-up">
-                    <div class="news-card-image" style="background:linear-gradient(135deg,#3a5a2d,#5a8a4a,#3a5a2d);">
-                        <span class="news-placeholder">🤝</span>
-                        <span class="news-tag">外交</span>
-                    </div>
-                    <div class="news-card-body">
-                        <span class="news-date">2026年5月10日</span>
-                        <h4>与邻国签署北大西洋渔业合作协定</h4>
-                        <p>共和国与周边国家达成历史性渔业合作协议，共同保护海洋生态资源，促进区域可持续发展。</p>
-                        <a href="#" class="read-more">阅读全文 →</a>
-                    </div>
-                </article>
-                <!-- 新闻3 -->
-                <article class="news-card fade-in-up">
-                    <div class="news-card-image" style="background:linear-gradient(135deg,#5a3a5a,#8a5a8a,#5a3a5a);">
-                        <span class="news-placeholder">🎉</span>
-                        <span class="news-tag">文化</span>
-                    </div>
-                    <div class="news-card-body">
-                        <span class="news-date">2026年4月28日</span>
-                        <h4>第15届北大西洋海岛文化节圆满落幕</h4>
-                        <p>为期一周的文化节吸引了超过5万名游客，展示了传统音乐、手工艺和美食，促进国际文化交流。</p>
-                        <a href="#" class="read-more">阅读全文 →</a>
-                    </div>
-                </article>
-            </div>
+    <!-- 产品 -->
+    <section class="section" id="products">
+        <div class="section-header fade-in-up">
+            <span class="section-label">技术实力</span>
+            <h2 class="section-title">产品</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">各领域科研成果</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://ppwgov.github.io/technologies" class="info-card fade-in-up">
+                <h3>技术成果</h3>
+                <p>后沿科技与自主研发的神人发明。</p>
+                <span class="more">了解更多 →</span>
+            </a>
         </div>
     </section>
 
-    <!-- ==================== 旅游观光区块 ==================== -->
-    <section class="section" id="tourism">
-        <div class="section-container">
-            <div class="section-header fade-in-up">
-                <span class="section-label">旅游观光</span>
-                <h2 class="section-title">探索美丽岛国</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    从壮丽的海岸悬崖到宁静的渔村，帕帕韦斯特雷为每一位旅行者准备了难忘的体验。
-                </p>
-            </div>
-            <div class="tourism-grid">
-                <!-- 景点1 -->
-                <div class="tourism-card fade-in-up">
-                    <div class="tourism-card-image bg-1">
-                        <div class="tourism-img-bg">🏖️</div>
-                    </div>
-                    <div class="tourism-card-body">
-                        <h4>金色海湾海滩</h4>
-                        <p>绵延3公里的细腻白沙滩，被评为北大西洋最美海滩之一，是游泳、冲浪和日落的绝佳去处。</p>
-                    </div>
-                </div>
-                <!-- 景点2 -->
-                <div class="tourism-card fade-in-up">
-                    <div class="tourism-card-image bg-2">
-                        <div class="tourism-img-bg">⛰️</div>
-                    </div>
-                    <div class="tourism-card-body">
-                        <h4>圣安布罗斯老城</h4>
-                        <p>世界文化遗产地，拥有500年历史的石砌建筑群，狭窄的鹅卵石巷道诉说着古老的海洋故事。</p>
-                    </div>
-                </div>
-                <!-- 景点3 -->
-                <div class="tourism-card fade-in-up">
-                    <div class="tourism-card-image bg-3">
-                        <div class="tourism-img-bg">🐧</div>
-                    </div>
-                    <div class="tourism-card-body">
-                        <h4>海鹦崖自然保护区</h4>
-                        <p>每年5月至8月，数以万计的海鹦在此筑巢繁衍，是观鸟爱好者的天堂，设有专业观景平台。</p>
-                    </div>
-                </div>
-            </div>
+    <!-- 关于我们 -->
+    <section class="section-alt" id="about">
+        <div class="section-header fade-in-up">
+            <span class="section-label">认识我们</span>
+            <h2 class="section-title">关于我们</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">认识帕帕韦斯特雷共和国</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://ppwgov.github.io/about" class="info-card fade-in-up">
+                <h3>组织简介</h3>
+                <p>了解我们的使命、愿景、核心价值观与性取向。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://ppwgov.github.io/contact" class="info-card fade-in-up">
+                <h3>联系方式</h3>
+                <p>欢迎随时与我们取得联系。</p>
+                <span class="more">了解更多 →</span>
+            </a>
         </div>
     </section>
 
-    <!-- ==================== 联系区块 ==================== -->
-    <section class="section section-alt" id="contact">
+    <!-- 加入我们 -->
+    <section class="section section-alt" id="join">
         <div class="section-container">
             <div class="section-header fade-in-up">
-                <span class="section-label">联系我们</span>
-                <h2 class="section-title">与共和国取得联系</h2>
+                <span class="section-label">共筑未来</span>
+                <h2 class="section-title">加入我们</h2>
                 <div class="section-divider"></div>
                 <p class="section-description">
-                    如有任何咨询、建议或合作意向，请通过以下方式与我们联系，我们将尽快回复。
+                    如有任何咨询、建议或合作意向，请通过以下方式与我们联系，我们将尽慢回复。
                 </p>
             </div>
             <div class="contact-wrapper">
@@ -1422,19 +495,19 @@
                     <ul class="contact-info-list">
                         <li>
                             <span class="contact-icon">📍</span>
-                            <span><strong>政府办公地址</strong><br>圣安布罗斯港，自由大道1号<br>帕帕韦斯特雷共和国</span>
+                            <span><strong>政府办公地址</strong><br>蛟川书院803, 808, 813班<br>帕帕韦斯特雷自管区</span>
                         </li>
                         <li>
                             <span class="contact-icon">📧</span>
-                            <span><strong>电子邮箱</strong><br>info@papa-westray.gov.pp<br>press@papa-westray.gov.pp</span>
+                            <span><strong>电子邮箱</strong><br>Tao_Yanji@outlook.com<br>3605705033@qq.com</span>
                         </li>
                         <li>
                             <span class="contact-icon">📞</span>
-                            <span><strong>联系电话</strong><br>+470 800 1234 567<br>周一至周五 09:00 - 17:00</span>
+                            <span><strong>联系电话</strong><br>+86 190 6566 2639<br>周78至周91 e^πi:NULL - tan 90°:114/0</span>
                         </li>
                         <li>
                             <span class="contact-icon">🌐</span>
-                            <span><strong>社交媒体</strong><br>Twitter · Facebook · Instagram<br>搜索 @PapaWestrayGov</span>
+                            <span><strong>社交媒体</strong><br>X · Facebook · Instagram · Bilibili<br>搜索 我也不知道搜索啥,</span>
                         </li>
                     </ul>
                 </div>
@@ -1453,9 +526,9 @@
                             <label for="formSubject">咨询主题</label>
                             <select id="formSubject" name="subject">
                                 <option value="">请选择主题</option>
-                                <option value="tourism">旅游咨询</option>
+                                <option value="consult">事务咨询</option>
                                 <option value="business">商务合作</option>
-                                <option value="visa">签证事宜</option>
+                                <option value="learning">学术合作</option>
                                 <option value="media">媒体联络</option>
                                 <option value="other">其他</option>
                             </select>
@@ -1464,105 +537,82 @@
                             <label for="formMessage">留言内容 *</label>
                             <textarea id="formMessage" name="message" placeholder="请在此输入您的留言..." required></textarea>
                         </div>
-                        <button type="submit" class="form-submit-btn">✉️ 发送留言</button>
+                        <button type="submit" class="form-submit-btn">发送留言 (ノ・ω・)ノ</button>
                     </form>
                     <div class="form-success-msg" id="formSuccessMsg">
-                        ✅ <strong>感谢您的留言！</strong><br>我们已收到您的信息，将在3个工作日内回复。
+                         <strong>感谢您的留言！😋</strong><br>我们已收到您的信息，将在3个工作年内回复。
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== 页脚 ==================== -->
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-col">
-                <h4>帕帕韦斯特雷共和国</h4>
+                <h4>导航</h4>
                 <ul>
-                    <li><a href="#about">国家概况</a></li>
-                    <li><a href="#symbols">国家象征</a></li>
-                    <li><a href="#government">政府架构</a></li>
+                    <li><a href="#members">成员</a></li>
+                    <li><a href="#history">历史</a></li>
+                    <li><a href="#articles">文章</a></li>
+                    <li><a href="#products">产品</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#join">加入我们</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>实用信息</h4>
-                <ul>
-                    <li><a href="#tourism">旅游指南</a></li>
-                    <li><a href="#news">新闻动态</a></li>
-                    <li><a href="#contact">联系我们</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>法律声明</h4>
+                <h4>法律</h4>
                 <ul>
                     <li><a href="#">隐私政策</a></li>
                     <li><a href="#">使用条款</a></li>
-                    <li><a href="#">版权声明</a></li>
+                    <li><a href="#">销售政策</a></li>
+                    <li><a href="#">法律信息</a></li>
+                    <li><a href="#">网站地图</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>关注我们</h4>
+                <h4>联系</h4>
                 <ul>
-                    <li><a href="#">Twitter / X</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Instagram</a></li>
+                    <li>广告位招租</li>
+                    <li><a href="mailto:Tao_Yanji@outlook.com">Tao_Yanji@outlook.com</a></li>
+                    <li><a href="3605705033@qq.com">3605705033@qq.com</a></li>
+                    <!-- <li>关注塔菲喵~ 关注塔菲谢谢喵(oﾟvﾟ)ノ</li> -->
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 帕帕韦斯特雷共和国政府 · 保留所有权利 · Republic of Papa Westray Official Website</p>
+            <p>&copy; 2026 Papa Westray Government. All rights not reserved.</p>
             <p style="margin-top:4px;">本网站为虚拟国家展示项目 · 托管于 GitHub Pages</p>
         </div>
     </footer>
 
-    <!-- ==================== 回到顶部按钮 ==================== -->
-    <button class="back-to-top" id="backToTop" aria-label="回到页面顶部" title="回到顶部">↑</button>
+    <button class="back-to-top" id="backToTop">↑</button>
 
-    <!-- ==================== JavaScript ==================== -->
     <script>
         (function() {
-            // ==================== DOM 元素引用 ====================
             const navbar = document.getElementById('navbar');
             const navLinks = document.getElementById('navLinks');
             const navToggle = document.getElementById('navToggle');
             const navOverlay = document.getElementById('navOverlay');
             const backToTop = document.getElementById('backToTop');
-            const contactForm = document.getElementById('contactForm');
-            const formSuccessMsg = document.getElementById('formSuccessMsg');
             const allNavAnchors = navLinks.querySelectorAll('a');
             const fadeElements = document.querySelectorAll('.fade-in-up');
 
-            // ==================== 导航栏滚动效果 ====================
-            let lastScrollY = 0;
             function updateNavbar() {
                 const scrollY = window.scrollY;
-                // 添加 scrolled 类
-                if (scrollY > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-                // 回到顶部按钮
-                if (scrollY > 500) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-                lastScrollY = scrollY;
-                // 更新活跃导航项
+                navbar.classList.toggle('scrolled', scrollY > 50);
+                backToTop.classList.toggle('visible', scrollY > 500);
                 updateActiveNavLink();
             }
 
-            // ==================== 活跃导航项高亮 ====================
             function updateActiveNavLink() {
                 const sections = document.querySelectorAll('section[id]');
                 let currentSection = 'home';
                 const scrollPos = window.scrollY + 120;
                 sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.offsetHeight;
-                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
                         currentSection = section.getAttribute('id');
                     }
                 });
@@ -1574,79 +624,28 @@
                 });
             }
 
-            // ==================== 移动端导航切换 ====================
             function openMobileNav() {
                 navLinks.classList.add('open');
                 navOverlay.classList.add('active');
                 navToggle.classList.add('active');
-                navToggle.setAttribute('aria-expanded', 'true');
                 document.body.style.overflow = 'hidden';
             }
-
             function closeMobileNav() {
                 navLinks.classList.remove('open');
                 navOverlay.classList.remove('active');
                 navToggle.classList.remove('active');
-                navToggle.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
             }
 
             navToggle.addEventListener('click', () => {
-                if (navLinks.classList.contains('open')) {
-                    closeMobileNav();
-                } else {
-                    openMobileNav();
-                }
+                navLinks.classList.contains('open') ? closeMobileNav() : openMobileNav();
             });
-
             navOverlay.addEventListener('click', closeMobileNav);
+            allNavAnchors.forEach(a => a.addEventListener('click', () => {
+                if (navLinks.classList.contains('open')) closeMobileNav();
+            }));
 
-            // 点击导航链接后关闭移动菜单
-            allNavAnchors.forEach(anchor => {
-                anchor.addEventListener('click', () => {
-                    if (navLinks.classList.contains('open')) {
-                        closeMobileNav();
-                    }
-                });
-            });
-
-            // ==================== 回到顶部 ====================
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            // ==================== 联系表单处理 ====================
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                // 简单验证
-                const name = document.getElementById('formName').value.trim();
-                const email = document.getElementById('formEmail').value.trim();
-                const message = document.getElementById('formMessage').value.trim();
-                if (!name || !email || !message) {
-                    alert('请填写所有必填字段（姓名、邮箱、留言内容）。');
-                    return;
-                }
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    alert('请输入有效的电子邮箱地址。');
-                    return;
-                }
-                // 模拟提交成功
-                contactForm.style.display = 'none';
-                formSuccessMsg.classList.add('show');
-                // 3秒后恢复表单（演示用）
-                setTimeout(() => {
-                    contactForm.style.display = 'block';
-                    formSuccessMsg.classList.remove('show');
-                    contactForm.reset();
-                }, 4000);
-            });
-
-            // ==================== 滚动动画 (Intersection Observer) ====================
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -50px 0px',
-                threshold: 0.12,
-            };
+            backToTop.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1655,37 +654,20 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
+            }, { rootMargin:'0px 0px -50px 0px', threshold:0.12 });
 
+            fadeElements.forEach(el => observer.observe(el));
             fadeElements.forEach(el => {
-                observer.observe(el);
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('visible');
             });
 
-            // ==================== 键盘导航支持 (ESC 关闭菜单) ====================
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && navLinks.classList.contains('open')) {
-                    closeMobileNav();
-                }
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && navLinks.classList.contains('open')) closeMobileNav();
             });
 
-            // ==================== 全局滚动监听 ====================
-            window.addEventListener('scroll', updateNavbar, { passive: true });
-
-            // ==================== 初始状态检查 ====================
+            window.addEventListener('scroll', updateNavbar, { passive:true });
             updateNavbar();
-            // 初始显示在视口内的淡入元素
-            fadeElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 50) {
-                    el.classList.add('visible');
-                }
-            });
-
-            console.log('🏛️  帕帕韦斯特雷共和国官方网站已就绪');
-            console.log('🌊  欢迎来到北大西洋的明珠！');
-            console.log('📝  本网站为虚拟国家展示项目');
         })();
     </script>
-
 </body>
 </html>

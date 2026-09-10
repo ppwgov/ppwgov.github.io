@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="900" height="600"
+     viewBox="0 0 300 200"
+     version="1.1"
+     role="img">
+  <defs>
+    <style type="text/css"><![CDATA[
+      .roc-blue { fill: #000095; }
+      <!-- .og-red   { fill: #B22234; } -->
+      .roc-red  { fill: #FE0000; }
+      .white    { fill: #FFFFFF; }
+    ]]></style>
+  </defs>
+
+  <!-- 背景：先以白为底 -->
+  <rect x="0" y="0" width="300" height="200" class="white"/>
+
+  <!-- 14 条红白条纹（每条高度 = 200 / 14） -->
+  <!-- stripeHeight = 14.2857142857 -->
+  <rect x="0" y="0"           width="300" height="14.2857142857" class="roc-red"/>
+  <rect x="0" y="14.2857142857" width="300" height="14.2857142857" class="white"/>
+  <rect x="0" y="28.5714285714" width="300" height="14.2857142857" class="roc-red"/>
+  <rect x="0" y="42.8571428571" width="300" height="14.2857142857" class="white"/>
+  <rect x="0" y="57.1428571428" width="300" height="14.2857142857" class="roc-red"/>
+  <rect x="0" y="71.4285714285" width="300" height="14.2857142857" class="white"/>
+  <rect x="0" y="85.7142857142" width="300" height="14.2857142857" class="roc-red"/>
+  <rect x="0" y="100.000000000" width="300" height="14.2857142857" class="white"/>
+  <rect x="0" y="114.2857142857" width="300" height="14.2857142857" class="roc-red"/>
+  <rect x="0" y="128.5714285714" width="300" height="14.2857142857" class="white"/>
+  <rect x="0" y="142.8571428571" width="300" height="14.2857142857" class="roc-red"/>
+  <rect x="0" y="157.1428571428" width="300" height="14.2857142857" class="white"/>
+  <rect x="0" y="171.4285714285" width="300" height="14.2857142857" class="roc-red"/>
+  <rect x="0" y="185.7142857142" width="300" height="14.2857142858" class="white"/>
+
+  <!-- 左上角 canton：将原 60x40 的元素整体放大 2.5 倍，得到 150x100（画布的 1/4） -->
+  <g transform="scale(2.5)">
+    <!-- 原来的深蓝矩形（在缩放后变为 150x100） -->
+    <path fill="#000094" d="M0 0h60v40H0z"/>
+    <!-- 白日光芒定义与复制，基于原中心 (30,20) -->
+    <path id="a" d="M30 5l4 15-4 15-4-15zM15 20l15 4 15-4-15-4z" fill="#fff"/>
+    <use transform="rotate(30 30 20)" href="#a"/>
+    <use transform="rotate(60 30 20)" href="#a"/>
+    <use transform="rotate(90 30 20)" href="#a"/>
+    <use transform="rotate(120 30 20)" href="#a"/>
+    <use transform="rotate(150 30 20)" href="#a"/>
+    <use transform="rotate(180 30 20)" href="#a"/>
+    <use transform="rotate(210 30 20)" href="#a"/>
+    <use transform="rotate(240 30 20)" href="#a"/>
+    <use transform="rotate(270 30 20)" href="#a"/>
+    <use transform="rotate(300 30 20)" href="#a"/>
+    <use transform="rotate(330 30 20)" href="#a"/>
+    <!-- 中心白圆（原 r=8，缩放后 r=20）-->
+    <circle fill="#fff" stroke="#000094" cx="30" cy="20" r="8"/>
+  </g>
+</svg>
