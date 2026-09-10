@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="rpw.png">
+<link rel="icon" type="image/svg+xml" href="rpw.svg">
+
+<title>404 Not Found</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft YaHei",
+        sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    color: #222;
+}
+
+
+/* 总布局 */
+.container {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    animation: fadeIn 0.8s ease;
+}
+
+
+/* 左侧GIF */
+.gif-box img {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+
+
+/* 右侧内容 */
+.content {
+    text-align: center;
+    transform: translateX(25px);
+}
+
+
+
+.code {
+    font-size: 120px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: #222;
+}
+
+
+
+.text {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #666;
+}
+
+
+
+/* 返回按钮 */
+.btn {
+    display: inline-block;
+    margin-top: 35px;
+    padding: 12px 35px;
+
+    background: #222;
+    color: white;
+
+    text-decoration: none;
+
+    /* 已去除圆角 */
+    border-radius: 0;
+
+    font-size: 15px;
+
+    transition: .3s;
+}
+
+
+.btn:hover {
+    background: #555;
+    transform: translateY(-3px);
+}
+
+
+
+/* 页面进入动画 */
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+
+/* 手机适配 */
+@media(max-width:700px){
+
+    .container {
+        flex-direction: column;
+        gap:30px;
+    }
+
+
+    .gif-box img {
+        width:200px;
+        height:200px;
+    }
+
+
+    .content {
+        transform:none;
+    }
+
+
+    .code {
+        font-size:80px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- 左侧GIF -->
+    <div class="gif-box">
+        <img src="404.gif" alt="404动画">
+    </div>
+
+
+
+    <!-- 右侧内容 -->
+    <div class="content">
+
+        <div class="code">
+            404
+        </div>
+
+
+        <div class="text">
+            页面不见了！嘿嘿
+        </div>
+
+
+        <a class="btn" href="https://ppwgov.github.io/home/">
+            访问我们的主页
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
