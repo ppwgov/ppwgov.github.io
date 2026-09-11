@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 420" >
+  <!-- Youqi Soviet Federal Republic National Flag -->
+
+  <!-- 左上红色三角形 -->
+  <polygon points="0,0 660,0 0,420" fill="#FE0000" />
+  
+  <!-- 右下蓝色三角形 -->
+  <polygon points="660,0 660,420 0,420" fill="#000095" />
+  
+  <!-- 中心白色圆 -->
+  <circle cx="330" cy="210" r="100" fill="#FFFFFF" />
+</svg>
