@@ -254,6 +254,96 @@
             box-shadow: var(--shadow-md);
             border: 1px solid var(--color-border);
         }
+        /* 自定义下拉选择器 */
+        .custom-select {
+            position: relative;
+            user-select: none;
+        }
+        .custom-select-trigger {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg);
+            font-size: 0.9rem;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all var(--transition-fast);
+            font-family: inherit;
+            text-align: left;
+        }
+        .custom-select-trigger:hover {
+            border-color: var(--color-gold);
+            background: var(--color-white);
+        }
+        .custom-select-trigger .arrow {
+            transition: transform var(--transition-fast);
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+        .custom-select.open .custom-select-trigger {
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 3px rgba(184, 148, 75, 0.1);
+            background: var(--color-white);
+        }
+        .custom-select.open .arrow {
+            transform: rotate(180deg);
+        }
+        .custom-select-options {
+            list-style: none;
+            margin: 6px 0 0 0;
+            padding: 6px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            left: 0;
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+        }
+        .custom-select-options li {
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            color: var(--color-text);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: background var(--transition-fast);
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        .custom-select-options li:hover {
+            background: var(--color-gold-pale);
+            color: var(--color-primary);
+        }
+        .custom-select.open .custom-select-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .custom-select.open .custom-select-options li {
+            animation: optionFadeIn 0.3s ease forwards;
+        }
+        .custom-select.open .custom-select-options li:nth-child(1) { animation-delay: 0.05s; }
+        .custom-select.open .custom-select-options li:nth-child(2) { animation-delay: 0.1s; }
+        .custom-select.open .custom-select-options li:nth-child(3) { animation-delay: 0.15s; }
+        .custom-select.open .custom-select-options li:nth-child(4) { animation-delay: 0.2s; }
+        .custom-select.open .custom-select-options li:nth-child(5) { animation-delay: 0.25s; }
+
+        @keyframes optionFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         .form-group {
             margin-bottom: 18px;
         }
@@ -319,6 +409,20 @@
         }
         .form-success-msg.show {
             display: block;
+        }
+        .custom-select-options li .check {
+            float: right;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+            color: var(--color-gold);
+            font-weight: 700;
+        }
+        .custom-select-options li.selected .check {
+            opacity: 1;
+        }
+        .custom-select-options li.selected {
+            background: var(--color-gold-pale);
+            color: var(--color-primary);
         }
 
         @media (max-width: 768px) {
@@ -426,13 +530,13 @@
             <p class="section-description">各类精选文章</p>
         </div>
         <div class="info-grid">
-            <a href="https://papawestray.github.io/article/" class="info-card fade-in-up">
-           	<!-- 此处暂借用陶彦吉的文章发布页，待本站文章页面完成后转移。 -->
+            <a href="https://ppwgov.github.io/article/" class="info-card fade-in-up">
+            <!-- 此处暂借用陶彦吉的文章发布页，待本站文章页面完成后转移。 -->
                 <h3>文章</h3>
                 <p>收集了PPW的一切资源和文献</p>
                 <span class="more">了解更多 →</span>
             </a>
-            <a href="https://ppwgov.github.io/MinjinWeekly" class="info-card fade-in-up">
+            <a href="https://ppwgov.github.io/article/MinjinWeekly" class="info-card fade-in-up">
             <!-- 临时域名，待本站文章页面完成后转移至页面下。 -->
                 <h3>周报</h3>
                 <p>PPW最新官方报刊《民进报》</p>
@@ -525,15 +629,22 @@
                             <input type="email" id="formEmail" name="email" placeholder="请输入您的邮箱地址" required>
                         </div>
                         <div class="form-group">
-                            <label for="formSubject">咨询主题</label>
-                            <select id="formSubject" name="subject">
-                                <option value="">请选择主题</option>
-                                <option value="consult">事务咨询</option>
-                                <option value="business">商务合作</option>
-                                <option value="learning">学术合作</option>
-                                <option value="media">媒体联络</option>
-                                <option value="other">其他</option>
-                            </select>
+                            <label>咨询主题</label>
+                            <div class="custom-select" id="customSelect">
+                                <button type="button" class="custom-select-trigger" id="customSelectTrigger">
+                                    <span class="selected-text">请选择主题</span>
+                                    <span class="arrow">▾</span>
+                                </button>
+                                <ul class="custom-select-options" id="customSelectOptions">
+                                    <li data-value="joinin" data-text="成为PPW公民！">成为PPW公民！<span class="check">✔️</span></li>
+                                    <li data-value="consult" data-text="事务咨询">事务咨询 <span class="check">✔️</span></li>
+                                    <li data-value="business" data-text="商务合作">商务合作 <span class="check">✔️</span></li>
+                                    <li data-value="learning" data-text="学术合作">学术合作 <span class="check">✔️</span></li>
+                                    <li data-value="media" data-text="媒体联络">媒体联络 <span class="check">✔️</span></li>
+                                    <li data-value="other" data-text="其他">其他 <span class="check">✔️</span></li>
+                                </ul>
+                                <input type="hidden" name="subject" id="formSubjectHidden" value="">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="formMessage">留言内容 *</label>
@@ -576,15 +687,16 @@
                 <h4>联系</h4>
                 <ul>
                     <li>广告位招租</li>
-                    <li><a href="mailto:Tao_Yanji@outlook.com">Tao_Yanji@outlook.com</a></li>
-                    <li><a href="3605705033@qq.com">3605705033@qq.com</a></li>
+                    <li><a href="mailto:482@papawestray.cn">482@papawestray.cn</a></li>
+                    <li><a href="mailto:3605705033@qq.com">3605705033@qq.com</a></li>
+                    <li><a href="mailto:s482lmao@163.com">s482lmao@163.com</a></li>
                     <!-- <li>关注塔菲喵~ 关注塔菲谢谢喵(oﾟvﾟ)ノ</li> -->
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 Papa Westray Government. All rights not reserved.</p>
-            <p style="margin-top:4px;">本网站为虚拟国家展示项目 · 托管于 GitHub Pages</p>
+            <p style="margin-top:4px;">帕帕韦斯特雷官方网站 · 托管于 GitHub Pages</p>
         </div>
     </footer>
 
@@ -669,6 +781,39 @@
 
             window.addEventListener('scroll', updateNavbar, { passive:true });
             updateNavbar();
+
+            // 自定义下拉选择器交互
+            const customSelect = document.getElementById('customSelect');
+            const trigger = document.getElementById('customSelectTrigger');
+            const options = document.querySelectorAll('.custom-select-options li');
+            const hiddenSubject = document.getElementById('formSubjectHidden');
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                customSelect.classList.toggle('open');
+            });
+
+            options.forEach(option => {
+            option.addEventListener('click', () => {
+                const value = option.getAttribute('data-value');
+                const text = option.getAttribute('data-text'); // 直接获取纯文本
+                trigger.querySelector('.selected-text').textContent = text; // 触发器只显示纯文本
+                hiddenSubject.value = value;
+
+                // 移除其他选项的选中状态
+                options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected'); // 当前选中项高亮并显示✔️
+
+                customSelect.classList.remove('open');
+            });
+        });
+
+            // 点击外部关闭
+            document.addEventListener('click', (e) => {
+                if (!customSelect.contains(e.target)) {
+                    customSelect.classList.remove('open');
+                }
+            });
         })();
     </script>
 </body>
