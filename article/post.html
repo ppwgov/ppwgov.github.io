@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="帕帕韦斯特雷共和国 · 文章">
+    <meta name="author" content="PPW 技术部">
+    <title>文章 · 帕帕韦斯特雷共和国</title>
+
+    <link rel="icon" type="image/png" href="../rpw.png">
+    <link rel="icon" type="image/svg+xml" href="../rpw.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Markdown 解析 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- KaTeX：数学公式渲染 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        :root {
+            --color-primary: #1a3550;
+            --color-primary-light: #234b6e;
+            --color-primary-dark: #0f2235;
+            --color-gold: #b8944b;
+            --color-gold-light: #d4b76a;
+            --color-gold-pale: #f5eedc;
+            --color-white: #ffffff;
+            --color-bg: #f8f7f4;
+            --color-bg-alt: #eef0f2;
+            --color-text: #2c2c2c;
+            --color-text-light: #5a5a5a;
+            --color-text-muted: #888888;
+            --color-border: #e0ddd6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --max-width: 1200px;
+            --content-width: 760px;
+            --nav-height: 70px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); font-size:16px; -webkit-font-smoothing:antialiased; }
+        body {
+            font-family: 'Noto Sans SC','Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            color:var(--color-text); background-color:var(--color-bg);
+            line-height:1.7; overflow-x:hidden; min-height:100vh;
+            display:flex; flex-direction:column;
+        }
+        h1,h2,h3,h4 { font-family:'Playfair Display','Noto Sans SC','Noto Serif SC',Georgia,'Times New Roman',serif; font-weight:600; letter-spacing:0.02em; }
+
+        /* ===== 导航栏 ===== */
+        .navbar {
+            position:fixed; top:0; left:0; width:100%; height:var(--nav-height);
+            background:rgba(26,53,80,0.97); backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px); z-index:1000;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+            transition:all var(--transition-normal); display:flex; align-items:center;
+            box-shadow:0 2px 20px rgba(0,0,0,0.15);
+        }
+        .navbar.scrolled { height:58px; background:rgba(26,53,80,0.99); box-shadow:0 4px 24px rgba(0,0,0,0.2); }
+        .nav-container {
+            max-width:var(--max-width); width:100%; margin:0 auto;
+            padding:0 24px; display:flex; align-items:center; justify-content:space-between;
+        }
+        .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--color-white); }
+        .nav-brand img { width:85.5px; height:37.5px; transition:transform var(--transition-normal); }
+        .nav-brand:hover img { transform:rotate(-8deg) scale(1.05); }
+        .brand-text { display:flex; flex-direction:column; line-height:1.2; }
+        .brand-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; letter-spacing:0.03em; }
+        .brand-subtitle { font-size:0.65rem; font-weight:300; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-gold-light); }
+        .nav-links { display:flex; list-style:none; gap:4px; align-items:center; }
+        .nav-links a {
+            display:block; padding:8px 16px; text-decoration:none;
+            color:rgba(255,255,255,0.85); font-size:0.9rem; font-weight:400;
+            letter-spacing:0.03em; border-radius:var(--radius-sm);
+            transition:all var(--transition-fast); position:relative; white-space:nowrap;
+        }
+        .nav-links a:hover,.nav-links a.active { color:#fff; background:rgba(255,255,255,0.08); }
+        .nav-links a::after {
+            content:''; position:absolute; bottom:4px; left:50%;
+            transform:translateX(-50%) scaleX(0); width:60%; height:2px;
+            background:var(--color-gold); border-radius:1px;
+            transition:transform var(--transition-normal);
+        }
+        .nav-links a:hover::after,.nav-links a.active::after { transform:translateX(-50%) scaleX(1); }
+
+        .nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:8px; flex-direction:column; gap:5px; z-index:1001; }
+        .nav-toggle span { display:block; width:26px; height:2.5px; background:var(--color-white); border-radius:2px; transition:all var(--transition-normal); }
+        .nav-toggle.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .nav-toggle.active span:nth-child(2) { opacity:0; }
+        .nav-toggle.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+        /* ===== 主内容 ===== */
+        .main {
+            flex:1;
+            padding-top: var(--nav-height);
+            max-width: var(--max-width);
+            margin: 0 auto;
+            width: 100%;
+            padding-left: 24px;
+            padding-right: 24px;
+            padding-bottom: 60px;
+        }
+
+        .article-wrapper { max-width: var(--content-width); margin: 0 auto; }
+
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin: 40px 0 20px; color: var(--color-text-muted);
+            text-decoration: none; font-size: 0.88rem;
+            letter-spacing: 0.02em; transition: color var(--transition-fast);
+        }
+        .back-link:hover { color: var(--color-gold); }
+        .back-link::before { content: '←'; transition: transform var(--transition-fast); }
+        .back-link:hover::before { transform: translateX(-4px); }
+
+        .article-header {
+            margin-bottom: 40px; padding-bottom: 32px;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .article-header .article-label {
+            display:inline-block; font-size:0.72rem; font-weight:600; letter-spacing:0.1em;
+            text-transform:uppercase; color:var(--color-gold); margin-bottom:14px;
+            padding:4px 14px; border:1px solid var(--color-gold); border-radius:50px;
+        }
+        .article-header h1 {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            color: var(--color-primary); font-weight: 700;
+            line-height: 1.3; margin-bottom: 16px;
+        }
+        .article-header .article-subtitle {
+            font-size: clamp(1rem, 1.6vw, 1.15rem);
+            color: var(--color-text-light); line-height: 1.7;
+            margin-bottom: 20px; font-weight: 300;
+        }
+        .article-meta {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            align-items: center; font-size: 0.82rem;
+            color: var(--color-text-muted);
+        }
+        .article-meta .tag {
+            background: var(--color-gold-pale); color: var(--color-gold);
+            padding: 4px 12px; border-radius: 50px;
+            font-weight: 500; font-size: 0.78rem;
+        }
+        .article-meta .date { letter-spacing: 0.03em; }
+        .article-meta .divider-dot { color: var(--color-border); }
+
+        /* ===== Markdown 内容样式 ===== */
+        .markdown-body {
+            color: var(--color-text); font-size: 1rem;
+            line-height: 1.85; letter-spacing: 0.01em;
+        }
+        .markdown-body > *:first-child { margin-top: 0 !important; }
+
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3,
+        .markdown-body h4,
+        .markdown-body h5,
+        .markdown-body h6 {
+            color: var(--color-primary);
+            font-family: 'Playfair Display','Noto Sans SC','Noto Serif SC',Georgia,serif;
+            font-weight: 700; letter-spacing: 0.02em;
+            margin-top: 2em; margin-bottom: 0.8em; line-height: 1.35;
+        }
+        .markdown-body h1 { font-size: 1.9rem; }
+        .markdown-body h2 { font-size: 1.55rem; padding-bottom: 0.4em; border-bottom: 1px solid var(--color-border); }
+        .markdown-body h3 { font-size: 1.25rem; }
+        .markdown-body h4 { font-size: 1.1rem; }
+        .markdown-body h5 { font-size: 1rem; }
+        .markdown-body h6 { font-size: 0.9rem; color: var(--color-text-light); }
+
+        .markdown-body p { margin-bottom: 1.2em; color: var(--color-text); }
+        .markdown-body strong { color: var(--color-primary); font-weight: 700; }
+        .markdown-body em { font-style: italic; color: var(--color-text-light); }
+
+        .markdown-body a {
+            color: var(--color-gold); text-decoration: none;
+            border-bottom: 1px solid transparent; transition: all var(--transition-fast);
+        }
+        .markdown-body a:hover { color: var(--color-primary); border-bottom-color: var(--color-gold); }
+
+        .markdown-body ul, .markdown-body ol { margin-bottom: 1.2em; padding-left: 1.6em; }
+        .markdown-body li { margin-bottom: 0.4em; }
+        .markdown-body li::marker { color: var(--color-gold); }
+
+        .markdown-body blockquote {
+            margin: 1.5em 0; padding: 16px 22px;
+            border-left: 3px solid var(--color-gold);
+            background: var(--color-gold-pale);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            color: var(--color-text-light); font-style: italic;
+        }
+        .markdown-body blockquote p:last-child { margin-bottom: 0; }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.88em; background: var(--color-bg-alt);
+            color: #c17b3a; padding: 2px 7px;
+            border-radius: var(--radius-sm); border: 1px solid var(--color-border);
+        }
+        .markdown-body pre {
+            background: var(--color-primary-dark); color: #e8e8e8;
+            padding: 20px 22px; border-radius: var(--radius-md);
+            overflow-x: auto; margin: 1.5em 0;
+            line-height: 1.6; box-shadow: var(--shadow-md);
+        }
+        .markdown-body pre code {
+            background: none; color: inherit; padding: 0;
+            border: none; font-size: 0.88rem;
+        }
+
+        .markdown-body img {
+            max-width: 100%; height: auto;
+            border-radius: var(--radius-md); box-shadow: var(--shadow-md);
+            margin: 1.5em 0; display: block;
+        }
+
+        .markdown-body hr { border: none; border-top: 1px solid var(--color-border); margin: 2.5em 0; }
+
+        .markdown-body table {
+            width: 100%; border-collapse: collapse; margin: 1.5em 0;
+            font-size: 0.92rem; border-radius: var(--radius-md);
+            overflow: hidden; box-shadow: var(--shadow-sm);
+        }
+        .markdown-body th, .markdown-body td {
+            padding: 10px 16px; text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .markdown-body th { background: var(--color-primary); color: #fff; font-weight: 600; letter-spacing: 0.02em; }
+        .markdown-body tr:nth-child(even) { background: var(--color-bg); }
+        .markdown-body tr:last-child td { border-bottom: none; }
+
+        /* ===== KaTeX 公式样式适配 ===== */
+        .markdown-body .katex {
+            font-size: 1.05em;
+            color: var(--color-primary);
+        }
+        .markdown-body .katex-display {
+            margin: 1.5em 0;
+            padding: 12px 6px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        .markdown-body .katex-display > .katex {
+            font-size: 1.15em;
+        }
+        /* 行内公式与文字基线对齐 */
+        .markdown-body p .katex {
+            white-space: nowrap;
+        }
+
+        /* 加载 / 错误提示 */
+        .loading-tip, .error-tip {
+            text-align: center; padding: 80px 20px;
+            color: var(--color-text-muted); font-size: 1rem;
+        }
+        .error-tip { color: #b04a4a; }
+        .error-tip small { display:block; margin-top:10px; font-size:0.8rem; color:var(--color-text-muted); }
+
+        /* 文章尾部 */
+        .article-footer {
+            margin-top: 60px; padding-top: 32px;
+            border-top: 1px solid var(--color-border); text-align: center;
+        }
+        .article-footer .footer-note { font-size: 0.82rem; color: var(--color-text-muted); letter-spacing: 0.04em; }
+        .article-footer .back-to-list {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-top: 16px; padding: 10px 24px;
+            background: var(--color-primary); color: #fff;
+            text-decoration: none; border-radius: 50px;
+            font-size: 0.88rem; font-weight: 500;
+            letter-spacing: 0.03em; transition: all var(--transition-normal);
+        }
+        .article-footer .back-to-list:hover {
+            background: var(--color-gold); color: var(--color-primary-dark);
+            transform: translateY(-2px); box-shadow: var(--shadow-md);
+        }
+
+        /* ===== 页脚 ===== */
+        .site-footer { background:var(--color-primary-dark); color:rgba(255,255,255,0.7); padding:32px 24px 24px; margin-top:auto; }
+        .footer-bottom { max-width:var(--max-width); margin:0 auto; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
+
+        .back-to-top {
+            position:fixed; bottom:28px; right:28px; width:44px; height:44px; border-radius:50%;
+            background:var(--color-primary); color:#fff; border:none; cursor:pointer; z-index:999;
+            font-size:1.2rem; display:flex; align-items:center; justify-content:center;
+            box-shadow:var(--shadow-lg); transition:all var(--transition-normal);
+            opacity:0; transform:translateY(20px); pointer-events:none; line-height:1; padding:0;
+        }
+        .back-to-top.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+        .back-to-top:hover { background:var(--color-gold); color:var(--color-primary-dark); transform:translateY(-4px); }
+
+        @media (max-width:768px) {
+            .nav-toggle { display:flex; }
+            .nav-links {
+                position:fixed; top:0; right:-100%; width:75%; max-width:320px; height:100vh;
+                background:var(--color-primary); flex-direction:column; padding:90px 24px 40px;
+                gap:4px; transition:right var(--transition-slow);
+                box-shadow:-8px 0 30px rgba(0,0,0,0.3); z-index:1000;
+            }
+            .nav-links.open { right:0; }
+            .nav-links a { font-size:1rem; padding:14px 16px; width:100%; border-radius:var(--radius-md); }
+            .main { padding-left:16px; padding-right:16px; }
+            .article-header { margin-bottom: 28px; padding-bottom: 24px; }
+            .markdown-body { font-size: 0.96rem; }
+            .markdown-body h1 { font-size: 1.6rem; }
+            .markdown-body h2 { font-size: 1.35rem; }
+            .markdown-body h3 { font-size: 1.15rem; }
+            .markdown-body pre { padding: 16px; }
+        }
+        @media (max-width:480px) {
+            .article-header h1 { font-size: 1.5rem; }
+            .markdown-body { font-size: 0.94rem; }
+        }
+
+        .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in-up.visible { opacity:1; transform:translateY(0); }
+        .nav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+        .nav-overlay.active { display:block; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="https://ppwgov.github.io/home/" class="nav-brand">
+                <img src="../logo.png" alt="logo" onerror="this.style.display='none'">
+                <span class="brand-text">
+                    <span class="brand-title">帕帕韦斯特雷共和国</span>
+                    <span class="brand-subtitle">Republic of Papa Westray</span>
+                </span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="https://ppwgov.github.io">主页</a></li>
+                <li><a href="https://ppwgov.github.io/members">成员</a></li>
+                <li><a href="https://ppwgov.github.io/history">历史</a></li>
+                <li><a href="https://ppwgov.github.io/article" class="active">文章</a></li>
+                <li><a href="https://ppwgov.github.io/products">产品</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main class="main">
+        <div class="article-wrapper">
+            <a href="https://ppwgov.github.io/article" class="back-link">返回文章列表</a>
+
+            <div class="loading-tip" id="loadingTip">正在加载文章…</div>
+
+            <div id="articleBody" style="display:none;">
+                <header class="article-header fade-in-up">
+                    <span class="article-label">PPW 文献</span>
+                    <h1 id="articleTitle"></h1>
+                    <p class="article-subtitle" id="articleSubtitle"></p>
+                    <div class="article-meta" id="articleMeta"></div>
+                </header>
+
+                <article class="markdown-body fade-in-up" id="articleContent"></article>
+
+                <footer class="article-footer fade-in-up">
+                    <p class="footer-note">本文由 PPW 技术部发布 · 转载请注明出处</p>
+                    <a href="https://ppwgov.github.io/article" class="back-to-list">返回文章列表 →</a>
+                </footer>
+            </div>
+
+            <div class="error-tip" id="errorTip" style="display:none;">
+                文章加载失败。
+                <small id="errorDetail"></small>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Papa Westray Government. All rights not reserved.</p>
+            <p style="margin-top:4px;">文章 · 思想库</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        (function() {
+            // ==================== URL 参数 ====================
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('id');
+
+            const loadingTip = document.getElementById('loadingTip');
+            const articleBody = document.getElementById('articleBody');
+            const errorTip = document.getElementById('errorTip');
+            const errorDetail = document.getElementById('errorDetail');
+
+            if (!postId) {
+                loadingTip.style.display = 'none';
+                errorTip.style.display = 'block';
+                errorDetail.textContent = '缺少 ?id= 参数，请在 URL 中指定文章文件名（不含 .md）。';
+                return;
+            }
+            if (!/^[A-Za-z0-9_-]+$/.test(postId)) {
+                loadingTip.style.display = 'none';
+                errorTip.style.display = 'block';
+                errorDetail.textContent = '文章标识格式不合法。';
+                return;
+            }
+
+            // ==================== front matter 解析 ====================
+            function parseFrontMatter(raw) {
+                const match = raw.match(/^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n?/);
+                if (!match) return { meta: {}, content: raw };
+                const meta = {};
+                match[1].split(/\r?\n/).forEach(line => {
+                    const idx = line.indexOf(':');
+                    if (idx === -1) return;
+                    const key = line.slice(0, idx).trim();
+                    const val = line.slice(idx + 1).trim();
+                    if (key) meta[key] = val;
+                });
+                return { meta, content: raw.slice(match[0].length) };
+            }
+
+            // ==================== Markdown + LaTeX 渲染 ====================
+            /**
+             * 渲染流程：
+             * 1. 先把所有 LaTeX 公式（$$...$$ 与 $...$）替换为占位符，防止被 Markdown 语法破坏；
+             * 2. 用 marked 解析 Markdown；
+             * 3. 把占位符还原为原始公式；
+             * 4. 交给 KaTeX 的 auto-render 渲染公式。
+             */
+            function renderMarkdownWithLatex(md) {
+                const formulas = [];
+
+                // 先匹配 $$...$$（块级），再匹配 $...$（行内）
+                // 注意：正则中用 \$\$...\$\$ 在前，保证块级优先
+                let processed = md.replace(
+                    /\$\$([\s\S]+?)\$\$|\$([^\$\n]+?)\$/g,
+                    (match) => {
+                        const idx = formulas.length;
+                        formulas.push(match);
+                        return `@@PPWLATEX${idx}@@`;
+                    }
+                );
+
+                // Markdown 解析
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: false,
+                    mangle: false
+                });
+                let html = marked.parse(processed);
+
+                // 还原公式
+                html = html.replace(/@@PPWLATEX(\d+)@@/g, (match, idx) => {
+                    return formulas[parseInt(idx, 10)];
+                });
+
+                return html;
+            }
+
+            // 等待 KaTeX 加载完成后渲染公式
+            function waitForKatex() {
+                return new Promise(resolve => {
+                    if (window.renderMathInElement) return resolve();
+                    const check = setInterval(() => {
+                        if (window.renderMathInElement) {
+                            clearInterval(check);
+                            resolve();
+                        }
+                    }, 50);
+                });
+            }
+
+            // ==================== 渲染页面 ====================
+            function renderArticle(meta, content) {
+                const title = meta.title || '无标题';
+                const subtitle = meta.subtitle || '';
+                const tags = meta.tags ? meta.tags.split(/[,，]/).map(t => t.trim()).filter(Boolean) : [];
+                const date = meta.date || '';
+                const author = meta.author || '';
+
+                document.title = title + ' · 帕帕韦斯特雷共和国';
+                document.getElementById('articleTitle').textContent = title;
+                document.getElementById('articleSubtitle').textContent = subtitle;
+
+                const metaParts = [];
+                tags.forEach(t => metaParts.push(`<span class="tag">${t}</span>`));
+                if (date) {
+                    if (metaParts.length) metaParts.push('<span class="divider-dot">·</span>');
+                    metaParts.push(`<span class="date">${date}</span>`);
+                }
+                if (author) {
+                    if (metaParts.length) metaParts.push('<span class="divider-dot">·</span>');
+                    metaParts.push(`<span class="date">${author}</span>`);
+                }
+                document.getElementById('articleMeta').innerHTML = metaParts.join('');
+
+                // 渲染 Markdown + LaTeX
+                const contentEl = document.getElementById('articleContent');
+                contentEl.innerHTML = renderMarkdownWithLatex(content);
+
+                // 等 KaTeX 就绪后渲染公式
+                waitForKatex().then(() => {
+                    renderMathInElement(contentEl, {
+                        delimiters: [
+                            { left: '$$', right: '$$', display: true },
+                            { left: '$', right: '$', display: false },
+                            { left: '\\[', right: '\\]', display: true },
+                            { left: '\\(', right: '\\)', display: false }
+                        ],
+                        throwOnError: false
+                    });
+
+                    loadingTip.style.display = 'none';
+                    articleBody.style.display = 'block';
+
+                    requestAnimationFrame(() => {
+                        document.querySelectorAll('.fade-in-up').forEach(el => el.classList.add('visible'));
+                    });
+                });
+            }
+
+            // ==================== 加载 md 文件 ====================
+            fetch(`./posts/${postId}.md`)
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.text();
+                })
+                .then(raw => {
+                    const { meta, content } = parseFrontMatter(raw);
+                    renderArticle(meta, content);
+                })
+                .catch(err => {
+                    loadingTip.style.display = 'none';
+                    errorTip.style.display = 'block';
+                    errorDetail.textContent = `无法加载 ${postId}.md（${err.message}）。请检查文件是否存在。`;
+                    console.error('文章加载失败：', err);
+                });
+
+            // ==================== 导航栏 / 交互 ====================
+            const navbar = document.getElementById('navbar');
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            const navOverlay = document.getElementById('navOverlay');
+            const backToTop = document.getElementById('backToTop');
+
+            function updateNavbar() {
+                const scrollY = window.scrollY;
+                navbar.classList.toggle('scrolled', scrollY > 50);
+                backToTop.classList.toggle('visible', scrollY > 500);
+            }
+            window.addEventListener('scroll', updateNavbar, { passive: true });
+
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.contains('open') ? closeMobileNav() : openMobileNav();
+            });
+            navOverlay.addEventListener('click', closeMobileNav);
+            function openMobileNav() {
+                navLinks.classList.add('open');
+                navOverlay.classList.add('active');
+                navToggle.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeMobileNav() {
+                navLinks.classList.remove('open');
+                navOverlay.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+
+            backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            updateNavbar();
+        })();
+    </script>
+</body>
+</html>
