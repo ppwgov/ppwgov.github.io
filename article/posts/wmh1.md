@@ -1,13 +1,13 @@
 ---
-title: 亡冥灰教你不吃亏
+title: 亡冥灰教你不吃亏 1
 subtitle: 关于吃亏状态下最优反击策略的数学论证
-tags: 亡冥灰
+tags: 亡冥灰, 数学
 date: 2026-09-13
 author: 陶彦吉
 ---
 
-**亡冥灰教你不吃亏**\
-***W.M.H. Telling you how to achieve a complete victory in the struggle***
+**亡冥灰教你不吃亏 1**\
+***W.M.H. Telling you how to achieve a complete victory in the struggle 1***
 
 **陶彦吉著**\
 **王柯然授权出版**
