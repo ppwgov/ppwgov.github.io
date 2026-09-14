@@ -536,7 +536,7 @@
             }
 
             // ==================== 加载 md 文件 ====================
-            fetch(`/posts/${postId}.md`)
+            fetch(`/article/posts/${postId}.md`)
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     return res.text();
