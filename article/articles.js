@@ -6,5 +6,6 @@
  *   - 新增文章时，在此添加一条，并在 posts/ 目录创建对应的 {slug}.md
  */
 const ARTICLES_DATA = [
-    { slug: "wmh1", title: "亡冥灰教你不吃亏 1", subtitle: "本文探讨了“吃亏”这一话题，以及若干扯平吃亏、反败为胜的技巧。", tags: ["亡冥灰", "数学"], date: "2026-08-15", url: "/article/post.html?id=wmh1" },
+    { slug: "wmh1", title: "亡冥灰教你不吃亏 1", subtitle: "本文探讨了“吃亏”这一话题，以及若干扯平吃亏、反败为胜的技巧。", tags: ["亡冥灰", "数学"], date: "2026-08-20", url: "/article/post.html?id=wmh1" },
+    { slug: "cuucmber", title: "The Legend of the Cucumber", subtitle: "黄瓜传奇", tags: ["文学", "抽象"], date: "2026-08-04", url: "/artitle/post.html?id=cucumber"},
 ];
