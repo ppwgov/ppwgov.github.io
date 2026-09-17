@@ -1,190 +1,347 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="rpw.png">
-<link rel="icon" type="image/svg+xml" href="rpw.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="页面未找到 - 帕帕韦斯特雷共和国">
+    <meta name="author" content="PPW 技术部">
+    <title>404 · 帕帕韦斯特雷共和国</title>
 
-<title>404 Not Found</title>
+    <link rel="icon" type="image/png" href="rpw.png">
+    <link rel="icon" type="image/svg+xml" href="rpw.svg">
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Microsoft YaHei",
-        sans-serif;
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #ffffff;
-    color: #222;
-}
+    <style>
+        :root {
+            --color-primary: #1a3550;
+            --color-primary-light: #234b6e;
+            --color-primary-dark: #0f2235;
+            --color-gold: #b8944b;
+            --color-gold-light: #d4b76a;
+            --color-gold-pale: #f5eedc;
+            --color-white: #ffffff;
+            --color-bg: #f8f7f4;
+            --color-bg-alt: #eef0f2;
+            --color-text: #2c2c2c;
+            --color-text-light: #5a5a5a;
+            --color-text-muted: #888888;
+            --color-border: #e0ddd6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 48px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --max-width: 1200px;
+            --nav-height: 70px;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* 总布局 */
-.container {
-    display: flex;
-    align-items: center;
-    gap: 80px;
-    animation: fadeIn 0.8s ease;
-}
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
+        body {
+            font-family: 'Noto Sans SC', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--color-text);
+            background: linear-gradient(170deg,
+                #0d1b2a 0%, #152a42 30%, #1a3550 50%, #1e4060 70%, #1a3550 100%);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
 
-/* 左侧GIF */
-.gif-box img {
-    width: 260px;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 12px;
-}
+        /* 背景装饰 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.06;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, #ffffff 0%, transparent 60%),
+                radial-gradient(ellipse at 75% 30%, #c9a96e 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, #ffffff 0%, transparent 40%);
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
 
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', 'Noto Sans SC', 'Noto Serif SC', Georgia, serif;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
 
+        /* ===== 导航栏（与官网一致） ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
+            background: rgba(26,53,80,0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+        .nav-container {
+            max-width: var(--max-width); width: 100%; margin: 0 auto;
+            padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-brand {
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none; color: var(--color-white);
+        }
+        .nav-brand img {
+            width: 85.5px; height: 37.5px;
+            transition: transform var(--transition-normal);
+        }
+        .nav-brand:hover img { transform: rotate(-8deg) scale(1.05); }
+        .brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em;
+        }
+        .brand-subtitle {
+            font-size: 0.65rem; font-weight: 300;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--color-gold-light);
+        }
 
-/* 右侧内容 */
-.content {
-    text-align: center;
-    transform: translateX(25px);
-}
+        /* ===== 主内容 ===== */
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: calc(var(--nav-height) + 40px) 24px 60px;
+            position: relative;
+            z-index: 1;
+        }
 
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 64px;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 56px 64px;
+            box-shadow: var(--shadow-xl);
+            animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.code {
-    font-size: 120px;
-    font-weight: 700;
-    letter-spacing: 5px;
-    color: #222;
-}
+        /* 左侧 GIF */
+        .gif-box {
+            flex-shrink: 0;
+        }
+        .gif-box img {
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            display: block;
+        }
 
+        /* 右侧内容 */
+        .content {
+            flex: 1;
+            text-align: left;
+            min-width: 0;
+        }
 
+        .code {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4.5rem, 10vw, 7rem);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 0.02em;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+        }
 
-.text {
-    margin-top: 15px;
-    font-size: 18px;
-    color: #666;
-}
+        .code .zero {
+            color: var(--color-gold);
+        }
 
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: var(--color-gold);
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
 
+        .text {
+            font-size: 1.05rem;
+            color: var(--color-text-light);
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
 
-/* 返回按钮 */
-.btn {
-    display: inline-block;
-    margin-top: 35px;
-    padding: 12px 35px;
+        .text-sub {
+            font-size: 0.88rem;
+            color: var(--color-text-muted);
+            margin-bottom: 32px;
+            letter-spacing: 0.02em;
+        }
 
-    background: #222;
-    color: white;
+        /* 按钮组 */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
 
-    text-decoration: none;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            border-radius: 50px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            border: 2px solid transparent;
+            font-family: inherit;
+            white-space: nowrap;
+        }
 
-    /* 已去除圆角 */
-    border-radius: 0;
+        .btn-primary {
+            background: var(--color-primary);
+            color: #fff;
+            border-color: var(--color-primary);
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            border-color: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
 
-    font-size: 15px;
+        .btn-outline {
+            background: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-border);
+        }
+        .btn-outline:hover {
+            background: var(--color-gold-pale);
+            border-color: var(--color-gold);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
 
-    transition: .3s;
-}
+        /* 页脚 */
+        .site-footer {
+            position: relative;
+            z-index: 1;
+            padding: 20px 24px 28px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.04em;
+        }
 
+        /* 响应式 */
+        @media (max-width: 780px) {
+            .container {
+                flex-direction: column;
+                gap: 32px;
+                padding: 40px 28px;
+                text-align: center;
+            }
+            .content { text-align: center; }
+            .divider { margin: 0 auto 20px; }
+            .gif-box img {
+                width: 180px;
+                height: 180px;
+            }
+            .btn-group { justify-content: center; }
+        }
 
-.btn:hover {
-    background: #555;
-    transform: translateY(-3px);
-}
-
-
-
-/* 页面进入动画 */
-@keyframes fadeIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-}
-
-
-
-/* 手机适配 */
-@media(max-width:700px){
-
-    .container {
-        flex-direction: column;
-        gap:30px;
-    }
-
-
-    .gif-box img {
-        width:200px;
-        height:200px;
-    }
-
-
-    .content {
-        transform:none;
-    }
-
-
-    .code {
-        font-size:80px;
-    }
-
-}
-
-</style>
-
+        @media (max-width: 480px) {
+            .container { padding: 32px 20px; }
+            .code { font-size: 4rem; }
+            .gif-box img { width: 150px; height: 150px; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
 </head>
-
-
 <body>
 
-
-<div class="container">
-
-
-    <!-- 左侧GIF -->
-    <div class="gif-box">
-        <img src="404.gif" alt="404动画">
-    </div>
-
-
-
-    <!-- 右侧内容 -->
-    <div class="content">
-
-        <div class="code">
-            404
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="https://ppwgov.github.io/home/" class="nav-brand">
+                <img src="./logo.png" alt="logo" onerror="this.style.display='none'">
+                <span class="brand-text">
+                    <span class="brand-title">帕帕韦斯特雷共和国</span>
+                    <span class="brand-subtitle">Republic of Papa Westray</span>
+                </span>
+            </a>
         </div>
+    </nav>
 
+    <!-- 主内容 -->
+    <main class="main">
+        <div class="container">
 
-        <div class="text">
-            页面不见了！嘿嘿
+            <!-- 左侧 GIF -->
+            <div class="gif-box">
+                <img src="404.gif" alt="404 动画" onerror="this.style.display='none'">
+            </div>
+
+            <!-- 右侧内容 -->
+            <div class="content">
+                <div class="code">4<span class="zero">0</span>4</div>
+                <p class="text">页面不见了！嘿嘿</p>
+                <p class="text-sub">或许被陶彦吉吃了呢？（</p>
+
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="https://ppwgov.github.io/">
+                        返回主页
+                    </a>
+                    <a class="btn btn-outline" href="https://ppwgov.github.io/article">
+                        浏览文章
+                    </a>
+                </div>
+            </div>
+
         </div>
+    </main>
 
-
-        <a class="btn" href="https://ppwgov.github.io/home/">
-            访问我们的主页
-        </a>
-
-    </div>
-
-
-</div>
-
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Papa Westray Government. All rights not reserved.</p>
+    </footer>
 
 </body>
-</html>
+</html> 	
