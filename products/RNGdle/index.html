@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="帕帕韦斯特雷共和国 · 数字生成分析器">
+    <meta name="author" content="PPW 技术部">
+    <title>数字生成分析器 · 帕帕韦斯特雷共和国</title>
+
+    <link rel="icon" type="image/svg+xml" href="./rpw.svg">
+
+    <!-- 主题预设：避免闪烁 -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('ppw_theme');
+                var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = t || (sysDark ? 'dark' : 'light');
+                if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+                else document.documentElement.setAttribute('data-theme', 'light');
+            } catch(e) {}
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #1a3550;
+            --color-primary-light: #234b6e;
+            --color-primary-dark: #0f2235;
+            --color-gold: #b8944b;
+            --color-gold-light: #d4b76a;
+            --color-gold-pale: #f5eedc;
+            --color-white: #ffffff;
+            --color-bg: #f8f7f4;
+            --color-bg-alt: #eef0f2;
+            --color-text: #2c2c2c;
+            --color-text-light: #5a5a5a;
+            --color-text-muted: #888888;
+            --color-border: #e0ddd6;
+            --color-nav-bg: rgba(26,53,80,0.97);
+            --color-nav-bg-scrolled: rgba(26,53,80,0.99);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 48px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --max-width: 1200px;
+            --nav-height: 70px;
+
+            --rarity-trash: #8a5a17;
+            --rarity-common: #6b7280;
+            --rarity-uncommon: #059669;
+            --rarity-rare: #2563eb;
+            --rarity-epic: #7c3aed;
+            --rarity-anomaly: #ea580c;
+            --rarity-mythic: #db2777;
+        }
+
+        /* ==================== 深色模式 ==================== */
+        html[data-theme="dark"] {
+            --color-primary: #7ba8d0;
+            --color-primary-light: #9cc0e0;
+            --color-primary-dark: #5a8ab0;
+            --color-gold: #d4b76a;
+            --color-gold-light: #e0c880;
+            --color-gold-pale: #2a2519;
+            --color-white: #1a2332;
+            --color-bg: #0f1621;
+            --color-bg-alt: #1a2332;
+            --color-text: #e0e0e0;
+            --color-text-light: #a8a8a8;
+            --color-text-muted: #6a6a6a;
+            --color-border: #2d3748;
+            --color-nav-bg: rgba(10,15,22,0.97);
+            --color-nav-bg-scrolled: rgba(10,15,22,0.99);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.2);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
+            --shadow-xl: 0 20px 48px rgba(0,0,0,0.45), 0 8px 20px rgba(0,0,0,0.3);
+
+            --rarity-trash: #c89a5a;
+            --rarity-common: #a0a8b8;
+            --rarity-uncommon: #34d399;
+            --rarity-rare: #60a5fa;
+            --rarity-epic: #a78bfa;
+            --rarity-anomaly: #fb923c;
+            --rarity-mythic: #f472b6;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); font-size:16px; -webkit-font-smoothing:antialiased; }
+        body {
+            font-family: 'Noto Sans SC','Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            color:var(--color-text); background-color:var(--color-bg);
+            line-height:1.7; overflow-x:hidden; min-height:100vh;
+            display:flex; flex-direction:column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        h1,h2,h3,h4 { font-family:'Playfair Display','Noto Sans SC','Noto Serif SC',Georgia,'Times New Roman',serif; font-weight:600; letter-spacing:0.02em; }
+
+        /* ===== 导航栏 ===== */
+        .navbar {
+            position:fixed; top:0; left:0; width:100%; height:var(--nav-height);
+            background:var(--color-nav-bg); backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px); z-index:1000;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+            transition:all var(--transition-normal); display:flex; align-items:center;
+            box-shadow:0 2px 20px rgba(0,0,0,0.15);
+        }
+        .navbar.scrolled { height:58px; background:var(--color-nav-bg-scrolled); box-shadow:0 4px 24px rgba(0,0,0,0.2); }
+        .nav-container {
+            max-width:var(--max-width); width:100%; margin:0 auto;
+            padding:0 24px; display:flex; align-items:center; justify-content:space-between;
+            gap: 12px;
+        }
+        .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--color-white); }
+        .nav-brand img { width:85.5px; height:37.5px; transition:transform var(--transition-normal); }
+        .nav-brand:hover img { transform:rotate(-8deg) scale(1.05); }
+        .brand-text { display:flex; flex-direction:column; line-height:1.2; }
+        .brand-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; letter-spacing:0.03em; }
+        .brand-subtitle { font-size:0.65rem; font-weight:300; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-gold-light); }
+        .nav-links { display:flex; list-style:none; gap:4px; align-items:center; }
+        .nav-links a {
+            display:block; padding:8px 16px; text-decoration:none;
+            color:rgba(255,255,255,0.85); font-size:0.9rem; font-weight:400;
+            letter-spacing:0.03em; border-radius:var(--radius-sm);
+            transition:all var(--transition-fast); position:relative; white-space:nowrap;
+        }
+        .nav-links a:hover,.nav-links a.active { color:#fff; background:rgba(255,255,255,0.08); }
+        .nav-links a::after {
+            content:''; position:absolute; bottom:4px; left:50%;
+            transform:translateX(-50%) scaleX(0); width:60%; height:2px;
+            background:var(--color-gold); border-radius:1px;
+            transition:transform var(--transition-normal);
+        }
+        .nav-links a:hover::after,.nav-links a.active::after { transform:translateX(-50%) scaleX(1); }
+
+        /* 主题切换按钮 */
+        .theme-toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--color-gold-light);
+            transition: all var(--transition-fast);
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.16);
+            border-color: rgba(255,255,255,0.3);
+            transform: rotate(15deg) scale(1.05);
+        }
+        .theme-toggle .icon-sun,
+        .theme-toggle .icon-moon {
+            display: none;
+        }
+        html[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+        html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+        .nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:8px; flex-direction:column; gap:5px; z-index:1001; }
+        .nav-toggle span { display:block; width:26px; height:2.5px; background:var(--color-white); border-radius:2px; transition:all var(--transition-normal); }
+        .nav-toggle.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .nav-toggle.active span:nth-child(2) { opacity:0; }
+        .nav-toggle.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+        /* ===== 主内容 ===== */
+        .main {
+            flex:1; padding-top: var(--nav-height);
+            max-width: var(--max-width); margin: 0 auto; width: 100%;
+            padding-left: 24px; padding-right: 24px; padding-bottom: 60px;
+        }
+
+        .page-header { text-align:center; margin:50px 0 30px; }
+        .page-header .section-label {
+            display:inline-block; font-size:0.75rem; font-weight:600; letter-spacing:0.1em;
+            text-transform:uppercase; color:var(--color-gold); margin-bottom:8px;
+            padding:4px 14px; border:1px solid var(--color-gold); border-radius:50px;
+        }
+        .page-header h1 { font-size:clamp(2rem,4vw,2.8rem); color:var(--color-primary); margin-bottom:12px; font-weight:700; }
+        .page-header .divider { width:60px; height:3px; background:var(--color-gold); margin:0 auto 16px; border-radius:2px; }
+        .page-header p { color:var(--color-text-light); max-width:600px; margin:0 auto; font-size:0.95rem; line-height:1.8; }
+
+        .generator-panel {
+            max-width: 780px; margin: 0 auto 32px;
+            background: var(--color-white); border-radius: var(--radius-lg);
+            padding: 32px 40px; box-shadow: var(--shadow-lg);
+            border: 1px solid var(--color-border); text-align: center;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .big-number {
+            font-family: 'JetBrains Mono', 'Playfair Display', monospace;
+            font-variant-numeric: tabular-nums;
+            font-size: clamp(2.5rem, 7vw, 4rem);
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: 0.02em;
+            margin-bottom: 8px;
+            line-height: 1.15;
+            min-height: 1.15em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .big-number.rolling { color: var(--color-text-muted); }
+        .big-number.settled { color: var(--color-primary); animation: settlePulse 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes settlePulse {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.06); color: var(--color-gold); }
+            100% { transform: scale(1); color: var(--color-primary); }
+        }
+
+        .generator-actions {
+            display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;
+        }
+        .btn {
+            display:inline-flex; align-items:center; gap:8px; padding:14px 32px;
+            font-size:1rem; font-weight:600; letter-spacing:0.04em;
+            border-radius:50px; text-decoration:none; cursor:pointer;
+            transition:all var(--transition-normal); border:2px solid transparent;
+            font-family:inherit; white-space:nowrap;
+        }
+        .btn-gold { background:var(--color-gold); color:var(--color-primary-dark); border-color:var(--color-gold); }
+        .btn-gold:hover { background:var(--color-gold-light); border-color:var(--color-gold-light); transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+        .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+        .stats-grid {
+            display:grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap:12px; margin:24px 0 0;
+        }
+        .stat-item {
+            background:var(--color-bg); border-radius:var(--radius-md);
+            padding:12px 8px; border:1px solid var(--color-border);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .stat-item .stat-label {
+            font-size:0.7rem; color:var(--color-text-muted);
+            text-transform:uppercase; letter-spacing:0.08em;
+            font-weight:600; margin-bottom:2px;
+        }
+        .stat-item .stat-value {
+            font-family:'JetBrains Mono', monospace;
+            font-size:1.1rem; font-weight:700; color:var(--color-primary);
+            word-break:break-all;
+            opacity:0; transform:translateY(8px);
+            transition:opacity 0.4s ease, transform 0.4s ease;
+        }
+        .stat-item.revealed .stat-value { opacity:1; transform:translateY(0); }
+
+        .result-section { max-width: 780px; margin: 0 auto; display:none; }
+        .result-section.active { display:block; }
+
+        .summary-card {
+            background:var(--color-white); border-radius:var(--radius-lg);
+            padding:20px 24px; box-shadow:var(--shadow-md);
+            border:1px solid var(--color-border);
+            border-top:4px solid var(--color-gold);
+            margin-bottom:24px;
+            display:grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap:12px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .summary-item { text-align:center; }
+        .summary-item .label {
+            font-size:0.7rem; color:var(--color-text-muted);
+            text-transform:uppercase; letter-spacing:0.08em;
+            font-weight:600; margin-bottom:4px;
+        }
+        .summary-item .value {
+            font-family:'Playfair Display', serif;
+            font-size:1.4rem; font-weight:700;
+            color:var(--color-primary);
+            opacity:0; transform:scale(0.85);
+            transition:opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .summary-item.revealed .value { opacity:1; transform:scale(1); }
+        .summary-item .value.rarity { font-size:1.15rem; }
+
+        .rarity-trash { color: var(--rarity-trash) !important; }
+        .rarity-common { color: var(--rarity-common) !important; }
+        .rarity-uncommon { color: var(--rarity-uncommon) !important; }
+        .rarity-rare { color: var(--rarity-rare) !important; }
+        .rarity-epic { color: var(--rarity-epic) !important; }
+        .rarity-anomaly { color: var(--rarity-anomaly) !important; }
+        .rarity-mythic { color: var(--rarity-mythic) !important; }
+
+        .badge-list-title {
+            font-size:1rem; color:var(--color-primary); font-weight:700;
+            margin-bottom:14px; display:flex; align-items:center; justify-content:space-between;
+        }
+        .badge-list-title .count {
+            background:var(--color-gold-pale); color:var(--color-gold);
+            font-size:0.78rem; padding:3px 12px; border-radius:50px;
+            font-weight:600;
+        }
+
+        .badge-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .badge-card {
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
+            border-left: 4px solid var(--color-border);
+            display: flex; flex-direction: column; gap: 6px;
+            opacity: 0;
+            transform: translateY(-24px) scale(0.94);
+            transition: opacity 0.45s ease-out, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .badge-card.badge-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .badge-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        .badge-card[data-rarity="trash"] { border-left-color: var(--rarity-trash); }
+        .badge-card[data-rarity="common"] { border-left-color: var(--rarity-common); }
+        .badge-card[data-rarity="uncommon"] { border-left-color: var(--rarity-uncommon); }
+        .badge-card[data-rarity="rare"] { border-left-color: var(--rarity-rare); }
+        .badge-card[data-rarity="epic"] { border-left-color: var(--rarity-epic); }
+        .badge-card[data-rarity="anomaly"] { border-left-color: var(--rarity-anomaly); }
+        .badge-card[data-rarity="mythic"] { border-left-color: var(--rarity-mythic); }
+
+        .badge-head {
+            display:flex; align-items:center; justify-content:space-between;
+            gap:8px;
+        }
+        .badge-title {
+            display:flex; align-items:center; gap:8px;
+            font-weight:700; color:var(--color-primary);
+            font-size:1rem;
+        }
+        .badge-emoji { font-size:1.25rem; }
+        .badge-rarity {
+            font-size:0.66rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.06em;
+            padding:3px 10px; border-radius:50px;
+            border:1px solid currentColor; white-space:nowrap;
+        }
+        .badge-desc {
+            font-size:0.85rem; color:var(--color-text-light);
+            line-height:1.5;
+        }
+        .badge-meta {
+            display:flex; flex-wrap:wrap; gap:6px;
+            font-size:0.72rem; color:var(--color-text-muted);
+            font-family:'JetBrains Mono', monospace;
+        }
+        .badge-meta span {
+            background:var(--color-bg);
+            padding:2px 8px; border-radius:var(--radius-sm);
+        }
+
+        .empty-badges {
+            text-align:center; padding:32px;
+            color:var(--color-text-muted);
+            background:var(--color-white);
+            border-radius:var(--radius-lg);
+            border:1px dashed var(--color-border);
+            font-size:0.92rem;
+        }
+
+        .site-footer { background:var(--color-primary-dark); color:rgba(255,255,255,0.7); padding:32px 24px 24px; margin-top:auto; }
+        .footer-bottom { max-width:var(--max-width); margin:0 auto; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
+
+        @media (max-width:768px) {
+            .nav-toggle { display:flex; }
+            .nav-links {
+                position:fixed; top:0; right:-100%; width:75%; max-width:320px; height:100vh;
+                background:var(--color-primary); flex-direction:column; padding:90px 24px 40px;
+                gap:4px; transition:right var(--transition-slow);
+                box-shadow:-8px 0 30px rgba(0,0,0,0.3); z-index:1000;
+            }
+            .nav-links.open { right:0; }
+            .nav-links a { font-size:1rem; padding:14px 16px; width:100%; border-radius:var(--radius-md); }
+            .main { padding-left:16px; padding-right:16px; }
+            .generator-panel { padding:24px 20px; }
+            .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .summary-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width:480px) {
+            .big-number { font-size:2.2rem; }
+            .btn { width:100%; justify-content:center; }
+            .generator-actions { flex-direction:column; }
+        }
+
+        .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in-up.visible { opacity:1; transform:translateY(0); }
+        .nav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+        .nav-overlay.active { display:block; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="https://ppwgov.github.io/" class="nav-brand">
+                <img src="./logo.jpg" alt="logo" onerror="this.style.display='none'">
+                <span class="brand-text">
+                    <span class="brand-title">帕帕韦斯特雷共和国</span>
+                    <span class="brand-subtitle">Republic of Papa Westray</span>
+                </span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="https://ppwgov.github.io/">主页</a></li>
+                <li><a href="https://ppwgov.github.io/members">成员</a></li>
+                <li><a href="https://ppwgov.github.io/history">历史</a></li>
+                <li><a href="https://ppwgov.github.io/article">文章</a></li>
+                <li><a href="https://ppwgov.github.io/products">产品</a></li>
+                <li><a href="#" class="active">数字分析器</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色" title="切换深浅色">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main class="main">
+        <div class="page-header fade-in-up">
+            <span class="section-label">RNGdle 风格</span>
+            <h1>数字生成分析器</h1>
+            <div class="divider"></div>
+            <p>随机生成 0 到 1,000,000 之间的数字，自动分析其特性并授予徽章、评分与稀有度。</p>
+        </div>
+
+        <div class="generator-panel fade-in-up">
+            <div class="big-number" id="displayNumber">—</div>
+            <div class="generator-actions">
+                <button class="btn btn-gold" id="generateBtn">🎲 GENERATE</button>
+            </div>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-item" data-stat="length"><div class="stat-label">位数</div><div class="stat-value" id="statLength">—</div></div>
+                <div class="stat-item" data-stat="sum"><div class="stat-label">数字和</div><div class="stat-value" id="statSum">—</div></div>
+                <div class="stat-item" data-stat="product"><div class="stat-label">数字积</div><div class="stat-value" id="statProduct">—</div></div>
+                <div class="stat-item" data-stat="unique"><div class="stat-label">唯一数字</div><div class="stat-value" id="statUnique">—</div></div>
+            </div>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="summary-card" id="summaryCard">
+                <div class="summary-item"><div class="label">总评分</div><div class="value" id="summaryScore">0</div></div>
+                <div class="summary-item"><div class="label">卡牌稀有度</div><div class="value rarity" id="summaryRarity">—</div></div>
+                <div class="summary-item"><div class="label">徽章数</div><div class="value" id="summaryBadgeCount">0</div></div>
+                <div class="summary-item"><div class="label">最佳徽章</div><div class="value" id="summaryBestBadge" style="font-size:0.95rem;">—</div></div>
+            </div>
+
+            <div class="badge-list-title">
+                <span>🏅 获得的徽章</span>
+                <span class="count" id="badgeCountLabel">0</span>
+            </div>
+            <div class="badge-grid" id="badgeGrid"></div>
+            <div class="empty-badges" id="emptyBadges" style="display:none;">没有触发任何徽章</div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Papa Westray Government. All rights not reserved.</p>
+            <p style="margin-top:4px;">数字生成分析器 · 灵感来自 RNGdle</p>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ============================================================
+        // 主题切换
+        // ============================================================
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlEl = document.documentElement;
+
+        function getPreferredTheme() {
+            try {
+                const saved = localStorage.getItem('ppw_theme');
+                if (saved === 'dark' || saved === 'light') return saved;
+            } catch (e) {}
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+            htmlEl.setAttribute('data-theme', theme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const current = htmlEl.getAttribute('data-theme') || 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            try { localStorage.setItem('ppw_theme', next); } catch (e) {}
+        });
+
+        // 跟随系统（用户未手动设置时）
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            try {
+                if (!localStorage.getItem('ppw_theme')) {
+                    applyTheme(e.matches ? 'dark' : 'light');
+                }
+            } catch (err) {}
+        });
+
+        // 初始化
+        applyTheme(getPreferredTheme());
+
+        // ============================================================
+        // 辅助函数
+        // ============================================================
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+        const sumDigits = n => String(n).split('').reduce((a, b) => a + Number(b), 0);
+        const productDigits = n => String(n).split('').reduce((a, b) => a * Number(b), 1);
+        const isPrime = n => {
+            if (n < 2) return false;
+            if (n % 2 === 0) return n === 2;
+            if (n % 3 === 0) return n === 3;
+            for (let i = 5; i * i <= n; i += 6) if (n % i === 0 || n % (i + 2) === 0) return false;
+            return true;
+        };
+        const isSquare = n => Number.isInteger(Math.sqrt(n));
+        const isCube = n => Number.isInteger(Math.cbrt(n));
+        const isPower = (n, p) => n >= 0 && n < 2 ? n === 1 : (() => { const r = Math.round(n ** (1/p)); return r ** p === n; })();
+        const isPowerOf = (n, base) => {
+            if (n < 1) return false;
+            while (n % base === 0) n /= base;
+            return n === 1;
+        };
+        const isFactorial = n => { let f = 1; for (let i = 2; i <= 20; i++) { f *= i; if (f === n) return true; if (f > n) return false; } return false; };
+        const isFibonacci = n => isSquare(5*n*n + 4) || isSquare(5*n*n - 4);
+        const isPalindrome = n => { const s = String(n); return s.length > 1 && s === s.split('').reverse().join(''); };
+        const longestRun = n => { const s = String(n); let best = 1, cur = 1; for (let i = 1; i < s.length; i++) { if (s[i] === s[i-1]) cur++; else cur = 1; best = Math.max(best, cur); } return best; };
+        const hasPairCount = (n, size) => { const c = {}; for (const d of String(n)) c[d] = (c[d]||0)+1; return Object.values(c).some(v => v >= size); };
+
+        // ============================================================
+        // 检查函数字典
+        // ============================================================
+        const CHECKS = {
+            PRIME: n => isPrime(n),
+            PALINDROME: n => isPalindrome(n),
+            HEAVY: n => sumDigits(n) > 45,
+            VOID: n => !String(n).includes('0'),
+            EVEN: n => n % 2 === 0,
+            ODD: n => n % 2 !== 0,
+            FEATHER: n => sumDigits(n) < 15,
+            CLEAN: n => String(n).endsWith('0'),
+            SEMI_CLEAN: n => String(n).endsWith('5'),
+            CENTURY: n => String(n).endsWith('00'),
+            MILLENNIUM: n => String(n).endsWith('000'),
+            DOZEN: n => n > 0 && n % 12 === 0,
+            LUCKY_SEVEN_DIV: n => n > 0 && n % 7 === 0,
+            ELEVEN: n => n > 0 && n % 11 === 0,
+            GROUNDED: n => { const s = String(n); return s.length > 1 && Number(s[0]) < Number(s[s.length-1]); },
+            LIFTOFF: n => { const s = String(n); return s.length > 1 && Number(s[0]) > Number(s[s.length-1]); },
+            EQUILIBRIUM: n => { const s = String(n); return s.length > 1 && s[0] === s[s.length-1]; },
+            SANDWICH: n => { const s = String(n); return s.length > 2 && s[0] === s[s.length-1] && new Set(s.slice(1,-1)).size > 0; },
+            TURTLE: n => { const s = String(n); if (s.length < 2) return false; for (let i = 1; i < s.length; i++) if (Math.abs(Number(s[i]) - Number(s[i-1])) > 1) return false; return true; },
+            FIREFLY: n => { const s = String(n); const c = {}; for (const d of s) c[d] = (c[d]||0)+1; const v = Object.values(c); return v.length === 2 && v.includes(1) && v.includes(s.length - 1); },
+            ECHO: n => { const s = String(n); if (s.length < 2 || s.length % 2 !== 0) return false; const h = s.length/2; return s.slice(0,h) === s.slice(h); },
+            BOOKENDS: n => { const s = String(n); return s.length >= 4 && s.slice(0,2) === s.slice(-2); },
+            ASCENSION: n => { const s = String(n); if (s.length < 2) return false; for (let i = 1; i < s.length; i++) if (Number(s[i]) <= Number(s[i-1])) return false; return true; },
+            DECAY: n => { const s = String(n); if (s.length < 2) return false; for (let i = 1; i < s.length; i++) if (Number(s[i]) >= Number(s[i-1])) return false; return true; },
+            CASCADE: n => { const s = String(n); if (s.length < 2) return false; for (let i = 1; i < s.length; i++) if (Number(s[i]) !== Number(s[i-1]) + 1) return false; return true; },
+            WATERFALL: n => { const s = String(n); if (s.length < 2) return false; for (let i = 1; i < s.length; i++) if (Number(s[i]) !== Number(s[i-1]) - 1) return false; return true; },
+            MOUNTAIN: n => { const s = String(n); if (s.length < 3) return false; let i = 1; while (i < s.length && Number(s[i]) > Number(s[i-1])) i++; if (i === 1 || i === s.length) return false; while (i < s.length && Number(s[i]) < Number(s[i-1])) i++; return i === s.length; },
+            VALLEY: n => { const s = String(n); if (s.length < 3) return false; let i = 1; while (i < s.length && Number(s[i]) < Number(s[i-1])) i++; if (i === 1 || i === s.length) return false; while (i < s.length && Number(s[i]) > Number(s[i-1])) i++; return i === s.length; },
+            HILLS: n => { const s = String(n); if (s.length < 3) return false; let up = Number(s[1]) > Number(s[0]); for (let i = 2; i < s.length; i++) { const cur = Number(s[i]) > Number(s[i-1]); if (cur === up) return false; up = cur; } return true; },
+            MINI_ECHO: n => { const s = String(n); for (let i = 1; i < s.length; i++) if (s[i] === s[i-1]) return true; return false; },
+            RHYME: n => { const s = String(n); for (let len = 2; len <= s.length/2; len++) for (let i = 0; i <= s.length - len; i++) if (s.indexOf(s.slice(i, i+len), i+1) !== -1) return true; return false; },
+            CONTIGUOUS_TRIPS: n => longestRun(n) >= 3,
+            CONTIGUOUS_QUADS: n => longestRun(n) >= 4,
+            CONTIGUOUS_FIVES: n => longestRun(n) >= 5,
+            CONTIGUOUS_SIXES: n => longestRun(n) >= 6,
+            BINARY_SOUL: n => /^[01]+$/.test(String(n)),
+            DUALITY: n => new Set(String(n)).size === 2,
+            TRINITY: n => new Set(String(n)).size === 3,
+            QUARTET: n => new Set(String(n)).size === 4,
+            HETEROGENEOUS: n => new Set(String(n)).size === String(n).length,
+            HOMOGENEOUS: n => { const s = String(n); return s.length > 1 && new Set(s).size === 1; },
+            ALTERNATOR: n => { const s = String(n); if (s.length < 2) return false; for (let i = 1; i < s.length; i++) if (Number(s[i]) % 2 === Number(s[i-1]) % 2) return false; return true; },
+            ZIPPER: n => { const s = String(n); if (s.length < 2 || s[0] === s[1]) return false; for (let i = 0; i < s.length; i++) { if (i % 2 === 0 && s[i] !== s[0]) return false; if (i % 2 === 1 && s[i] !== s[1]) return false; } return true; },
+            HOPSCOTCH: n => { const s = String(n); for (let d = 0; d <= 9; d++) { const p = []; for (let i = 0; i < s.length; i++) if (s[i] == d) p.push(i); if (p.length === 2 && p[1] - p[0] === 2) return true; } return false; },
+            DOUBLE_HOP: n => { const s = String(n); for (let d = 0; d <= 9; d++) { const p = []; for (let i = 0; i < s.length; i++) if (s[i] == d) p.push(i); if (p.length === 3 && p[1]-p[0] === 2 && p[2]-p[1] === 2) return true; } return false; },
+            FRAMED_PAIR: n => { const s = String(n); return s.length === 4 && s[1] === s[2] && s[0] !== s[1] && s[3] !== s[1]; },
+            FRAMED_TRIPLE: n => { const s = String(n); return s.length === 5 && s[1] === s[2] && s[2] === s[3] && s[0] !== s[2] && s[4] !== s[2]; },
+            FRAMED_DOUBLE: n => { const s = String(n); if (s.length !== 6) return false; return s[1] === s[2] && s[3] === s[4] && s[0] !== s[1] && s[5] !== s[4] && s[1] !== s[3]; },
+            SQUARE: n => isSquare(n),
+            CUBE: n => isCube(n),
+            FOURTH_POWER: n => isPower(n, 4),
+            FIFTH_POWER: n => isPower(n, 5),
+            SIXTH_POWER: n => isPower(n, 6),
+            SEVENTH_POWER: n => isPower(n, 7),
+            EIGHTH_POWER: n => isPower(n, 8),
+            NINTH_POWER: n => isPower(n, 9),
+            TENTH_POWER: n => isPower(n, 10),
+            FIBONACCI: n => isFibonacci(n),
+            POWER_OF_TWO: n => isPowerOf(n, 2),
+            POWER_OF_THREE: n => isPowerOf(n, 3),
+            FACTORIAL: n => isFactorial(n),
+            HARSHAD: n => { const s = sumDigits(n); return n > 0 && s > 0 && n % s === 0; },
+            SPY: n => { const s = String(n); let sum = 0, prod = 1; for (const d of s) { sum += Number(d); prod *= Number(d); } return sum === prod; },
+            PRONIC: n => { const r = Math.floor(Math.sqrt(n)); return r * (r + 1) === n; },
+            PAIR: n => hasPairCount(n, 2),
+            CONTIGUOUS_PAIR: n => { const s = String(n); for (let i = 1; i < s.length; i++) if (s[i] === s[i-1]) return true; return false; },
+            TWO_PAIR: n => { const c = {}; for (const d of String(n)) c[d] = (c[d]||0)+1; return Object.values(c).filter(v => v >= 2).length >= 2; },
+            CONTIGUOUS_TWO_PAIR: n => { const s = String(n); for (let i = 0; i < s.length - 3; i++) if (s[i] === s[i+1] && s[i+2] === s[i+3] && s[i] !== s[i+2]) return true; return false; },
+            THREE_PAIR: n => { const c = {}; for (const d of String(n)) c[d] = (c[d]||0)+1; return Object.values(c).filter(v => v >= 2).length >= 3; },
+            CONTIGUOUS_THREE_PAIR: n => { const s = String(n); for (let i = 0; i < s.length - 5; i++) if (s[i] === s[i+1] && s[i+2] === s[i+3] && s[i+4] === s[i+5] && s[i] !== s[i+2] && s[i+2] !== s[i+4]) return true; return false; },
+            TRIPS: n => hasPairCount(n, 3),
+            QUADS: n => hasPairCount(n, 4),
+            BOAT: n => { const c = {}; for (const d of String(n)) c[d] = (c[d]||0)+1; const v = Object.values(c); return v.includes(3) && v.includes(2); },
+            CONTIGUOUS_BOAT: n => { const s = String(n); for (let i = 0; i < s.length - 4; i++) { const sub = s.slice(i, i+5); const c = {}; for (const d of sub) c[d] = (c[d]||0)+1; const v = Object.values(c); if (v.includes(3) && v.includes(2)) return true; } return false; },
+            STRAIGHT: n => { const s = String(n); for (let i = 0; i <= s.length - 5; i++) { const sub = s.slice(i, i+5); if ('0123456789'.includes(sub) || '9876543210'.includes(sub)) return true; } return false; },
+            FLUSH: n => { const s = String(n); const p = Number(s[0]) % 2; for (const d of s) if (Number(d) % 2 !== p) return false; return true; },
+            STRAIGHT_FLUSH: n => { const s = String(n); for (let i = 0; i <= s.length - 5; i++) { const sub = s.slice(i, i+5); if ('02468'.includes(sub) || '13579'.includes(sub) || '86420'.includes(sub) || '97531'.includes(sub)) return true; } return false; },
+            ROYAL_FLUSH: n => String(n).includes('56789'),
+            LOW_BALL: n => /^[0-4]+$/.test(String(n)),
+            HIGH_ROLLER: n => /^[5-9]+$/.test(String(n)),
+            SNAKE_EYES: n => { const c = {}; for (const d of String(n)) c[d] = (c[d]||0)+1; if (c['1'] !== 2) return false; for (const [d, v] of Object.entries(c)) if (d !== '1' && v >= 2) return false; return true; },
+            LUCKY_7: n => String(n).includes('7'),
+            JACKPOT: n => String(n).includes('777'),
+            JACKPOT_FOUR: n => String(n).includes('7777'),
+            JACKPOT_FIVE: n => String(n).includes('77777'),
+            JACKPOT_SIX: n => String(n).includes('777777'),
+            BLACKJACK: n => sumDigits(n) === 21,
+            NICE: n => String(n).includes('69'),
+            VERY_NICE: n => String(n).includes('6969'),
+            VERY_VERY_NICE: n => String(n) === '696969',
+            BOTANIST: n => String(n).includes('420'),
+            DEVIL: n => String(n).includes('666'),
+            LEET: n => String(n).includes('1337'),
+            HELL: n => String(n).includes('7734'),
+            BOOB_8008: n => String(n).includes('8008'),
+            BOOB_58008: n => String(n).includes('58008'),
+            BOOB_80085: n => String(n).includes('80085'),
+            HELLO: n => String(n).includes('07734'),
+            MEANING: n => String(n).includes('42'),
+            EMERGENCY: n => String(n).includes('911'),
+            ERROR: n => String(n).includes('404'),
+            SECRET_AGENT: n => String(n).includes('007'),
+            BIG_BROTHER: n => String(n).includes('1984'),
+            PI: n => String(n).includes('314') || String(n).includes('314159'),
+            E: n => String(n).includes('2718'),
+            SIXTY_SEVEN: n => String(n).includes('67'),
+            EIGHTY_SIX: n => String(n).includes('86'),
+            TREE_FIDDY: n => String(n).includes('350'),
+            CALENDAR: n => String(n).includes('365'),
+            ORIENTATION: n => String(n).includes('101'),
+            DOUBLE_NINE: n => String(n).endsWith('99'),
+            TRIPLE_NINE: n => String(n).endsWith('999'),
+            QUAD_NINE: n => String(n).endsWith('9999'),
+            QUINT_NINE: n => String(n).endsWith('99999'),
+            DEEP_VOID: n => String(n).includes('000'),
+            DEEP_VOID_FOUR: n => String(n).includes('0000'),
+            DEEP_VOID_FIVE: n => String(n).includes('00000'),
+            SEQUENCE_3: n => { const s = String(n); for (let i = 0; i <= s.length-3; i++) { const sub = s.slice(i, i+3); if ('0123456789'.includes(sub) || '9876543210'.includes(sub)) return true; } return false; },
+            SEQUENCE_4: n => { const s = String(n); for (let i = 0; i <= s.length-4; i++) { const sub = s.slice(i, i+4); if ('0123456789'.includes(sub) || '9876543210'.includes(sub)) return true; } return false; },
+            SEQUENCE_6: n => { const s = String(n); for (let i = 0; i <= s.length-6; i++) { const sub = s.slice(i, i+6); if ('0123456789'.includes(sub) || '9876543210'.includes(sub)) return true; } return false; },
+            SCRAMBLE: n => '0123456789'.includes(String(n).split('').sort().join('')),
+            NEIGHBORS: n => { const d = new Set(String(n)); for (const x of d) if (d.has(String(Number(x)+1))) return true; return false; },
+            GAP_ONE: n => { const s = String(n); return s.length > 1 && Math.abs(Number(s[0]) - Number(s[s.length-1])) === 1; },
+            ONE_DIGIT: n => n >= 0 && n < 10,
+            TWO_DIGITS: n => n >= 10 && n < 100,
+            THREE_DIGITS: n => n >= 100 && n < 1000,
+            FOUR_DIGITS: n => n >= 1000 && n < 10000,
+            FIVE_DIGITS: n => n >= 10000 && n < 100000,
+            SIX_DIGITS: n => n >= 100000 && n < 1000000,
+            DIGIT_ZERO: n => n === 0,
+            DIGIT_ONE: n => n === 1,
+            DIGIT_TWO: n => n === 2,
+            DIGIT_THREE: n => n === 3,
+            DIGIT_FOUR: n => n === 4,
+            DIGIT_FIVE: n => n === 5,
+            DIGIT_SIX: n => n === 6,
+            DIGIT_SEVEN: n => n === 7,
+            DIGIT_EIGHT: n => n === 8,
+            DIGIT_NINE: n => n === 9,
+            STROBOGRAMMATIC: n => { const s = String(n); const m = {'0':'0','1':'1','6':'9','8':'8','9':'6'}; let r = ''; for (let i = s.length-1; i >= 0; i--) { if (!m[s[i]]) return false; r += m[s[i]]; } return r === s; },
+            BALANCED: n => { const s = String(n); if (s.length < 2) return false; const mid = Math.floor(s.length/2); const l = s.slice(0, mid).split('').reduce((a,b)=>a+Number(b),0); const r = s.slice(Math.ceil(s.length/2)).split('').reduce((a,b)=>a+Number(b),0); return l === r; },
+            MIRROR_BOOKENDS: n => { const s = String(n); return s.length >= 4 && s.slice(0,2).split('').reverse().join('') === s.slice(-2); },
+            PAIRED_BOOKENDS: n => { const s = String(n); return s.length >= 4 && s[0]===s[1] && s[s.length-1]===s[s.length-2] && s[0]!==s[s.length-1]; },
+            DIVISIBLE_BY_THREE: n => /^[0369]+$/.test(String(n)),
+            SEMI_CENTURY: n => String(n).endsWith('50'),
+            SEMI_MILLENNIUM: n => String(n).endsWith('500'),
+            SEMI_EPOCH: n => String(n).endsWith('5000'),
+            COLOSSAL: n => n > 999000,
+            CONSEC_QUAD_EXACT: n => { const s = String(n); for (let i = 0; i < s.length - 3; i++) { const a = +s[i], b = +s[i+1], c = +s[i+2], d = +s[i+3]; if (b === a+1 && c === b+1 && d === c+1) return true; } return false; },
+            CONSEC_TRIPLE_EXACT: n => { const s = String(n); for (let i = 0; i < s.length - 2; i++) { const a = +s[i], b = +s[i+1], c = +s[i+2]; if (b === a+1 && c === b+1) return true; } return false; },
+            CONSEC_PAIR_EXACT: n => { const s = String(n); for (let i = 1; i < s.length; i++) { const l = +s.slice(0, i), r = +s.slice(i); if (r === l + 1) return true; } return false; },
+            CONSEC_PAIR_ADJACENT: n => { const s = String(n); for (let i = 1; i < s.length - 1; i++) for (let j = i+1; j < s.length; j++) { const l = +s.slice(i, j), r = +s.slice(j); if (r === l + 1) return true; } return false; },
+        };
+
+        // ============================================================
+        // 稀有度
+        // ============================================================
+        const RARITY_ORDER = ['trash', 'common', 'uncommon', 'rare', 'epic', 'anomaly', 'mythic'];
+        const RARITY_LABELS = { trash:'Trash', common:'Common', uncommon:'Uncommon', rare:'Rare', epic:'Epic', anomaly:'Anomaly', mythic:'Mythic' };
+        const RARITY_COLORS = { trash:'var(--rarity-trash)', common:'var(--rarity-common)', uncommon:'var(--rarity-uncommon)', rare:'var(--rarity-rare)', epic:'var(--rarity-epic)', anomaly:'var(--rarity-anomaly)', mythic:'var(--rarity-mythic)' };
+
+        function getCardRarity(totalEp) {
+            if (totalEp >= 2000000) return 'mythic';
+            if (totalEp >= 500000) return 'anomaly';
+            if (totalEp >= 100000) return 'epic';
+            if (totalEp >= 20000) return 'rare';
+            if (totalEp >= 5000) return 'uncommon';
+            if (totalEp >= 500) return 'common';
+            return 'trash';
+        }
+
+        // ============================================================
+        // 状态
+        // ============================================================
+        let BADGES = [];
+        let generating = false;
+
+        // ============================================================
+        // DOM
+        // ============================================================
+        const displayNumber = document.getElementById('displayNumber');
+        const generateBtn = document.getElementById('generateBtn');
+        const resultSection = document.getElementById('resultSection');
+        const summaryScore = document.getElementById('summaryScore');
+        const summaryRarity = document.getElementById('summaryRarity');
+        const summaryBadgeCount = document.getElementById('summaryBadgeCount');
+        const summaryBestBadge = document.getElementById('summaryBestBadge');
+        const badgeCountLabel = document.getElementById('badgeCountLabel');
+        const badgeGrid = document.getElementById('badgeGrid');
+        const emptyBadges = document.getElementById('emptyBadges');
+
+        // ============================================================
+        // 分析数字
+        // ============================================================
+        function analyzeNumber(n) {
+            const hits = [];
+            for (const badge of BADGES) {
+                const check = CHECKS[badge.id];
+                if (!check) continue;
+                try { if (check(n)) hits.push({ ...badge }); } catch (e) {}
+            }
+            const familyBest = {};
+            const noFamily = [];
+            for (const hit of hits) {
+                if (hit.family) {
+                    if (!familyBest[hit.family] || hit.score > familyBest[hit.family].score) familyBest[hit.family] = hit;
+                } else noFamily.push(hit);
+            }
+            const finalHits = [...noFamily, ...Object.values(familyBest)];
+            finalHits.sort((a, b) => b.score - a.score);
+            const totalEp = finalHits.reduce((s, h) => s + h.score, 0);
+            return {
+                n,
+                digitSum: sumDigits(n),
+                digitProduct: productDigits(n),
+                uniqueDigits: new Set(String(n)).size,
+                length: String(n).length,
+                hits: finalHits,
+                totalEp,
+                cardRarity: getCardRarity(totalEp)
+            };
+        }
+
+        // ============================================================
+        // 重置 UI
+        // ============================================================
+        function resetUI() {
+            document.querySelectorAll('.stat-item').forEach(el => el.classList.remove('revealed'));
+            document.querySelectorAll('.summary-item').forEach(el => el.classList.remove('revealed'));
+            document.getElementById('statLength').textContent = '—';
+            document.getElementById('statSum').textContent = '—';
+            document.getElementById('statProduct').textContent = '—';
+            document.getElementById('statUnique').textContent = '—';
+            summaryScore.textContent = '0';
+            summaryRarity.textContent = '—';
+            summaryRarity.className = 'value rarity';
+            summaryBadgeCount.textContent = '0';
+            summaryBestBadge.textContent = '—';
+            badgeGrid.innerHTML = '';
+            emptyBadges.style.display = 'none';
+            resultSection.classList.remove('active');
+        }
+
+        // ============================================================
+        // 数字滚动动画
+        // ============================================================
+        function rollNumber(target) {
+            return new Promise(resolve => {
+                const duration = 1400;
+                const startTime = performance.now();
+                displayNumber.classList.remove('settled');
+                displayNumber.classList.add('rolling');
+                let lastUpdate = 0;
+
+                function tick(now) {
+                    const elapsed = now - startTime;
+                    if (elapsed >= duration) {
+                        displayNumber.textContent = target.toLocaleString();
+                        displayNumber.classList.remove('rolling');
+                        displayNumber.classList.add('settled');
+                        setTimeout(resolve, 400);
+                        return;
+                    }
+                    const progress = elapsed / duration;
+                    const interval = 40 + progress * 90;
+                    if (now - lastUpdate >= interval) {
+                        const r = Math.floor(Math.random() * 1000001);
+                        displayNumber.textContent = r.toLocaleString();
+                        lastUpdate = now;
+                    }
+                    requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            });
+        }
+
+        async function revealStats(result) {
+            const stats = [
+                { id: 'statLength', value: result.length },
+                { id: 'statSum', value: result.digitSum },
+                { id: 'statProduct', value: result.digitProduct.toLocaleString() },
+                { id: 'statUnique', value: result.uniqueDigits }
+            ];
+            for (const s of stats) {
+                await sleep(170);
+                const el = document.getElementById(s.id);
+                el.textContent = s.value;
+                el.parentElement.classList.add('revealed');
+            }
+            await sleep(220);
+        }
+
+        async function revealSummary(result) {
+            const items = [
+                { id: 'summaryScore', value: result.totalEp.toLocaleString() },
+                { id: 'summaryRarity', value: RARITY_LABELS[result.cardRarity], cls: 'value rarity ' + result.cardRarity },
+                { id: 'summaryBadgeCount', value: result.hits.length },
+                { id: 'summaryBestBadge', value: result.hits[0] ? result.hits[0].label : '无' }
+            ];
+            resultSection.classList.add('active');
+            for (const item of items) {
+                await sleep(160);
+                const el = document.getElementById(item.id);
+                el.textContent = item.value;
+                if (item.cls) el.className = item.cls;
+                el.parentElement.classList.add('revealed');
+            }
+            await sleep(220);
+        }
+
+        async function revealBadges(result) {
+            badgeCountLabel.textContent = result.hits.length;
+            if (result.hits.length === 0) {
+                emptyBadges.style.display = 'block';
+                return;
+            }
+            emptyBadges.style.display = 'none';
+            const sorted = [...result.hits].sort((a, b) => RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity));
+            const delay = Math.max(90, Math.min(220, 2600 / Math.max(1, sorted.length)));
+            for (const badge of sorted) {
+                await sleep(delay);
+                const card = createBadgeCard(badge);
+                badgeGrid.prepend(card);
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => card.classList.add('badge-visible'));
+                });
+            }
+        }
+
+        function createBadgeCard(badge) {
+            const card = document.createElement('div');
+            card.className = 'badge-card';
+            card.dataset.rarity = badge.rarity;
+            const rarityLabel = RARITY_LABELS[badge.rarity] || badge.rarity;
+            const rarityColor = RARITY_COLORS[badge.rarity] || 'var(--rarity-common)';
+            card.innerHTML = `
+                <div class="badge-head">
+                    <div class="badge-title">
+                        <span class="badge-emoji">${badge.emoji}</span>
+                        <span>${badge.label}</span>
+                    </div>
+                    <span class="badge-rarity" style="color:${rarityColor}">${rarityLabel}</span>
+                </div>
+                <div class="badge-desc">${badge.description}</div>
+                <div class="badge-meta">
+                    <span>+${badge.score.toLocaleString()} EP</span>
+                </div>
+            `;
+            return card;
+        }
+
+        async function generate() {
+            if (generating) return;
+            generating = true;
+            generateBtn.disabled = true;
+            resetUI();
+            await sleep(60);
+            const n = Math.floor(Math.random() * 1000001);
+            const result = analyzeNumber(n);
+            await rollNumber(n);
+            await revealStats(result);
+            await revealSummary(result);
+            await revealBadges(result);
+            generating = false;
+            generateBtn.disabled = false;
+        }
+
+        async function loadBadges() {
+            try {
+                const res = await fetch('./badges.json');
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                BADGES = await res.json();
+                console.log('✅ 已加载 ' + BADGES.length + ' 个徽章定义');
+                await generate();
+            } catch (err) {
+                console.error('❌ 徽章数据加载失败：', err);
+                displayNumber.textContent = '加载失败';
+                displayNumber.style.fontSize = '1.5rem';
+                displayNumber.style.color = '#b04a4a';
+                generateBtn.disabled = true;
+            }
+        }
+
+        // ============================================================
+        // 导航栏交互
+        // ============================================================
+        const navbar = document.getElementById('navbar');
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        const navOverlay = document.getElementById('navOverlay');
+
+        function updateNavbar() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        }
+        window.addEventListener('scroll', updateNavbar, { passive: true });
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.contains('open') ? closeMobileNav() : openMobileNav();
+        });
+        navOverlay.addEventListener('click', closeMobileNav);
+        function openMobileNav() {
+            navLinks.classList.add('open');
+            navOverlay.classList.add('active');
+            navToggle.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileNav() {
+            navLinks.classList.remove('open');
+            navOverlay.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+
+        const fadeElements = document.querySelectorAll('.fade-in-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        fadeElements.forEach(el => observer.observe(el));
+
+        generateBtn.addEventListener('click', generate);
+
+        updateNavbar();
+        loadBadges();
+    })();
+    </script>
+</body>
+</html>
