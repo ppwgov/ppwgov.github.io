@@ -1,0 +1,42 @@
+/* ============================================================
+   帕帕韦斯特雷共和国 · 主题样式
+   仅包含深色模式变量定义与局部修正
+   ============================================================ */
+
+html[data-theme="dark"] {
+    /* ---- 主色 ---- */
+    --color-primary: #7ba8d0;
+    --color-primary-light: #9cc0e0;
+    --color-primary-dark: #5a8ab0;
+
+    /* ---- 金色 ---- */
+    --color-gold: #d4b76a;
+    --color-gold-light: #e0c880;
+    --color-gold-pale: #2a2519;
+
+    /* ---- 中性色 ---- */
+    --color-white: #1a2332;
+    --color-bg: #0f1621;
+    --color-bg-alt: #1a2332;
+    --color-text: #e0e0e0;
+    --color-text-light: #a8a8a8;
+    --color-text-muted: #6a6a6a;
+    --color-border: #2d3748;
+    --color-success: #34d399;
+
+    /* ---- 阴影 ---- */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.2);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
+    --shadow-xl: 0 20px 48px rgba(0,0,0,0.45), 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ============================================================
+   深色模式局部修正
+   ============================================================ */
+
+/* 左上角品牌文字保持白色 */
+html[data-theme="dark"] .nav-brand,
+html[data-theme="dark"] .brand-title {
+    color: #ffffff;
+}
