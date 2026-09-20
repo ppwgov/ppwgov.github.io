@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="帕帕韦斯特雷共和国 · 数字生成分析器">
     <meta name="author" content="PPW 技术部">
-    <title>数字生成分析器 · 帕帕韦斯特雷共和国</title>
+    <title>RNGdle · 帕帕韦斯特雷共和国</title>
 
     <link rel="icon" type="image/svg+xml" href="./rpw.svg">
 
@@ -922,7 +922,7 @@
 
         async function loadBadges() {
             try {
-                const res = await fetch('./badges.json');
+                const res = await fetch('/products/RNGdle/badges.json');
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 BADGES = await res.json();
                 console.log('✅ 已加载 ' + BADGES.length + ' 个徽章定义');
