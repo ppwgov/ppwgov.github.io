@@ -361,7 +361,7 @@
         <div class="article-wrapper">
             <a href="https://ppwgov.github.io/article" class="back-link">返回文章列表</a>
 
-            <div class="loading-tip" id="loadingTip">正在加载文章…</div>
+            <div class="loading-tip" id="loadingTip">少女祈祷中…</div>
 
             <div id="articleBody" style="display:none;">
                 <header class="article-header fade-in-up">
@@ -374,13 +374,13 @@
                 <article class="markdown-body fade-in-up" id="articleContent"></article>
 
                 <footer class="article-footer fade-in-up">
-                    <p class="footer-note">本文由 PPW 技术部发布 · 转载请注明出处</p>
+                    <p class="footer-note">本文由 PPW 发布 · 转载请注明出处</p>
                     <a href="https://ppwgov.github.io/article" class="back-to-list">返回文章列表 →</a>
                 </footer>
             </div>
 
             <div class="error-tip" id="errorTip" style="display:none;">
-                文章加载失败。
+                呜嘿？页面不见了呢？
                 <small id="errorDetail"></small>
             </div>
         </div>
@@ -536,7 +536,7 @@
             }
 
             // ==================== 加载 md 文件 ====================
-            fetch(`https://ppwgov.github.io/article/posts/${postId}.md`)
+            fetch(`./posts/${postId}.md`)
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     return res.text();
