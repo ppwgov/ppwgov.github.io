@@ -399,7 +399,7 @@
         (function() {
             // ==================== URL 参数 ====================
             const params = new URLSearchParams(window.location.search);
-            const postId = params.get('id');
+            const  = params.get('id');
 
             const loadingTip = document.getElementById('loadingTip');
             const articleBody = document.getElementById('articleBody');
@@ -536,7 +536,7 @@
             }
 
             // ==================== 加载 md 文件 ====================
-            fetch(`/article/posts/${postId}.md`)
+            fetch(`https://ppwgov.github.io/article/posts/${postId}.md`)
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     return res.text();
@@ -548,7 +548,7 @@
                 .catch(err => {
                     loadingTip.style.display = 'none';
                     errorTip.style.display = 'block';
-                    errorDetail.textContent = `无法加载 ${postId}.md（${err.message}）。请检查文件是否存在。`;
+                    errorDetail.textContent = `无法加载 ${}.md（${err.message}）。请检查文件是否存在。`;
                     console.error('文章加载失败：', err);
                 });
 
