@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="帕帕韦斯特雷共和国 · 文章">
     <meta name="author" content="PPW 技术部">
-    <title>文章 · 帕帕韦斯特雷共和国</title>
+    <title>文章页面 · 帕帕韦斯特雷共和国</title>
 
-    <link rel="icon" type="image/png" href="../rpw.png">
-    <link rel="icon" type="image/svg+xml" href="../rpw.svg">
+    <link rel="icon" type="image/svg+xml" href="/rpw.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -399,7 +398,7 @@
         (function() {
             // ==================== URL 参数 ====================
             const params = new URLSearchParams(window.location.search);
-            const  = params.get('id');
+            const postID = params.get('id');
 
             const loadingTip = document.getElementById('loadingTip');
             const articleBody = document.getElementById('articleBody');
@@ -548,7 +547,7 @@
                 .catch(err => {
                     loadingTip.style.display = 'none';
                     errorTip.style.display = 'block';
-                    errorDetail.textContent = `无法加载 ${}.md（${err.message}）。请检查文件是否存在。`;
+                    errorDetail.textContent = `无法加载 ${postId}.md（${err.message}）。请检查文件是否存在。`;
                     console.error('文章加载失败：', err);
                 });
 
