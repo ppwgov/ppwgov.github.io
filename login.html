@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="帕帕韦斯特雷共和国 · 账户中心">
+    <meta name="author" content="PPW 技术部">
+    <title>登录 · 帕帕韦斯特雷共和国</title>
+
+    <link rel="icon" type="image/svg+xml" href="/rpw.svg">
+
+    <!-- 主题预设 -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('ppw_theme');
+                var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = t || (sysDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch(e) {}
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- 主题样式文件（含深色变量） -->
+    <link rel="stylesheet" href="/theme.css">
+
+    <style>
+        :root {
+            --color-primary: #1a3550;
+            --color-primary-light: #234b6e;
+            --color-primary-dark: #0f2235;
+            --color-gold: #b8944b;
+            --color-gold-light: #d4b76a;
+            --color-gold-pale: #f5eedc;
+            --color-white: #ffffff;
+            --color-bg: #f8f7f4;
+            --color-bg-alt: #eef0f2;
+            --color-text: #2c2c2c;
+            --color-text-light: #5a5a5a;
+            --color-text-muted: #888888;
+            --color-border: #e0ddd6;
+            --color-success: #3a7d5a;
+            --color-error: #b04a4a;
+            --color-nav-bg: rgba(26,53,80,0.97);
+            --color-nav-bg-scrolled: rgba(26,53,80,0.99);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 48px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --max-width: 1200px;
+            --nav-height: 70px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); font-size:16px; -webkit-font-smoothing:antialiased; }
+        body {
+            font-family: 'Noto Sans SC','Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            color:var(--color-text); background-color:var(--color-bg);
+            line-height:1.7; overflow-x:hidden; min-height:100vh;
+            display:flex; flex-direction:column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        h1,h2,h3,h4 { font-family:'Playfair Display','Noto Sans SC','Noto Serif SC',Georgia,'Times New Roman',serif; font-weight:600; letter-spacing:0.02em; }
+
+        /* ===== 导航栏 ===== */
+        .navbar {
+            position:fixed; top:0; left:0; width:100%; height:var(--nav-height);
+            background:var(--color-nav-bg); backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px); z-index:1000;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+            transition:all var(--transition-normal); display:flex; align-items:center;
+            box-shadow:0 2px 20px rgba(0,0,0,0.15);
+        }
+        .navbar.scrolled { height:58px; background:var(--color-nav-bg-scrolled); box-shadow:0 4px 24px rgba(0,0,0,0.2); }
+        .nav-container {
+            max-width:var(--max-width); width:100%; margin:0 auto;
+            padding:0 24px; display:flex; align-items:center; justify-content:space-between;
+            gap: 10px;
+        }
+        .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:#ffffff; flex-shrink:0; }
+        .nav-brand img { width:85.5px; height:37.5px; transition:transform var(--transition-normal); }
+        .nav-brand:hover img { transform:rotate(-8deg) scale(1.05); }
+        .brand-text { display:flex; flex-direction:column; line-height:1.2; }
+        .brand-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; color:#ffffff; }
+        .brand-subtitle { font-size:0.65rem; font-weight:300; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-gold-light); white-space:nowrap; }
+        .nav-links { display:flex; list-style:none; gap:4px; align-items:center; }
+        .nav-links a {
+            display:block; padding:8px 16px; text-decoration:none;
+            color:rgba(255,255,255,0.85); font-size:0.9rem; font-weight:400;
+            letter-spacing:0.03em; border-radius:var(--radius-sm);
+            transition:all var(--transition-fast); position:relative; white-space:nowrap;
+        }
+        .nav-links a:hover,.nav-links a.active { color:#fff; background:rgba(255,255,255,0.08); }
+        .nav-links a::after {
+            content:''; position:absolute; bottom:4px; left:50%;
+            transform:translateX(-50%) scaleX(0); width:60%; height:2px;
+            background:var(--color-gold); border-radius:1px;
+            transition:transform var(--transition-normal);
+        }
+        .nav-links a:hover::after,.nav-links a.active::after { transform:translateX(-50%) scaleX(1); }
+
+        .theme-toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
+            width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem;
+            color: var(--color-gold-light);
+            transition: all var(--transition-fast);
+            flex-shrink: 0; margin-left: 6px;
+        }
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.16);
+            border-color: rgba(255,255,255,0.3);
+            transform: rotate(15deg) scale(1.05);
+        }
+        .theme-toggle .icon-sun,
+        .theme-toggle .icon-moon { display: none; }
+        html[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+        html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+
+        .nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:8px; flex-direction:column; gap:5px; z-index:1001; }
+        .nav-toggle span { display:block; width:26px; height:2.5px; background:#ffffff; border-radius:2px; transition:all var(--transition-normal); }
+        .nav-toggle.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .nav-toggle.active span:nth-child(2) { opacity:0; }
+        .nav-toggle.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+        /* ===== 主内容 ===== */
+        .main {
+            flex:1; padding-top: var(--nav-height);
+            max-width: var(--max-width); margin: 0 auto; width: 100%;
+            padding-left: 24px; padding-right: 24px; padding-bottom: 60px;
+        }
+
+        .page-header { text-align:center; margin:50px 0 30px; }
+        .page-header .section-label {
+            display:inline-block; font-size:0.75rem; font-weight:600; letter-spacing:0.1em;
+            text-transform:uppercase; color:var(--color-gold); margin-bottom:8px;
+            padding:4px 14px; border:1px solid var(--color-gold); border-radius:50px;
+        }
+        .page-header h1 { font-size:clamp(2rem,4vw,2.8rem); color:var(--color-primary); margin-bottom:12px; font-weight:700; }
+        .page-header .divider { width:60px; height:3px; background:var(--color-gold); margin:0 auto 16px; border-radius:2px; }
+        .page-header p { color:var(--color-text-light); max-width:600px; margin:0 auto; font-size:0.95rem; line-height:1.8; }
+
+        /* ===== 认证卡片 ===== */
+        .auth-card {
+            max-width: 440px; margin: 0 auto;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 36px 36px 32px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--color-border);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Tab 切换 */
+        .auth-tabs {
+            display: flex; gap: 0; margin-bottom: 28px;
+            background: var(--color-bg); border-radius: 50px;
+            padding: 4px; border: 1px solid var(--color-border);
+        }
+        .auth-tab {
+            flex: 1; padding: 10px 16px; text-align: center;
+            font-size: 0.9rem; font-weight: 600; letter-spacing: 0.03em;
+            border-radius: 50px; cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--color-text-light); background: transparent;
+            border: none; font-family: inherit;
+        }
+        .auth-tab.active { background: var(--color-primary); color: #fff; box-shadow: var(--shadow-sm); }
+        .auth-tab:hover:not(.active) { color: var(--color-primary); }
+
+        .auth-form { display: none; }
+        .auth-form.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block; font-size: 0.82rem; font-weight: 600;
+            color: var(--color-primary); margin-bottom: 6px; letter-spacing: 0.03em;
+        }
+        .form-group input {
+            width: 100%; padding: 12px 16px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-md); font-size: 0.95rem;
+            font-family: inherit; background: var(--color-bg);
+            color: var(--color-text); transition: all var(--transition-fast);
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 3px rgba(184,148,75,0.15);
+            background: var(--color-white);
+        }
+        .form-group .hint {
+            font-size: 0.72rem; color: var(--color-text-muted);
+            margin-top: 4px; line-height: 1.5;
+        }
+
+        .form-submit-btn {
+            width: 100%; padding: 14px;
+            background: var(--color-primary); color: #fff;
+            border: none; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 600;
+            letter-spacing: 0.04em; cursor: pointer;
+            transition: all var(--transition-normal); font-family: inherit;
+            margin-top: 8px;
+        }
+        .form-submit-btn:hover {
+            background: var(--color-primary-light);
+            box-shadow: var(--shadow-lg); transform: translateY(-2px);
+        }
+        .form-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* 分割线 */
+        .divider-line {
+            display: flex; align-items: center; gap: 12px;
+            margin: 24px 0; color: var(--color-text-muted);
+            font-size: 0.78rem; letter-spacing: 0.06em;
+        }
+        .divider-line::before,
+        .divider-line::after {
+            content: ''; flex: 1; height: 1px;
+            background: var(--color-border);
+        }
+
+        /* GitHub 登录按钮 */
+        .oauth-btn {
+            width: 100%; padding: 13px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; background: var(--color-white);
+            color: var(--color-text); border: 1.5px solid var(--color-border);
+            border-radius: 50px; font-size: 0.92rem; font-weight: 500;
+            cursor: pointer; transition: all var(--transition-normal);
+            font-family: inherit; letter-spacing: 0.02em;
+        }
+        .oauth-btn:hover {
+            border-color: var(--color-primary);
+            background: var(--color-bg);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+        .oauth-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+        .form-msg {
+            margin-top: 14px; padding: 12px 16px;
+            border-radius: var(--radius-md); font-size: 0.88rem;
+            line-height: 1.5; display: none;
+        }
+        .form-msg.error {
+            display: block; background: rgba(176,74,74,0.1);
+            color: var(--color-error);
+            border: 1px solid rgba(176,74,74,0.25);
+        }
+        .form-msg.success {
+            display: block; background: rgba(58,125,90,0.1);
+            color: var(--color-success);
+            border: 1px solid rgba(58,125,90,0.25);
+        }
+
+        /* 已登录面板 */
+        .user-panel { display: none; text-align: center; }
+        .user-panel.active { display: block; animation: fadeIn 0.3s ease; }
+        .user-panel .avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: var(--color-gold-pale); color: var(--color-gold);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; margin: 0 auto 16px;
+            border: 2px solid var(--color-gold);
+            overflow: hidden;
+        }
+        .user-panel .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .user-panel .username {
+            font-size: 1.15rem; font-weight: 700;
+            color: var(--color-primary); margin-bottom: 4px;
+            word-break: break-all;
+            font-family: 'Playfair Display', serif;
+        }
+        .user-panel .email {
+            font-size: 0.85rem; color: var(--color-text-muted);
+            margin-bottom: 6px; word-break: break-all;
+        }
+        .user-panel .status {
+            font-size: 0.82rem; color: var(--color-text-muted);
+            margin-bottom: 24px;
+        }
+        .user-panel .btn-logout {
+            padding: 12px 32px; background: transparent;
+            color: var(--color-error);
+            border: 2px solid var(--color-error);
+            border-radius: 50px; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; transition: all var(--transition-normal);
+            font-family: inherit;
+        }
+        .user-panel .btn-logout:hover {
+            background: var(--color-error); color: #fff;
+            transform: translateY(-2px); box-shadow: var(--shadow-md);
+        }
+
+        /* 加载提示 */
+        .loading-state {
+            text-align: center; padding: 60px 20px;
+            color: var(--color-text-muted); font-size: 1rem;
+        }
+        .loading-spinner {
+            width: 32px; height: 32px; margin: 0 auto 16px;
+            border: 3px solid var(--color-border);
+            border-top-color: var(--color-gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== 页脚（固定深蓝色） ===== */
+        .site-footer { background: #0f2235; color: rgba(255,255,255,0.7); padding:32px 24px 24px; margin-top:auto; }
+        .footer-bottom { max-width:var(--max-width); margin:0 auto; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
+
+        @media (max-width:768px) {
+            .nav-toggle { display:flex; }
+            .nav-links {
+                position:fixed; top:0; right:-100%; width:75%; max-width:320px; height:100vh;
+                background:var(--color-primary); flex-direction:column; padding:90px 24px 40px;
+                gap:4px; transition:right var(--transition-slow);
+                box-shadow:-8px 0 30px rgba(0,0,0,0.3); z-index:1000;
+            }
+            .nav-links.open { right:0; }
+            .nav-links a { font-size:1rem; padding:14px 16px; width:100%; border-radius:var(--radius-md); }
+            .main { padding-left:16px; padding-right:16px; }
+            .auth-card { padding: 28px 22px; }
+        }
+        @media (max-width:480px) {
+            .auth-card { padding: 24px 18px; }
+        }
+
+        .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in-up.visible { opacity:1; transform:translateY(0); }
+        .nav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+        .nav-overlay.active { display:block; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="https://ppwgov.github.io/" class="nav-brand">
+                <img src="./logo.jpg" alt="logo" onerror="this.style.display='none'">
+                <span class="brand-text">
+                    <span class="brand-title">帕帕韦斯特雷共和国</span>
+                    <span class="brand-subtitle">Republic of Papa Westray</span>
+                </span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="https://ppwgov.github.io/">主页</a></li>
+                <li><a href="https://ppwgov.github.io/members">成员</a></li>
+                <li><a href="https://ppwgov.github.io/history">历史</a></li>
+                <li><a href="https://ppwgov.github.io/article">文章</a></li>
+                <li><a href="https://ppwgov.github.io/products">产品</a></li>
+                <li><a href="#" class="active">账户</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色" title="切换深浅色">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main class="main">
+        <div class="page-header fade-in-up">
+            <span class="section-label">账户中心</span>
+            <h1>登录或注册</h1>
+            <div class="divider"></div>
+            <p>使用用户名创建账户，即可参与社区互动、保存个人数据。</p>
+        </div>
+
+        <!-- 加载状态 -->
+        <div class="loading-state" id="loadingState">
+            <div class="loading-spinner"></div>
+            正在检查登录状态…
+        </div>
+
+        <!-- 认证卡片 -->
+        <div class="auth-card fade-in-up" id="authCard" style="display:none;">
+            <div id="authForms">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">登录</button>
+                    <button class="auth-tab" data-tab="signup">注册</button>
+                </div>
+
+                <!-- 登录表单 -->
+                <form class="auth-form active" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsername">用户名</label>
+                        <input type="text" id="loginUsername" placeholder="请输入用户名" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">密码</label>
+                        <input type="password" id="loginPassword" placeholder="请输入密码" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="form-submit-btn" id="loginBtn">登录</button>
+                    <div class="form-msg" id="loginMsg"></div>
+                </form>
+
+                <!-- 注册表单 -->
+                <form class="auth-form" id="signupForm">
+                    <div class="form-group">
+                        <label for="signupUsername">用户名 *</label>
+                        <input type="text" id="signupUsername" placeholder="3-20 位字母、数字或下划线" required autocomplete="username" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+">
+                        <div class="hint">用户名将作为您的登录凭据，且全站唯一。</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">密码 *</label>
+                        <input type="password" id="signupPassword" placeholder="至少 6 位" required autocomplete="new-password" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirm">确认密码 *</label>
+                        <input type="password" id="signupConfirm" placeholder="再次输入密码" required autocomplete="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">邮箱 <span style="font-weight:400;color:var(--color-text-muted);font-size:0.75rem;">（选填）</span></label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com" autocomplete="email">
+                        <div class="hint">仅用于接收通知或找回密码，不会作为登录凭据。</div>
+                    </div>
+                    <button type="submit" class="form-submit-btn" id="signupBtn">注册</button>
+                    <div class="form-msg" id="signupMsg"></div>
+                </form>
+
+                <!-- 分割线 -->
+                <div class="divider-line">或</div>
+
+                <!-- GitHub 登录 -->
+                <button type="button" class="oauth-btn" id="githubLoginBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    使用 GitHub 账号登录
+                </button>
+            </div>
+
+            <!-- 已登录面板 -->
+            <div class="user-panel" id="userPanel">
+                <div class="avatar" id="userAvatar">👤</div>
+                <div class="username" id="userDisplayName">—</div>
+                <div class="email" id="userDisplayEmail"></div>
+                <div class="status">已登录</div>
+                <button class="btn-logout" id="logoutBtn">退出登录</button>
+                <div class="form-msg success" id="logoutMsg" style="margin-top:16px;">您已成功退出。</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Papa Westray Government. All rights not reserved.</p>
+            <p style="margin-top:4px;">账户中心 · 安全登录</p>
+        </div>
+    </footer>
+
+    <!-- ==================== Supabase SDK ==================== -->
+    <script type="module">
+        // ========== 请替换为您的 Supabase 项目信息 ==========
+        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+        const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY';
+        // ===================================================
+
+        // 用户名映射为内部邮箱后缀
+        const INTERNAL_DOMAIN = 'ppw.local';
+
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // ========== 创建 Supabase 客户端 ==========
+        // persistSession: true  → 会话保存在 localStorage，刷新/重启浏览器后仍保持登录
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                persistSession: true,      // 关键：持久化会话
+                autoRefreshToken: true,    // 自动刷新 token
+                detectSessionInUrl: true,  // 自动检测 URL 中的 session（OAuth 回调）
+                storage: window.localStorage
+            }
+        });
+
+        // ========== 主题切换 ==========
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlEl = document.documentElement;
+        function getPreferredTheme() {
+            try {
+                const saved = localStorage.getItem('ppw_theme');
+                if (saved === 'dark' || saved === 'light') return saved;
+            } catch (e) {}
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        function applyTheme(theme) { htmlEl.setAttribute('data-theme', theme); }
+        themeToggle.addEventListener('click', () => {
+            const current = htmlEl.getAttribute('data-theme') || 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            try { localStorage.setItem('ppw_theme', next); } catch (e) {}
+        });
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            try {
+                if (!localStorage.getItem('ppw_theme')) applyTheme(e.matches ? 'dark' : 'light');
+            } catch (err) {}
+        });
+        applyTheme(getPreferredTheme());
+
+        // ========== DOM ==========
+        const loadingState = document.getElementById('loadingState');
+        const authCard = document.getElementById('authCard');
+        const authForms = document.getElementById('authForms');
+        const userPanel = document.getElementById('userPanel');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const loginMsg = document.getElementById('loginMsg');
+        const signupMsg = document.getElementById('signupMsg');
+        const logoutMsg = document.getElementById('logoutMsg');
+        const userDisplayName = document.getElementById('userDisplayName');
+        const userDisplayEmail = document.getElementById('userDisplayEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const githubLoginBtn = document.getElementById('githubLoginBtn');
+
+        // ========== 工具函数 ==========
+        function usernameToEmail(username) {
+            return `${username.toLowerCase()}@${INTERNAL_DOMAIN}`;
+        }
+        function isValidUsername(username) {
+            return /^[A-Za-z0-9_]{3,20}$/.test(username);
+        }
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        function showMsg(el, text, type) {
+            el.textContent = text;
+            el.className = 'form-msg ' + (type || '');
+        }
+
+        // ========== Tab 切换 ==========
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+                tab.classList.add('active');
+                const target = tab.dataset.tab;
+                document.getElementById(target + 'Form').classList.add('active');
+                loginMsg.className = 'form-msg';
+                signupMsg.className = 'form-msg';
+                loginMsg.textContent = '';
+                signupMsg.textContent = '';
+            });
+        });
+
+        // ========== 会话管理 ==========
+        function showUser(user) {
+            authForms.style.display = 'none';
+            userPanel.classList.add('active');
+            const meta = user.user_metadata || {};
+            const displayName = meta.username || (user.email || '').split('@')[0];
+
+            // 头像：GitHub 登录时可能有 avatar_url
+            if (meta.avatar_url) {
+                userAvatar.innerHTML = `<img src="${meta.avatar_url}" alt="avatar" onerror="this.parentElement.innerHTML='👤'">`;
+            } else {
+                userAvatar.textContent = '👤';
+            }
+
+            userDisplayName.textContent = displayName;
+
+            // 如果注册时填了真实邮箱，展示它；否则隐藏这一行
+            if (meta.contact_email) {
+                userDisplayEmail.textContent = meta.contact_email;
+                userDisplayEmail.style.display = 'block';
+            } else if (user.email && !user.email.endsWith('@' + INTERNAL_DOMAIN)) {
+                // GitHub 登录的真实邮箱
+                userDisplayEmail.textContent = user.email;
+                userDisplayEmail.style.display = 'block';
+            } else {
+                userDisplayEmail.style.display = 'none';
+            }
+        }
+        function showAuth() {
+            authForms.style.display = 'block';
+            userPanel.classList.remove('active');
+        }
+
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            loadingState.style.display = 'none';
+            authCard.style.display = 'block';
+            if (session && session.user) {
+                showUser(session.user);
+            } else {
+                showAuth();
+            }
+        }
+
+        // ========== 注册 ==========
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+            const email = document.getElementById('signupEmail').value.trim();
+
+            if (!isValidUsername(username)) {
+                showMsg(signupMsg, '用户名需为 3-20 位字母、数字或下划线。', 'error');
+                return;
+            }
+            if (password.length < 6) {
+                showMsg(signupMsg, '密码长度至少为 6 位。', 'error');
+                return;
+            }
+            if (password !== confirm) {
+                showMsg(signupMsg, '两次输入的密码不一致。', 'error');
+                return;
+            }
+            if (email && !isValidEmail(email)) {
+                showMsg(signupMsg, '邮箱格式不正确。', 'error');
+                return;
+            }
+
+            signupBtn.disabled = true;
+            signupBtn.textContent = '注册中…';
+            showMsg(signupMsg, '', '');
+
+            const { data, error } = await supabase.auth.signUp({
+                email: usernameToEmail(username),
+                password: password,
+                options: {
+                    data: {
+                        username: username,
+                        contact_email: email || null
+                    }
+                }
+            });
+
+            if (error) {
+                let msg = error.message;
+                if (/already registered|already exists|User already registered/i.test(msg)) {
+                    msg = '该用户名已被占用，请换一个。';
+                }
+                showMsg(signupMsg, '注册失败：' + msg, 'error');
+                signupBtn.disabled = false;
+                signupBtn.textContent = '注册';
+                return;
+            }
+
+            showMsg(signupMsg, '注册成功！正在登录…', 'success');
+            if (data.session && data.user) {
+                setTimeout(() => showUser(data.user), 600);
+            } else if (data.user) {
+                const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+                    email: usernameToEmail(username),
+                    password: password
+                });
+                if (!signInError && signInData.user) {
+                    setTimeout(() => showUser(signInData.user), 600);
+                } else {
+                    showMsg(signupMsg, '注册成功，请手动登录。', 'success');
+                }
+            }
+            signupBtn.disabled = false;
+            signupBtn.textContent = '注册';
+        });
+
+        // ========== 登录 ==========
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!input) {
+                showMsg(loginMsg, '请输入用户名。', 'error');
+                return;
+            }
+
+            let email;
+            if (input.includes('@')) {
+                email = input;
+            } else {
+                email = usernameToEmail(input);
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = '登录中…';
+            showMsg(loginMsg, '', '');
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                let msg = error.message;
+                if (/Invalid login credentials/i.test(msg)) {
+                    msg = '用户名或密码错误。';
+                }
+                showMsg(loginMsg, '登录失败：' + msg, 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = '登录';
+                return;
+            }
+
+            showMsg(loginMsg, '登录成功！', 'success');
+            setTimeout(() => showUser(data.user), 500);
+            loginBtn.disabled = false;
+            loginBtn.textContent = '登录';
+        });
+
+        // ========== GitHub 登录 ==========
+        githubLoginBtn.addEventListener('click', async () => {
+            githubLoginBtn.disabled = true;
+            githubLoginBtn.textContent = '正在跳转 GitHub…';
+
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: window.location.origin + '/auth.html',
+                    scopes: 'read:user user:email'
+                }
+            });
+
+            if (error) {
+                githubLoginBtn.disabled = false;
+                githubLoginBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    使用 GitHub 账号登录
+                `;
+                showMsg(loginMsg, 'GitHub 登录失败：' + error.message, 'error');
+            }
+            // 如果成功，Supabase 会自动跳转到 GitHub，无需手动处理
+        });
+
+        // ========== 退出登录 ==========
+        logoutBtn.addEventListener('click', async () => {
+            logoutBtn.disabled = true;
+            logoutBtn.textContent = '退出中…';
+            await supabase.auth.signOut();
+            logoutBtn.disabled = false;
+            logoutBtn.textContent = '退出登录';
+            showAuth();
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupConfirm').value = '';
+            document.getElementById('signupEmail').value = '';
+            logoutMsg.className = 'form-msg success';
+            logoutMsg.textContent = '您已成功退出。';
+            setTimeout(() => {
+                logoutMsg.className = 'form-msg';
+                logoutMsg.textContent = '';
+            }, 3000);
+        });
+
+        // ========== 监听认证状态变化 ==========
+        // 这是保持登录状态的关键：Supabase 会在 token 刷新或 OAuth 回调时触发
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' && session && session.user) {
+                showUser(session.user);
+                loadingState.style.display = 'none';
+                authCard.style.display = 'block';
+            } else if (event === 'SIGNED_OUT') {
+                showAuth();
+            }
+        });
+
+        // ========== 导航栏交互 ==========
+        const navbar = document.getElementById('navbar');
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        const navOverlay = document.getElementById('navOverlay');
+
+        function updateNavbar() { navbar.classList.toggle('scrolled', window.scrollY > 50); }
+        window.addEventListener('scroll', updateNavbar, { passive: true });
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.contains('open') ? closeMobileNav() : openMobileNav();
+        });
+        navOverlay.addEventListener('click', closeMobileNav);
+        function openMobileNav() {
+            navLinks.classList.add('open');
+            navOverlay.classList.add('active');
+            navToggle.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileNav() {
+            navLinks.classList.remove('open');
+            navOverlay.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+
+        const fadeElements = document.querySelectorAll('.fade-in-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        fadeElements.forEach(el => observer.observe(el));
+
+        // ========== 启动 ==========
+        updateNavbar();
+        checkSession();
+    </script>
+</body>
+</html>
