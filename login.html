@@ -731,7 +731,7 @@
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'github',
                 options: {
-                    redirectTo: window.location.origin + '/auth.html',
+                    redirectTo: window.location.origin + '/login.html',
                     scopes: 'read:user user:email'
                 }
             });
