@@ -1,8 +1,9 @@
 /* ============================================================
    帕帕韦斯特雷共和国 · 主题样式
-   仅包含深色模式变量定义与局部修正
+   包含：深色模式变量、局部修正、导航栏账户与主题切换按钮样式
    ============================================================ */
 
+/* ==================== 深色模式变量 ==================== */
 html[data-theme="dark"] {
     /* ---- 主色 ---- */
     --color-primary: #7ba8d0;
@@ -31,9 +32,7 @@ html[data-theme="dark"] {
     --shadow-xl: 0 20px 48px rgba(0,0,0,0.45), 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* ============================================================
-   深色模式局部修正
-   ============================================================ */
+/* ==================== 深色模式局部修正 ==================== */
 
 /* 左上角品牌文字保持白色 */
 html[data-theme="dark"] .nav-brand,
@@ -113,7 +112,7 @@ html[data-theme="dark"] .brand-title {
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-/* 深色模式下边框稍作调整 */
+/* 深色模式下头像边框微调 */
 html[data-theme="dark"] .user-avatar {
     border-color: rgba(255,255,255,0.2);
 }
@@ -121,7 +120,71 @@ html[data-theme="dark"] .user-avatar:hover {
     border-color: rgba(255,255,255,0.45);
 }
 
-/* 小屏时登录按钮只留图标样式（隐藏文字） */
+/* ============================================================
+   深浅色切换按钮（SVG 图标版）
+   ============================================================ */
+
+.theme-toggle {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-gold-light);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    padding: 0;
+}
+.theme-toggle:hover {
+    background: rgba(255,255,255,0.16);
+    border-color: rgba(255,255,255,0.3);
+    transform: rotate(15deg) scale(1.05);
+}
+
+/* SVG 图标基础样式 */
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* 太阳与月亮的显示逻辑 */
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+    display: none;
+}
+html[data-theme="light"] .theme-toggle .icon-moon {
+    display: block;
+}
+html[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
+
+/* ============================================================
+   响应式微调
+   ============================================================ */
 @media (max-width: 480px) {
-    .login-btn { padding: 8px 14px; font-size: 0.8rem; }
+    .login-btn {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+    }
+    .theme-toggle {
+        width: 34px;
+        height: 34px;
+    }
+    .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
+    }
 }
