@@ -40,3 +40,88 @@ html[data-theme="dark"] .nav-brand,
 html[data-theme="dark"] .brand-title {
     color: #ffffff;
 }
+
+/* ============================================================
+   导航栏右侧操作区（主题切换 + 账户）
+   ============================================================ */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* 登录按钮：蓝底白字 */
+.login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: #2563eb;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+.login-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    color: #ffffff !important;
+}
+
+/* 已登录头像 */
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-gold);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    line-height: 1;
+}
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.user-avatar:hover {
+    transform: scale(1.08);
+    border-color: rgba(255,255,255,0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* 深色模式下边框稍作调整 */
+html[data-theme="dark"] .user-avatar {
+    border-color: rgba(255,255,255,0.2);
+}
+html[data-theme="dark"] .user-avatar:hover {
+    border-color: rgba(255,255,255,0.45);
+}
+
+/* 小屏时登录按钮只留图标样式（隐藏文字） */
+@media (max-width: 480px) {
+    .login-btn { padding: 8px 14px; font-size: 0.8rem; }
+}
