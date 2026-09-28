@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <!-- 白色外圈 -->
+  <circle cx="300" cy="300" r="280" fill="#FFFFFF"/>
+  <!-- 蓝色圆底 -->
+  <circle cx="300" cy="300" r="270" fill="#0033A0"/>
+  
+  <g transform="translate(300,300)">
+    <!-- 中心白色圆 -->
+    <circle cx="0" cy="0" r= "85" fill="#FFFFFF"/>
+    <!-- 定义单根光芒（指向右方） -->
+    <defs>
+      <path id="ray" d="M 98.48,-17.365 L 210,0 L 98.48,17.365 Z" fill="#FFFFFF"/>
+    </defs>
+    
+    <!-- 12 根光芒 -->
+    <use href="#ray" transform="rotate(0)"/>
+    <use href="#ray" transform="rotate(30)"/>
+    <use href="#ray" transform="rotate(60)"/>
+    <use href="#ray" transform="rotate(90)"/>
+    <use href="#ray" transform="rotate(120)"/>
+    <use href="#ray" transform="rotate(150)"/>
+    <use href="#ray" transform="rotate(180)"/>
+    <use href="#ray" transform="rotate(210)"/>
+    <use href="#ray" transform="rotate(240)"/>
+    <use href="#ray" transform="rotate(270)"/>
+    <use href="#ray" transform="rotate(300)"/>
+    <use href="#ray" transform="rotate(330)"/>
+  </g>
+</svg>
