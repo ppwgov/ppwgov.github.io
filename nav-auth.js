@@ -3,10 +3,8 @@
    在所有页面引入，自动根据登录状态显示登录按钮或头像
    ============================================================ */
 
-// ========== 请替换为您的 Supabase 项目信息 ==========
-const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY';
-// ===================================================
+const SUPABASE_URL = 'https://dfuwrvovcubjwytzpnby.supabase.co/';
+const SUPABASE_ANON_KEY = 'sb_publishable_MmVwBMhgOAkBI-R0SD-03g_Z4bzxr52';
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
