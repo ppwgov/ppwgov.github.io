@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Papa Westray 官方网站">
-    <meta name="keywords" content="Papa Westray, Republic of Papa Westray, PPW, ppw, RPW, rpw, 帕帕韦斯特雷, 帕帕韦斯特雷共和国, 陶彦吉是萝莉控">
-    <meta name="author" content="PPW 技术部">
-    <link rel="icon" type="image/svg+xml" href="icon.svg">
-    <title>Papa Westray Government</title>
+    <title>页面标题</title>
+    <link rel="icon" type="image/svg+xml" href="./rpw.svg">
 
     <!-- 主题预设：避免闪烁 -->
     <script>
@@ -15,382 +12,57 @@
             try {
                 var t = localStorage.getItem('ppw_theme');
                 var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var theme = t || (sysDark ? 'dark' : 'light');
-                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.setAttribute('data-theme', t || (sysDark ? 'dark' : 'light'));
             } catch(e) {}
         })();
     </script>
-    
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- 主题样式（深色模式变量 + 局部修正） -->
+    <!-- 全站统一样式 -->
+    <link rel="stylesheet" href="/style.css">
+    <!-- 深色模式 -->
     <link rel="stylesheet" href="/theme.css">
 
-    <style>
-        :root {
-            --color-primary: #1a3550;
-            --color-primary-light: #234b6e;
-            --color-primary-dark: #0f2235;
-            --color-gold: #b8944b;
-            --color-gold-light: #d4b76a;
-            --color-gold-pale: #f5eedc;
-            --color-white: #ffffff;
-            --color-bg: #f8f7f4;
-            --color-bg-alt: #eef0f2;
-            --color-text: #2c2c2c;
-            --color-text-light: #5a5a5a;
-            --color-text-muted: #888888;
-            --color-border: #e0ddd6;
-            --color-success: #3a7d5a;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
-            --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
-            --shadow-xl: 0 20px 48px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --transition-fast: 0.2s ease;
-            --transition-normal: 0.3s ease;
-            --transition-slow: 0.5s ease;
-            --max-width: 1200px;
-            --nav-height: 70px;
-        }
-
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); font-size:16px; -webkit-font-smoothing:antialiased; }
-        body {
-            font-family: 'Noto Sans SC','Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-            color:var(--color-text); background-color:var(--color-bg);
-            line-height:1.7; overflow-x:hidden; min-height:100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        h1,h2,h3,h4 { font-family:'Playfair Display','Noto Sans SC','Noto Serif SC',Georgia,'Times New Roman',serif; font-weight:600; letter-spacing:0.02em; }
-
-        .navbar {
-            position:fixed; top:0; left:0; width:100%; height:var(--nav-height);
-            background:rgba(26,53,80,0.97); backdrop-filter:blur(12px);
-            -webkit-backdrop-filter:blur(12px); z-index:1000;
-            border-bottom:1px solid rgba(255,255,255,0.08);
-            transition:all var(--transition-normal); display:flex; align-items:center;
-            box-shadow:0 2px 20px rgba(0,0,0,0.15);
-        }
-        .navbar.scrolled { height:58px; background:rgba(26,53,80,0.99); box-shadow:0 4px 24px rgba(0,0,0,0.2); }
-        .nav-container {
-            max-width:var(--max-width); width:100%; margin:0 auto;
-            padding:0 24px; display:flex; align-items:center; justify-content:space-between;
-            gap: 10px;
-        }
-        .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:#ffffff; flex-shrink:0; }
-        .nav-brand img { width:85.5px; height:37.5px; transition:transform var(--transition-normal); }
-        .nav-brand:hover img { transform:rotate(-8deg) scale(1.05); }
-        .brand-text { display:flex; flex-direction:column; line-height:1.2; }
-        .brand-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; color:#ffffff; }
-        .brand-subtitle { font-size:0.65rem; font-weight:300; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-gold-light); white-space:nowrap; }
-
-        .nav-links { display:flex; list-style:none; gap:4px; align-items:center; }
-        .nav-links a {
-            display:block; padding:8px 16px; text-decoration:none;
-            color:rgba(255,255,255,0.85); font-size:0.9rem; font-weight:400;
-            letter-spacing:0.03em; border-radius:var(--radius-sm);
-            transition:all var(--transition-fast); position:relative; white-space:nowrap;
-        }
-        .nav-links a:hover,.nav-links a.active { color:#fff; background:rgba(255,255,255,0.08); }
-        .nav-links a::after {
-            content:''; position:absolute; bottom:4px; left:50%;
-            transform:translateX(-50%) scaleX(0); width:60%; height:2px;
-            background:var(--color-gold); border-radius:1px;
-            transition:transform var(--transition-normal);
-        }
-        .nav-links a:hover::after,.nav-links a.active::after { transform:translateX(-50%) scaleX(1); }
-
-        /* 主题切换按钮 */
-        .theme-toggle {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 50%;
-            width: 38px; height: 38px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 1.1rem;
-            color: var(--color-gold-light);
-            transition: all var(--transition-fast);
-            flex-shrink: 0; margin-left: 6px;
-        }
-        .theme-toggle:hover {
-            background: rgba(255,255,255,0.16);
-            border-color: rgba(255,255,255,0.3);
-            transform: rotate(15deg) scale(1.05);
-        }
-        .theme-toggle .icon-sun,
-        .theme-toggle .icon-moon { display: none; }
-        html[data-theme="light"] .theme-toggle .icon-moon { display: block; }
-        html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
-
-        .nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:8px; flex-direction:column; gap:5px; z-index:1001; }
-        .nav-toggle span { display:block; width:26px; height:2.5px; background:#ffffff; border-radius:2px; transition:all var(--transition-normal); }
-        .nav-toggle.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
-        .nav-toggle.active span:nth-child(2) { opacity:0; }
-        .nav-toggle.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
-
-        .hero {
-            position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
-            background:linear-gradient(170deg,#0d1b2a 0%,#152a42 30%,#1a3550 50%,#1e4060 70%,#1a3550 100%);
-            overflow:hidden; padding-top:var(--nav-height);
-        }
-        .hero-bg-pattern {
-            position:absolute; inset:0; pointer-events:none; opacity:0.06;
-            background-image:radial-gradient(ellipse at 20% 50%,#ffffff 0%,transparent 60%),
-                            radial-gradient(ellipse at 75% 30%,#c9a96e 0%,transparent 50%),
-                            radial-gradient(ellipse at 50% 80%,#ffffff 0%,transparent 40%);
-        }
-        .hero-bg-grid {
-            position:absolute; inset:0; pointer-events:none; opacity:0.03;
-            background-image:linear-gradient(rgba(255,255,255,0.3) 1px,transparent 1px),
-                            linear-gradient(90deg,rgba(255,255,255,0.3) 1px,transparent 1px);
-            background-size:60px 60px;
-        }
-        .hero-content { position:relative; z-index:2; text-align:center; padding:40px 24px; max-width:800px; }
-        .hero-logo { width:600px; height:400px; margin:0 auto 28px; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.4)); }
-        .hero h1 { font-size:clamp(2.2rem,4.5vw,3.6rem); color:#ffffff; font-weight:700; letter-spacing:0.04em; margin-bottom:8px; }
-        .hero .hero-subtitle { font-size:clamp(0.95rem,1.8vw,1.2rem); color:var(--color-gold-light); font-weight:400; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px; }
-        .hero .hero-description { font-size:clamp(0.9rem,1.4vw,1.05rem); color:rgba(255,255,255,0.7); max-width:600px; margin:0 auto 36px; line-height:1.8; font-weight:300; }
-        .hero-buttons { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
-        .btn {
-            display:inline-flex; align-items:center; gap:8px; padding:13px 28px; font-size:0.95rem; font-weight:500;
-            letter-spacing:0.03em; border-radius:50px; text-decoration:none; cursor:pointer;
-            transition:all var(--transition-normal); border:2px solid transparent; font-family:inherit; white-space:nowrap;
-        }
-        .btn-primary { background:var(--color-gold); color:var(--color-primary-dark); border-color:var(--color-gold); font-weight:600; }
-        .btn-primary:hover { background:var(--color-gold-light); border-color:var(--color-gold-light); transform:translateY(-2px); box-shadow:var(--shadow-lg); }
-        .btn-outline { background:transparent; color:#ffffff; border-color:rgba(255,255,255,0.4); }
-        .btn-outline:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.7); transform:translateY(-2px); }
-
-        .hero-scroll-indicator {
-            position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:2;
-            display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;
-            animation:bounceDown 2s ease-in-out infinite;
-        }
-        @keyframes bounceDown { 0%,100%{ transform:translateX(-50%) translateY(0); } 50%{ transform:translateX(-50%) translateY(10px); } }
-        .hero-scroll-indicator span { font-size:0.7rem; color:rgba(255,255,255,0.5); letter-spacing:0.06em; text-transform:uppercase; }
-        .hero-scroll-indicator .scroll-arrow {
-            width:24px; height:24px; border-right:2px solid rgba(255,255,255,0.5);
-            border-bottom:2px solid rgba(255,255,255,0.5); transform:rotate(45deg);
-        }
-
-        .section { padding:80px 24px; max-width:var(--max-width); margin:0 auto; }
-        .section-alt { background:var(--color-bg-alt); border-radius:var(--radius-lg); margin:0 auto 40px; max-width:var(--max-width); padding:80px 24px; transition: background-color 0.3s ease; }
-        .section-header { text-align:center; margin-bottom:56px; }
-        .section-label {
-            display:inline-block; font-size:0.75rem; font-weight:600; letter-spacing:0.1em;
-            text-transform:uppercase; color:var(--color-gold); margin-bottom:8px;
-            padding:4px 14px; border:1px solid var(--color-gold); border-radius:50px;
-        }
-        .section-title { font-size:clamp(1.8rem,3.2vw,2.4rem); color:var(--color-primary); margin-bottom:12px; font-weight:700; }
-        .section-divider { width:60px; height:3px; background:var(--color-gold); margin:0 auto 16px; border-radius:2px; }
-        .section-description { color:var(--color-text-light); max-width:600px; margin:0 auto; font-size:0.95rem; line-height:1.8; }
-
-        .info-grid { display:grid; grid-template-columns:1fr; gap:24px; }
-        .info-card {
-            background:var(--color-white); border-radius:var(--radius-lg); padding:32px 28px;
-            box-shadow:var(--shadow-sm); border:1px solid var(--color-border);
-            transition:all var(--transition-normal); text-decoration:none; color:inherit; display:block;
-        }
-        .info-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-4px); border-color:var(--color-gold); }
-        .info-card h3 { font-size:1.3rem; color:var(--color-primary); margin-bottom:12px; font-weight:700; }
-        .info-card p { font-size:0.95rem; color:var(--color-text-light); line-height:1.7; margin-bottom:8px; }
-        .info-card .more {
-            display:inline-block; margin-top:8px; font-weight:600; color:var(--color-gold);
-            font-size:0.9rem; letter-spacing:0.03em;
-        }
-
-        /* 页脚固定深蓝色，不随主题变化 */
-        .site-footer { background: #0f2235; color:rgba(255,255,255,0.7); padding:48px 24px 24px; }
-        .footer-container { max-width:var(--max-width); margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:32px; }
-        .footer-col h4 { color:#fff; font-size:1rem; margin-bottom:14px; font-weight:700; letter-spacing:0.04em; }
-        .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
-        .footer-col ul li a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; transition:color var(--transition-fast); }
-        .footer-col ul li a:hover { color:var(--color-gold-light); }
-        .footer-bottom { max-width:var(--max-width); margin:32px auto 0; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
-
-        .back-to-top {
-            position:fixed; bottom:28px; right:28px; width:44px; height:44px; border-radius:50%;
-            background:var(--color-primary); color:#fff; border:none; cursor:pointer; z-index:999;
-            font-size:1.2rem; display:flex; align-items:center; justify-content:center;
-            box-shadow:var(--shadow-lg); transition:all var(--transition-normal);
-            opacity:0; transform:translateY(20px); pointer-events:none; line-height:1; padding:0;
-        }
-        .back-to-top.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
-        .back-to-top:hover { background:var(--color-gold); color:var(--color-primary-dark); transform:translateY(-4px); }
-
-        .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
-        .fade-in-up.visible { opacity:1; transform:translateY(0); }
-
-        .nav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
-        .nav-overlay.active { display:block; }
-
-        @media (max-width:768px) {
-            .nav-toggle { display:flex; }
-            .nav-logo {width:600px; height:400px;}
-            .nav-links {
-                position:fixed; top:0; right:-100%; width:75%; max-width:320px; height:100vh;
-                background:var(--color-primary); flex-direction:column; padding:90px 24px 40px;
-                gap:4px; transition:right var(--transition-slow);
-                box-shadow:-8px 0 30px rgba(0,0,0,0.3); z-index:1000;
-            }
-            .nav-links.open { right:0; }
-            .nav-links a { font-size:1rem; padding:14px 16px; width:100%; border-radius:var(--radius-md); }
-            .section { padding:60px 16px; }
-            .section-alt { padding:60px 16px; margin:0 16px 40px; }
-            .hero h1 { font-size:1.8rem; }
-            .hero-logo { width:300px; height:200px; }
-            .info-grid { grid-template-columns:1fr; }
-        }
-        @media (max-width:480px) {
-            .hero-buttons { flex-direction:column; align-items:center; }
-            .btn { width:100%; justify-content:center; }
-            .brand-title { font-size:0.9rem; }
-            .brand-subtitle { font-size:0.6rem; }
-        }
-
-        /* 联系表单区域 */
-        .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-        .contact-info-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
-        .contact-info-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 0.92rem; color: var(--color-text-light); line-height: 1.6; }
-        .contact-info-list .contact-icon {
-            width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%;
-            background: var(--color-gold-pale); display: flex; align-items: center;
-            justify-content: center; font-size: 1.1rem; color: var(--color-gold);
-        }
-        .contact-form {
-            background: var(--color-white); padding: 32px 28px;
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
-            border: 1px solid var(--color-border);
-        }
-        /* 自定义下拉选择器 */
-        .custom-select { position: relative; user-select: none; }
-        .custom-select-trigger {
-            width: 100%; padding: 12px 16px; border: 1.5px solid var(--color-border);
-            border-radius: var(--radius-md); background: var(--color-bg);
-            font-size: 0.9rem; color: var(--color-text); cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: all var(--transition-fast); font-family: inherit; text-align: left;
-        }
-        .custom-select-trigger:hover { border-color: var(--color-gold); background: var(--color-white); }
-        .custom-select-trigger .arrow { transition: transform var(--transition-fast); font-size: 0.8rem; color: var(--color-text-muted); }
-        .custom-select.open .custom-select-trigger {
-            border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(184, 148, 75, 0.1);
-            background: var(--color-white);
-        }
-        .custom-select.open .arrow { transform: rotate(180deg); }
-        .custom-select-options {
-            list-style: none; margin: 6px 0 0 0; padding: 6px;
-            background: var(--color-white); border: 1px solid var(--color-border);
-            border-radius: var(--radius-md); box-shadow: var(--shadow-md);
-            position: absolute; width: 100%; top: 100%; left: 0; z-index: 20;
-            opacity: 0; visibility: hidden; transform: translateY(10px);
-            transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
-        }
-        .custom-select-options li {
-            padding: 10px 12px; font-size: 0.9rem; color: var(--color-text);
-            cursor: pointer; border-radius: var(--radius-sm);
-            transition: background var(--transition-fast);
-            opacity: 0; transform: translateY(8px);
-        }
-        .custom-select-options li:hover { background: var(--color-gold-pale); color: var(--color-primary); }
-        .custom-select.open .custom-select-options { opacity: 1; visibility: visible; transform: translateY(0); }
-        .custom-select.open .custom-select-options li { animation: optionFadeIn 0.3s ease forwards; }
-        .custom-select.open .custom-select-options li:nth-child(1) { animation-delay: 0.05s; }
-        .custom-select.open .custom-select-options li:nth-child(2) { animation-delay: 0.1s; }
-        .custom-select.open .custom-select-options li:nth-child(3) { animation-delay: 0.15s; }
-        .custom-select.open .custom-select-options li:nth-child(4) { animation-delay: 0.2s; }
-        .custom-select.open .custom-select-options li:nth-child(5) { animation-delay: 0.25s; }
-        .custom-select.open .custom-select-options li:nth-child(6) { animation-delay: 0.3s; }
-
-        @keyframes optionFadeIn { to { opacity: 1; transform: translateY(0); } }
-
-        .form-group { margin-bottom: 18px; }
-        .form-group label {
-            display: block; font-size: 0.85rem; font-weight: 600;
-            color: var(--color-primary); margin-bottom: 6px; letter-spacing: 0.03em;
-        }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%; padding: 12px 16px; border: 1.5px solid var(--color-border);
-            border-radius: var(--radius-md); font-size: 0.9rem; font-family: inherit;
-            transition: all var(--transition-fast); background: var(--color-bg);
-            color: var(--color-text); resize: vertical;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none; border-color: var(--color-gold);
-            box-shadow: 0 0 0 3px rgba(184, 148, 75, 0.1);
-            background: var(--color-white);
-        }
-        .form-group textarea { min-height: 120px; }
-        .form-submit-btn {
-            width: 100%; padding: 14px; background: var(--color-primary);
-            color: #fff; border: none; border-radius: 50px;
-            font-size: 0.95rem; font-weight: 600; cursor: pointer;
-            letter-spacing: 0.04em; transition: all var(--transition-normal); font-family: inherit;
-        }
-        .form-submit-btn:hover { background: var(--color-primary-light); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-        .form-success-msg { display: none; text-align: center; padding: 20px; color: var(--color-success); font-weight: 600; font-size: 1rem; }
-        .form-success-msg.show { display: block; }
-        .custom-select-options li .check { float: right; opacity: 0; transition: opacity var(--transition-fast); color: var(--color-gold); font-weight: 700; }
-        .custom-select-options li.selected .check { opacity: 1; }
-        .custom-select-options li.selected { background: var(--color-gold-pale); color: var(--color-primary); }
-
-        @media (max-width: 768px) {
-            .contact-wrapper { grid-template-columns: 1fr; }
-        }
-    </style>
+    <!-- 页面特有的样式（如果有）可以放在这里 -->
 </head>
 <body>
     <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#home" class="nav-brand">
-                <img src="./logo.jpg" alt="logo" class="nav-logo" onerror="this.style.display='none'">
-                <span class="brand-text">
-                    <span class="brand-title">帕帕韦斯特雷共和国</span>
-                    <span class="brand-subtitle">Republic of Papa Westray</span>
-                </span>
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home" class="active" data-nav="home">首页</a></li>
-                <li><a href="#members" data-nav="members">成员</a></li>
-                <li><a href="#history" data-nav="history">历史</a></li>
-                <li><a href="#articles" data-nav="articles">文章</a></li>
-                <li><a href="#products" data-nav="products">产品</a></li>
-                <li><a href="#about" data-nav="about">关于我们</a></li>
-                <li><a href="#join" data-nav="join">加入我们</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色" title="切换深浅色">
-                    <!-- 太!阳!：深色模式下显示（点击切回浅色） -->
-                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z"/>
-                    </svg>
-                    <!-- 月亮：浅色模式下显示（点击切到深色） -->
-					<svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-					    <path transform="translate(4, 3.8)" d="M13.2764 9.52324C12.5607 9.97754 11.7177 10.242 10.7812 10.242C8.11386 10.2419 5.95042 8.07997 5.9502 5.41289C5.9502 4.48128 6.21453 3.61071 6.67188 2.87285C4.30332 3.4658 2.54992 5.60845 2.5498 8.16093C2.5498 11.1712 4.99103 13.6102 8 13.6102C10.5383 13.6102 12.6709 11.8724 13.2764 9.52324ZM7.05078 5.41289C7.051 7.47224 8.72116 9.1423 10.7812 9.14238C11.9248 9.14238 12.887 8.63397 13.5781 7.8084C13.7266 7.63106 13.9701 7.56547 14.1875 7.64433C14.4049 7.72329 14.5497 7.9297 14.5498 8.16093C14.5498 11.7766 11.6161 14.7098 8 14.7098C4.38402 14.7098 1.4502 11.7792 1.4502 8.16093C1.45033 4.54322 4.3812 1.61015 8 1.61015C8.23027 1.61015 8.43585 1.75352 8.51562 1.96953C8.59536 2.18554 8.53241 2.42829 8.35742 2.57793C7.55573 3.26311 7.05078 4.27876 7.05078 5.41289Z"/>
-					</svg>
-                </button>
-                <a href="/login.html" class="login-btn" id="loginBtnNav" style="display:none;">
-                    <span class="btn-text">登录</span>
-                </a>
-                <a href="/login.html" class="user-avatar" id="userAvatarNav" style="display:none;" title="账户中心"></a>
-            </div>
-            <button class="nav-toggle" id="navToggle" aria-label="菜单">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </nav>
-    <div class="nav-overlay" id="navOverlay"></div>
+	    <div class="nav-container">
+	        <a href="https://ppwgov.github.io/" class="nav-brand">
+	            <img src="./logo.jpg" alt="logo" onerror="this.style.display='none'">
+	            <span class="brand-text">
+	                <span class="brand-title">帕帕韦斯特雷共和国</span>
+	                <span class="brand-subtitle">Republic of Papa Westray</span>
+	            </span>
+	        </a>
+	        <ul class="nav-links" id="navLinks">
+	            <li><a href="https://ppwgov.github.io/">主页</a></li>
+	            <li><a href="https://ppwgov.github.io/members">成员</a></li>
+	            <li><a href="https://ppwgov.github.io/history">历史</a></li>
+	            <li><a href="https://ppwgov.github.io/article">文章</a></li>
+	            <li><a href="https://ppwgov.github.io/products">产品</a></li>
+	        </ul>
+	        <div class="nav-actions">
+	            <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色" title="切换深浅色">
+	                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+	                    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z"/>
+	                </svg>
+	                <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	                    <path transform="translate(4, 3.8)" d="M13.2764 9.52324C12.5607 9.97754 11.7177 10.242 10.7812 10.242C8.11386 10.2419 5.95042 8.07997 5.9502 5.41289C5.9502 4.48128 6.21453 3.61071 6.67188 2.87285C4.30332 3.4658 2.54992 5.60845 2.5498 8.16093C2.5498 11.1712 4.99103 13.6102 8 13.6102C10.5383 13.6102 12.6709 11.8724 13.2764 9.52324ZM7.05078 5.41289C7.051 7.47224 8.72116 9.1423 10.7812 9.14238C11.9248 9.14238 12.887 8.63397 13.5781 7.8084C13.7266 7.63106 13.9701 7.56547 14.1875 7.64433C14.4049 7.72329 14.5497 7.9297 14.5498 8.16093C14.5498 11.7766 11.6161 14.7098 8 14.7098C4.38402 14.7098 1.4502 11.7792 1.4502 8.16093C1.45033 4.54322 4.3812 1.61015 8 1.61015C8.23027 1.61015 8.43585 1.75352 8.51562 1.96953C8.59536 2.18554 8.53241 2.42829 8.35742 2.57793C7.55573 3.26311 7.05078 4.27876 7.05078 5.41289Z"/>
+	                </svg>
+	            </button>
+	            <a href="./auth.html" class="login-btn" id="loginBtnNav" style="display:none;">登录</a>
+	            <a href="./auth.html" class="user-avatar" id="userAvatarNav" style="display:none;" title="账户中心"></a>
+	        </div>
+	        <button class="nav-toggle" id="navToggle" aria-label="菜单">
+	            <span></span><span></span><span></span>
+	        </button>
+	    </div>
+	</nav>
+	<div class="nav-overlay" id="navOverlay"></div>
 
     <section class="hero" id="home">
         <div class="hero-bg-pattern"></div>
@@ -794,6 +466,27 @@
             }
         })();
     </script>
-    <script type="module" src="/nav-auth.js"></script>
+    <script>
+	    // 主题切换（统一逻辑，可提取到 theme.js）
+	    (function() {
+	        const themeToggle = document.getElementById('themeToggle');
+	        const htmlEl = document.documentElement;
+	        if (themeToggle) {
+	            themeToggle.addEventListener('click', () => {
+	                const next = (htmlEl.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+	                htmlEl.setAttribute('data-theme', next);
+	                try { localStorage.setItem('ppw_theme', next); } catch(e) {}
+	            });
+	            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+	                try {
+	                    if (!localStorage.getItem('ppw_theme')) {
+	                        htmlEl.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+	                    }
+	                } catch(err) {}
+	            });
+	        }
+	    })();
+	</script>
+	<script type="module" src="/nav-auth.js"></script>
 </body>
 </html>
